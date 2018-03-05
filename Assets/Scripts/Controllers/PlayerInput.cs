@@ -5,41 +5,35 @@ using UnityEngine;
 [RequireComponent(typeof(PlayerController),typeof(ProjectileShoot))]
 public class PlayerInput : MonoBehaviour
 {
+    //Keyboard input
     [Header("Keyboard Input")]
     public KeyCode kbJump = KeyCode.Space;
-    public KeyCode kbAbility1 = KeyCode.Q;
-    public KeyCode kbAbility2 = KeyCode.E;
-    public KeyCode kbAbility3 = KeyCode.R;
-    public KeyCode kbAbility4 = KeyCode.F;
-    public KeyCode kbPause = KeyCode.Escape;
-    public KeyCode kbInteract = KeyCode.Return;
+    public KeyCode[] kbAbility;
+    public KeyCode kbPause;
 
+    //Xbox Controller input
     [Header("Controller Input")]
     public KeyCode ctJump = KeyCode.Joystick1Button0;
-    public KeyCode ctAbility1 = KeyCode.Joystick1Button5;
-    public string ctAbility2 = "RightTrigger";
-    public KeyCode ctAbility3 = KeyCode.Joystick1Button4;
-    public string ctAbility4 = "LeftTrigger";
-    public KeyCode ctPause = KeyCode.Joystick1Button7;
-    public KeyCode ctInteract = KeyCode.Joystick1Button1;
+    public KeyCode[] ctAbility;
+    public KeyCode ctPause;
 
-    private PlayerController player;
-    private ProjectileShoot projectile;
+    private PlayerController player;        //Reference to the PlayerController script
+
 
     //Use this for initialization
     void Start()
     {
+        //Get the player controller script
         player = GetComponent<PlayerController>();
-        projectile = GetComponent<ProjectileShoot>();
     }
 
     //Update is called once per frame
     void Update()
     {
+        //Set directional input from the horizontal and vertial axis
         Vector2 directionalInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-        float leftTrigger = Input.GetAxisRaw(ctAbility4);
-        float rightTrigger = Input.GetAxisRaw(ctAbility2);
 
+        //For controller input
         if(directionalInput.y >= 0.5f)
         {
             directionalInput.y = 1;
@@ -53,36 +47,20 @@ public class PlayerInput : MonoBehaviour
             directionalInput.y = 0;
         }
 
+
+        //Set the input in the PlayerController input
         player.SetDirectionalInput(directionalInput);
 
-        //Jump input
+        //Jump input being pressed
         if (Input.GetKeyDown(kbJump) || Input.GetKeyDown(ctJump))
         {
             player.OnJumpInputDown();
         }
 
-        //Jump input
+        //Jump input being released
         if (Input.GetKeyUp(kbJump) || Input.GetKeyUp(ctJump))
         {
             player.OnJumpInputUp();
-        }
-
-        if(Input.GetKeyDown(kbAbility1)|| Input.GetKeyDown(ctAbility1))
-        {
-            projectile.ShootProjectile();
-        }
-
-        if (Input.GetKeyDown(kbAbility2) || rightTrigger > 0)
-        {
-            Debug.Log("Fire Ability 2");
-        }
-        if (Input.GetKeyDown(kbAbility3) || Input.GetKeyDown(ctAbility3))
-        {
-            Debug.Log("Fire Ability 3");
-        }
-        if (Input.GetKeyDown(kbAbility4) || leftTrigger > 0)
-        {
-            Debug.Log("Fire Ability 4");
         }
     }
 }

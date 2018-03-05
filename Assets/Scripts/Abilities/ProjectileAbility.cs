@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName ="Projectile Ability", menuName ="Ability/Projectile", order = 1)]
-public class ProjectileAbility : Abilities
+public class ProjectileAbility : Ability
 {
-    public Transform projectile;
-    public float abilityDamage;
-    public float maxRange;
+    public Transform projectile;            //Projectile to create for the ability
+    public float abilityDamage;             //Damage the ability does
+    public float maxRange;                  //Maximum range of the ability
 
-    private ProjectileShoot shoot;
+    private ProjectileShoot shoot;          //Reference to the ProjectileShoot script
 
+    //Initialization of the ability
     public override void Initialize(GameObject obj)
     {
         shoot = obj.GetComponent<ProjectileShoot>();
@@ -19,6 +20,7 @@ public class ProjectileAbility : Abilities
         shoot.maxRange = maxRange;
     }
 
+    //Activating the ability
     public override void TriggerAbility()
     {
         shoot.ShootProjectile();

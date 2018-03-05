@@ -3,32 +3,37 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+[RequireComponent(typeof(PlatformController))]
 public class PlayerStats : Stats
 {
     [Header("Combat Stuff")]
-    public bool inCombat;
-    public float combatTime;
-    public float regenTime;
+    public bool inCombat;                       //Check if in combat
+    public float combatTime;                    //Amount of time spent in combat
+    public float regenTime;                     //Amount of time till next regeneration happens
 
     [Header("Level Up")]
-    public float healthIncrease = 10f;
-    public float attackIncrease = 5f;
+    public float healthIncrease = 10f;          //Amount of health increased on level up
+    public float attackIncrease = 5f;           //Amount of attack increased on level up
 
-    private float combatTimer;
-    private float regenTimer;
-    private PlayerController playerController;
+    private float combatTimer;                  //Combat timer
+    private float regenTimer;                   //Regeneration timer
+    private PlayerController playerController;  //Reference to the Player Controller
 
 
 	//Use this for initialization
 	void Start()
 	{
+        //Get the PlayerController Component
         playerController = GetComponent<PlayerController>();
 
-        if (exp.currentLevel == 0)
+        //Set current level to 1
+        if (exp.currentLevel <= 0)
         {
             exp.currentLevel = 1;
         }
-        
+
+        //Initialize stats
+        movement.numJumps = 1;
         health.currentHealth = health.maxHealth;
         health.currentShields = health.maxShields;
         exp.maxLevel = exp.expLevels.Length;
@@ -39,20 +44,25 @@ public class PlayerStats : Stats
 	//Update is called once per frame
 	void Update()
 	{
+        //When in combat stop health and shield regeneration
         if (inCombat)
         {
+            
             combatTimer -= Time.deltaTime;            
 
+            //Reset the combat timer
             if (combatTimer <= 0)
             {
                 combatTimer = combatTime;
                 inCombat = false;
             }
         }
+        //Start regenerating health and shield to maximum
         else
         {
             regenTimer -= Time.deltaTime;
 
+            //Reset the regeneration timer
             if (regenTimer <= 0)
             {
                 RestoreHealth(health.healthRegen);
@@ -73,14 +83,18 @@ public class PlayerStats : Stats
     //Taking Damage
     public override void TakeDamage(float amount, float critChance)
     {
+        //Put the player in combat and reset the combat timer
         inCombat = true;
         combatTimer = combatTime;
+
         base.TakeDamage(amount, critChance);
     }
 
+    //Death
     public override void Die()
     {
         base.Die();
+        
         StartCoroutine(RestartScene());
     }
 
@@ -91,15 +105,21 @@ public class PlayerStats : Stats
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
+    //Increase jump height
     public override void IncreaseJumpHeight(float amount)
     {
         base.IncreaseJumpHeight(amount);
+        
+        //Update the player's movement
         playerController.UpdateMovement();
     }
-
+    
+    //Increase movement speed
     public override void IncreaseSpeed(float amount)
     {
         base.IncreaseSpeed(amount);
+        
+        //Update the player's movement
         playerController.UpdateMovement();
     }
 

@@ -1,0 +1,11 @@
+2.5D Platformer Test Project
+
+Things to Implement:
+	Ability System: (40%?)
+	Procedural Level Generation:
+	Controller Support for UI:
+	Enemy AI:(10%)
+
+
+Bugs/Unintended Behaviours:
+	Wall sliding down slopes looks weird at certain angles

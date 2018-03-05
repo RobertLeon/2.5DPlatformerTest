@@ -55,6 +55,7 @@ public class PlayerController : MonoBehaviour
         //If the player collides with something above or below them
         if (collision.collisions.above || collision.collisions.below)
         {
+            //Check for sliding down a slope
             if (collision.collisions.slidingDownSlope)
             {
                 velocity.y += collision.collisions.slopeNormal.y * -gravity * Time.deltaTime;
@@ -81,13 +82,13 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    //
+    //Update the movement variables of the player
     public void UpdateMovement()
     {
         updateMovement = true;
     }
 
-    //
+    //Increase the amount of jumps the player can perform
     public void IncreaseJumpCount()
     {
         jumps++;
@@ -108,9 +109,10 @@ public class PlayerController : MonoBehaviour
         directionalInput = input;        
     }
 
-    //
+    //Handle the player jumping
     public void OnJumpInputDown()
     { 
+        //If the player can jump
         if (isJumping && jumps > 0)
         {
             velocity.y = maxJumpVelocity * 0.75f;
@@ -149,6 +151,7 @@ public class PlayerController : MonoBehaviour
         //The player is on the ground
         if (collision.collisions.below)
         {
+            //If sliding down a slope
            if(collision.collisions.slidingDownSlope)
             {
                 //Not jumping against the slope
@@ -160,8 +163,10 @@ public class PlayerController : MonoBehaviour
                     isJumping = true;
                 }
             }
+           //Not sliding down a slope
             else
             {
+                //If the player has jump available
                 if (jumps > 0)
                 {
                     velocity.y = maxJumpVelocity;
@@ -183,16 +188,17 @@ public class PlayerController : MonoBehaviour
     //Variable jump height
     public void OnJumpInputUp()
     {
+        //If the player is moving faster than the minimum jump velocity
         if (velocity.y > minJumpVelocity)
-            {
-                velocity.y = minJumpVelocity;
-            }
+        {
+            velocity.y = minJumpVelocity;
+        }
     }
 
     //Calculate the player's moving velocity
     private void CalculateVelocity()
     {
-        float targetVelocityX = directionalInput.x * (moveSpeed * playerStats.movement.speedModifier);
+        float targetVelocityX = directionalInput.x * (moveSpeed);
 
         velocity.x = Mathf.SmoothDamp(velocity.x, targetVelocityX, ref velocityXSmoothing,
             (collision.collisions.below) ? accelTimeGround : accelTimeAir);
@@ -200,33 +206,36 @@ public class PlayerController : MonoBehaviour
         velocity.y += gravity * Time.deltaTime;
     }
 
-    //
+    //Handle the player's movement for climbing up and down objects
     private void HandleClimbing()
     {
-        //
+        //If the player can climb up or down
         if (collision.collisions.canClimb && directionalInput.y == 1 || 
             collision.collisions.canClimb && directionalInput.y == -1)
         {
-            velocity.y = Mathf.Sign(directionalInput.y) * climbSpeed * playerStats.movement.speedModifier;
-            velocity.x = 0;
+            velocity.y = Mathf.Sign(directionalInput.y) * (climbSpeed + playerStats.movement.speedModifier);
+
+            velocity.x = collision.collisions.faceDir == 1 ? 0f : -0.001f;
+
             collision.collisions.climbingObject = true;
         }
 
-        //
+        //If the player is climbing an object and has stopped
         if(collision.collisions.climbingObject && directionalInput.y == 0)
         {
             velocity.y = 0;
-            velocity.x = 0;                      
+
+            velocity.x = collision.collisions.faceDir == 1 ? 0f : -0.001f;
         }
 
-        //
+        //Stop climbing if the player collides with the ground
         if(collision.collisions.climbingObject && collision.collisions.below)
         {
             collision.collisions.climbingObject = false;
         }
     }
 
-    //
+    //Handle the player's movement while sliding on a wall
     private void HandleWallSliding()
     {
         //Direction of a wall in relation to the player
@@ -240,25 +249,30 @@ public class PlayerController : MonoBehaviour
         {
             wallSliding = true;
 
+            //Constant wall slide speed
             if(velocity.y < wallSlideSpeedMax)
             {
                 velocity.y = -wallSlideSpeedMax;
             }
 
+            //Allows the player to stick to the wall for better jumping control
             if (timeToWallUnstick > 0)
             {
                 velocityXSmoothing = 0;
                 velocity.x = 0;
-
+                
+                //Count down as long as the player is not moving into the wall
                 if (directionalInput.x != wallDirX && directionalInput.x == 0)
                 {
                     timeToWallUnstick -= Time.deltaTime;
                 }
+                //Reset the timer
                 else
                 {
                     timeToWallUnstick = wallStickTime;
                 }
             }
+            //Reset the timer
             else
             {
                 timeToWallUnstick = wallStickTime;

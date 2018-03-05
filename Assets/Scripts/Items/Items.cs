@@ -4,6 +4,7 @@ using UnityEngine;
 
 public abstract class Items : ScriptableObject
 {
+    //Values for the item's rarity
     public enum ItemRarity
     {
         Common,
@@ -12,18 +13,20 @@ public abstract class Items : ScriptableObject
         Boss,
         Artifact
     }
-    public string ItemName = "New Item";
-    public ItemRarity itemRarity;
-    public Texture2D itemIcon;
-    public bool isStackable;
-    public int maxStacks = 99;
+
+    public string ItemName = "New Item";        //The item's name
+    public ItemRarity itemRarity;               //Item rarity
+    public Texture2D itemIcon;                  //Item sprite to show
+    public bool isStackable;                    //Does the item stack
+    public int maxStacks = 99;                  //Maximum amount the item stack
     [TextArea]
-    public string itemDescription;
+    public string itemDescription;              //Description of the item
 
     [HideInInspector]
-    public Color[] itemColor = {
+    public Color[] itemColor = {                //Color of the item based on rarity
     };
 
 
+    //Initialization of each item
     public abstract void Initialize(PlayerStats playerStats);
 }
