@@ -1,4 +1,8 @@
-﻿using System.Collections;
+﻿//Created by Robert Bryany
+//
+//Creates an item that modifies the player's health stats
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 

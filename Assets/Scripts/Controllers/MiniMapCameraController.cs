@@ -1,4 +1,7 @@
-﻿using System.Collections;
+﻿//Created by Robert Bryant
+//
+//Moves the minimap camera based on the room the player is currently in
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 

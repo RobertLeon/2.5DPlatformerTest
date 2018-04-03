@@ -1,4 +1,7 @@
-﻿using System.Collections;
+﻿//Created by Robert Bryant
+//
+//Handles the enemy's stats and death
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 

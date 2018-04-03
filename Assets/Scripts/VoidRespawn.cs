@@ -1,9 +1,12 @@
-﻿using System.Collections;
+﻿//Created by Robert Bryant
+//
+//When an entity falls off of the playable area respawn them at a specified point.
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-//When the player falls off of the playable area respawn them at a specified point.
+
 public class VoidRespawn : MonoBehaviour
 {
     public Vector3 spawnPoint;       //Position to move the player for falling off the map

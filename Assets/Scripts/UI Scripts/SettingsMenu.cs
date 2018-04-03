@@ -1,3 +1,6 @@
-﻿public class SettingsMenu : MainMenu
+﻿//Created by Robert Bryant
+//
+//Settings menu
+public class SettingsMenu : MainMenu
 {
 }

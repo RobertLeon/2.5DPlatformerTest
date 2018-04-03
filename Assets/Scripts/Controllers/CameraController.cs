@@ -1,4 +1,9 @@
-﻿using System.Collections;
+﻿//Created by Robert Bryant
+//Based on a tutorial by: Sebastian Lague
+//Github: https://github.com/SebLague/2DPlatformer-Tutorial
+//Controls the camera's movement based on the player's movement
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,8 +13,9 @@ public class CameraController : MonoBehaviour
     public Vector2 focusAreaSize;                       //Size of the focus area
     public float lookAheadDstX;                         //Distance to look ahead on the x-axis
     public float lookSmoothTimeX;                       //Time to
-    public float verticalSmoothTime;                    //
+    public float verticalSmoothTime;                    //Time to smooth vertical movement
     public float verticalOffset;                        //Offset on the y-axis
+    public Color gizmoColor;                            //Color for the gizmo in the editor window
 
     private FocusArea focusArea;                        //Area for the camera to focus on
     private float currentLookAheadX;                    //Current look ahead distance
@@ -137,7 +143,8 @@ public class CameraController : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Gizmos.color = new Color(1,0,1,.5f);
+        gizmoColor.a = 0.5f;
+        Gizmos.color = gizmoColor;
         Gizmos.DrawCube(focusArea.center, focusAreaSize);
     }
 }

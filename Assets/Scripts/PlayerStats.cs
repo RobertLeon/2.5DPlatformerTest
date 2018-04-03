@@ -1,4 +1,7 @@
-﻿using System.Collections;
+﻿//Created by Robert Bryant
+//
+//Handles the player's stats and death
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;

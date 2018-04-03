@@ -1,4 +1,8 @@
-﻿using System.Collections;
+﻿//Created by Robert Bryant
+//
+//Creates an item that modifies the player's attack stats
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 

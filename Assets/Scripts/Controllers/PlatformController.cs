@@ -1,4 +1,9 @@
-﻿using System.Collections;
+﻿//Created by Robert Bryant
+//Based on a tutorial by: Sebastian Lague
+//Github: https://github.com/SebLague/2DPlatformer-Tutorial
+//Handles the movement of certain platforms
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -47,7 +52,7 @@ public class PlatformController : RaycastController
 
         globalWaypoints = new Vector3[localWaypoints.Length];
 
-        //Loop through each waypoint and 
+        //Loop through each waypoint and add them to the array
         for (int i = 0; i < globalWaypoints.Length; i++)
         {
             globalWaypoints[i] = localWaypoints[i] + transform.position;
@@ -76,8 +81,8 @@ public class PlatformController : RaycastController
             //If the passenger is not in the dictionary add them
             if (!passengerDictionary.ContainsKey(passenger.transform))
             {
-                passengerDictionary.Add(passenger.transform
-                    , passenger.transform.GetComponent<CollisionController>());
+                passengerDictionary.Add(passenger.transform,
+                    passenger.transform.GetComponent<CollisionController>());
             }
 
             //Moves the passenger before the platform moves
@@ -195,7 +200,6 @@ public class PlatformController : RaycastController
     //Calculate the platform's movement
     private Vector3 CalculatePlatformMovement()
     {
-
         //Stops the platform
         if(Time.time < nextMoveTime)
         {
@@ -209,7 +213,7 @@ public class PlatformController : RaycastController
             globalWaypoints[toWaypointIndex]);
 
         //Calculate the easement of the platform
-        percentBetweenWaypoints += Time.deltaTime * platformSpeed / distanceBetweenWaypoints;
+        percentBetweenWaypoints += (Time.deltaTime * platformSpeed) / distanceBetweenWaypoints;
         percentBetweenWaypoints = Mathf.Clamp01(percentBetweenWaypoints);
         float easePercent = CalculateEase(percentBetweenWaypoints);
 

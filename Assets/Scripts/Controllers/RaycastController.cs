@@ -1,4 +1,8 @@
-﻿using System.Collections;
+﻿//Created by Robert Bryant
+//Based on a tutorial by: Sebastian Lague
+//Github: https://github.com/SebLague/2DPlatformer-Tutorial
+//Changes the amount of rays being cast from an object based on size
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 

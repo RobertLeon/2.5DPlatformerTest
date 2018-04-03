@@ -1,4 +1,7 @@
-﻿using System.Collections;
+﻿//Created by Robert Bryant
+//
+//Allows entities to climb on certain game objects
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 

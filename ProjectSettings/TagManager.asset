@@ -8,6 +8,10 @@ TagManager:
   - Climbable
   - Enemy
   - MiniMapCamera
+  - PlayerSpawn
+  - EnemySpawn
+  - TreasureSpawn
+  - LevelGeneration
   layers:
   - Default
   - TransparentFX
@@ -19,7 +23,7 @@ TagManager:
   - 
   - Player
   - Obstacle
-  - 
+  - Enemy
   - 
   - 
   - 

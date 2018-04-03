@@ -1,4 +1,9 @@
-﻿using System.Collections;
+﻿//Created by Robert Bryant
+//Based on a tutorial by: Sebastian Lague
+//Github: https://github.com/SebLague/2DPlatformer-Tutorial
+//Handles the movement of the player
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 

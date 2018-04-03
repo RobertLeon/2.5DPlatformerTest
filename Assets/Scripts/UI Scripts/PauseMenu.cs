@@ -1,4 +1,8 @@
-﻿using System.Collections;
+﻿//Created by Robert Bryant
+//Based off of a tutorial by: Brackeys
+//Youtube: https://www.youtube.com/watch?v=JivuXdrIHK0
+//Handles the pause menu in the game
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;

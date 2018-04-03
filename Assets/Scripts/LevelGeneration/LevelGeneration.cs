@@ -1,7 +1,12 @@
-﻿using System.Collections;
+﻿//Created by Robert Bryant
+//Based off of a tutorial by: Six Dot Studios
+//https://drive.google.com/file/d/1Wd5vvpF3IzREKAs5iofKisB1gV2dWAZ8/view
+//Generates a procedural level using preset rooms
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(RoomAssigner))]
 public class LevelGeneration : MonoBehaviour
 {
     public Vector2 worldSize;                               //Size of the world
@@ -14,13 +19,15 @@ public class LevelGeneration : MonoBehaviour
     public float endComparison = 0.01f;
     public Transform miniMapParent;
     public Transform miniMapRoom;
-
+    [HideInInspector]
+    public bool complete = false;
 
     private List<Vector2> takenPositions =                  //Positions taken in the map
         new List<Vector2>();
     private int gridSizeX;                              //Size of the grid on the X-axis    
     private int gridSizeY;                              //Size of the grid on the Y-axis
     private bool bossRoom = false;
+   
 
     //Use this for initialization
     void Start()
@@ -36,20 +43,68 @@ public class LevelGeneration : MonoBehaviour
         gridSizeY = Mathf.RoundToInt(worldSize.y);
 
         //Generate the room data and create both the mini map and level
+
         CreateRooms();
         SetRoomExits();
         DrawMap();
         transform.GetComponent<RoomAssigner>().Assign(rooms);
     }
 
+
+    private void Update()
+    {
+        //If the level is generated withouth a boss room
+        //destroy all the rooms and start over.
+        /*if(complete && !bossRoom)
+        {
+            Debug.LogError("Map generated without boss room");
+            complete = false;
+            DestroyRooms();
+            RestartGeneration();            
+        }*/
+    }
+
+    //Restarts the level genration
+    void RestartGeneration()
+    {
+        CreateRooms();
+        SetRoomExits();
+        DrawMap();
+        transform.GetComponent<RoomAssigner>().Assign(rooms);
+    }
+
+    //Destroys the created rooms
+    void DestroyRooms()
+    {
+        RoomInstance[] rooms = GetComponentsInChildren<RoomInstance>();
+
+        foreach(var room in rooms)
+        {
+            Destroy(room.gameObject);
+        }
+
+        MiniMapSelector[] minimap = GetComponentsInChildren<MiniMapSelector>();
+
+        foreach(var mini in minimap)
+        {
+            Destroy(mini.gameObject);
+        }
+
+        takenPositions.Clear();
+        bossRoom = false;
+    }
+
     //Draw the mini map
     void DrawMap()
     {
         int roomNum = 1;
+        int mRooms = 0;
 
         //Loop through each room
         foreach(RoomData room in rooms)
         {
+            bool mystery = (mRooms >= 4);
+           
             //If the room does not exists go to the next room 
             if(room == null)
             {
@@ -65,20 +120,27 @@ public class LevelGeneration : MonoBehaviour
             MiniMapSelector mapper = Instantiate(miniMapRoom,
                 roomPos, Quaternion.identity, miniMapParent).GetComponent<MiniMapSelector>();
 
-            if (room.ExitCount() == 1 && Random.value > 0.5f && !bossRoom)
+            if (room.roomType != RoomType.Entrance)
             {
-                bossRoom = true;
-                room.roomType = RoomType.Boss;
+                if (room.ExitCount() == 1)
+                {
+                    room.roomType = RoomType.Treasure;
+                }/*
+                else if (Random.value > 0.8f && !mystery)
+                {
+                    room.roomType = RoomType.Mystery;
+                    mRooms++;
+                }
+                else if(room.ExitCount() == 2)
+                {
+                    room.roomType = RoomType.Corridor;
+                }
+                else if (room.ExitCount() >= 2 && Random.value > 0.5f && !bossRoom)
+                {
+                    bossRoom = true;
+                    room.roomType = RoomType.Boss;
+                }*/
             }
-            else if (room.ExitCount() == 1)
-            {
-                room.roomType = RoomType.Treasure;
-            }
-            else if (Random.value > 0.8f)
-            {
-                room.roomType = RoomType.Mystery;
-            }
-            
 
             //Set the mini map room's type
             mapper.roomType = room.roomType;
@@ -97,15 +159,10 @@ public class LevelGeneration : MonoBehaviour
 
             roomNum++;
         }
+
+        complete = true;
     }
 
-    void SetRoomType()
-    {
-        foreach(RoomData room in rooms)
-        {
-
-        }
-    }
 
     //Set the exits of a room
     void SetRoomExits()

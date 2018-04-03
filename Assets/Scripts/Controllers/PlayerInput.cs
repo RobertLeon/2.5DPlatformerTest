@@ -1,4 +1,9 @@
-﻿using System.Collections;
+﻿//Created by Robert Bryant
+//Based on a tutorial by: Sebastian Lague
+//Github: https://github.com/SebLague/2DPlatformer-Tutorial
+//Handles the player's input
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,12 +15,14 @@ public class PlayerInput : MonoBehaviour
     public KeyCode kbJump = KeyCode.Space;
     public KeyCode[] kbAbility;
     public KeyCode kbPause;
+    public KeyCode kbInteract;
 
     //Xbox Controller input
     [Header("Controller Input")]
     public KeyCode ctJump = KeyCode.Joystick1Button0;
     public KeyCode[] ctAbility;
     public KeyCode ctPause;
+    public KeyCode ctInteract;
 
     private PlayerController player;        //Reference to the PlayerController script
 

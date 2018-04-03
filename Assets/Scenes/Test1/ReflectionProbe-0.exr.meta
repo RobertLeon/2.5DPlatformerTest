@@ -1,10 +1,11 @@
 fileFormatVersion: 2
 guid: 707157e0dbc61514a9c8f166b3ee034b
-timeCreated: 1516911878
+timeCreated: 1521136797
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
     8900000: generatedCubemap
+  externalObjects: {}
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -58,12 +59,14 @@ TextureImporter:
   platformSettings:
   - buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
+    resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
     compressionQuality: 100
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    androidETC2FallbackOverride: 0
   spriteSheet:
     serializedVersion: 2
     sprites: []

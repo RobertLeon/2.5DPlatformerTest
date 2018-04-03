@@ -1,12 +1,14 @@
-﻿using UnityEngine;
+﻿//Created by Robert Bryant
+//
+//Handles the data for each room
+
+using UnityEngine;
 
 public class RoomData
 {
     public Vector2 gridPos;                             //Room's position on the grid
     public Vector2 roomSize;                            //Size of the room
-
     public RoomType roomType;                           //Room's type
-
     public Direction[] exits =                          //Room's exits
         new Direction[4]; 
     
@@ -44,6 +46,7 @@ public enum RoomType
     Entrance,
     Boss,
     Treasure,
+    Corridor,
     Mystery
 }
 

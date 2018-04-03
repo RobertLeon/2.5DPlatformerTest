@@ -1,4 +1,8 @@
-﻿using System.Collections;
+﻿//Created by Robert Bryany
+//
+//Allows the creation of items that modify entity's stats
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 

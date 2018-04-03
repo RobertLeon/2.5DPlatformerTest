@@ -1,4 +1,8 @@
-﻿using System.Collections;
+﻿//Created by Robert Bryant
+//
+//Used by the room prefabs to know which room 
+//should be spawned based on assigned parameters
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 

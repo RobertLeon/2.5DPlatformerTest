@@ -1,4 +1,8 @@
-﻿using System.Collections;
+﻿//Created by Robert Bryany
+//
+//Assigns rooms based off of the room data
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,11 +12,12 @@ public class RoomAssigner : MonoBehaviour
     public Vector2 roomSize;                    //Size of the room
 
     private RoomInstance selectedRoom;          //Selected room to instantiate
-    private int roomNumber = 1;                 //Number of rooms created
+    private int roomNumber;                     //Number of rooms created
 
     //Assign the Prefab room to the world
     public void Assign(RoomData[,] rooms)
     {
+        roomNumber = 1;
         //Loop through each room that has been passed in
         foreach (RoomData room in rooms)
         {
@@ -51,20 +56,19 @@ public class RoomAssigner : MonoBehaviour
         for (int i = 0; i < roomPrefabs.Length; i++)
         {
             //Check for matching room types
-            if(roomPrefabs[i].roomType == room.roomType)
+            if (roomPrefabs[i].roomType == room.roomType)
             {
-
-            }
-            //Check if the room have the same amount of exits
-            if (roomPrefabs[i].ExitCount() == room.ExitCount())
-            {
-                //If all the exits match add them to the list
-                if (roomPrefabs[i].exits[0] == room.exits[0] &&
-                    roomPrefabs[i].exits[1] == room.exits[1] &&
-                    roomPrefabs[i].exits[2] == room.exits[2] &&
-                    roomPrefabs[i].exits[3] == room.exits[3])
+                //Check if the room have the same amount of exits
+                if (roomPrefabs[i].ExitCount() == room.ExitCount())
                 {
-                    randomRoom.Add(roomPrefabs[i]);
+                    //If all the exits match add them to the list
+                    if (roomPrefabs[i].exits[0] == room.exits[0] &&
+                        roomPrefabs[i].exits[1] == room.exits[1] &&
+                        roomPrefabs[i].exits[2] == room.exits[2] &&
+                        roomPrefabs[i].exits[3] == room.exits[3])
+                    {
+                        randomRoom.Add(roomPrefabs[i]);
+                    }
                 }
             }
         }

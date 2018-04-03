@@ -1,4 +1,9 @@
-﻿using System.Collections;
+﻿//Created by Robert Bryant
+//Based on a tutorial by: Sebastian Lague
+//Github: https://github.com/SebLague/2DPlatformer-Tutorial
+//Handles entity collision on different types of platforms
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -24,6 +29,7 @@ public class CollisionController : RaycastController
         public float slopeAngle, prevSlopeAngle;        //The angle of the slope
         public Vector2 prevMovement;                    //The player's previous movement amount
         public Vector2 slopeNormal;                     //Angle of the slope
+        public float objSize;                           //Size of the object
         public int faceDir;                             //The direction the player is facing
                                                         //+1 is facing right -1 is facing left
                                                         
@@ -37,6 +43,7 @@ public class CollisionController : RaycastController
             slopeNormal = Vector2.zero;
             prevSlopeAngle = slopeAngle;
             slopeAngle = 0;
+            objSize = 0;
         }
     }
 
@@ -226,6 +233,10 @@ public class CollisionController : RaycastController
             //Check for collision
             if (Physics.Raycast(rayOrigin, Vector2.right * directionX, out hit, rayLength, collisionMask))
             {
+
+                //Size of the object being collided with
+                collisions.objSize = hit.transform.localScale.y + hit.transform.localPosition.y;    
+                
                 //No collision with climbable objects
                 if(hit.collider.tag == "Climbable")
                 {
@@ -373,7 +384,7 @@ public class CollisionController : RaycastController
     //Sliding down slopes
     void SlideDownMaxSlope(bool side, RaycastHit hit, ref Vector2 movementAmount)
     {
-        //
+        //Check for slope side
         if (side)
         {
             float slopeAngle = Vector2.Angle(hit.normal, Vector2.up);

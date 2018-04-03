@@ -1,4 +1,10 @@
-﻿using System.Collections;
+﻿//Created by Robert Bryant
+//Based off of a tutorial by: Six Dot Studios
+//https://drive.google.com/file/d/1Wd5vvpF3IzREKAs5iofKisB1gV2dWAZ8/view
+//Creates mini map rooms based off of the room's data 
+//and changes the display based on player position
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,19 +16,19 @@ public class MiniMapSelector : MonoBehaviour
     public RoomType roomType;                       //Room type
 
     [Header("Mini Map Colors")]
-    public Color entrance;                          //Color to show a room has been entered
+    public Color entrance;                          //Entrance room color
     public Color room;                              //Default room color
-    public Color treasure;
-    public Color boss;
-    public Color mystery;
-    public Gradient currentRoom;                    //Current room color
+    public Color treasure;                          //Treasure room color
+    public Color boss;                              //Boss teleport room color
+    public Color mystery;                           //Mystery room color
+    public Gradient currentRoom;                    //Color to show a room has been entered
 
     [Header("Gizmos")]
-    public Color gizmoColor;
+    public Color gizmoColor;                        //Color of the gizmo
 
 
-    private MiniMapCameraController miniMapFocus;    //Reference to the mini map camera
-    private float color;                             //Number for the gradien color value
+    private MiniMapCameraController miniMapFocus;   //Reference to the mini map camera
+    private float color;                            //Number for the gradien color value
 
     private void Start()
     {
@@ -40,7 +46,6 @@ public class MiniMapSelector : MonoBehaviour
         {
             case RoomType.Entrance:
                 miniMapObject.GetComponent<Renderer>().material.color = entrance;
-
                 foreach (var item in exitPrefab)
                 {
                     item.GetComponent<Renderer>().material.color = entrance;
@@ -68,6 +73,14 @@ public class MiniMapSelector : MonoBehaviour
                 foreach (var item in exitPrefab)
                 {
                     item.GetComponent<Renderer>().material.color = mystery;
+                }
+                break;
+
+            case RoomType.Corridor:
+                miniMapObject.GetComponent<Renderer>().material.color = room;
+                foreach (var item in exitPrefab)
+                {
+                    item.GetComponent<Renderer>().material.color = room;
                 }
                 break;
 

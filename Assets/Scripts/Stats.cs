@@ -1,4 +1,8 @@
-﻿using System.Collections;
+﻿//Created by Robert Bryant
+//
+//Base class for the stats and death of each entity in the game
+//
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -181,7 +185,11 @@ public class Stats : MonoBehaviour
         {
             //Carry over extra experience to the next level
             exp.currentExp = exp.currentExp - exp.expLevels[exp.currentLevel - 1];
-            LevelUp();           
+
+            if (exp.currentExp != exp.maxLevel)
+            {
+                LevelUp();
+            }
         }
     }
 
@@ -194,7 +202,6 @@ public class Stats : MonoBehaviour
         if (exp.currentLevel > exp.maxLevel)
         {
             exp.currentLevel = exp.maxLevel;
-            exp.currentExp = exp.expLevels[exp.currentLevel - 1];
         }
     }
 
