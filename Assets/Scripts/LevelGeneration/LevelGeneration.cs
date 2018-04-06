@@ -17,15 +17,15 @@ public class LevelGeneration : MonoBehaviour
     public float startComparison = 0.2f;                    //Comparison numbers for branching
     [Range(0.01f, 1.0f)]                                    //paths
     public float endComparison = 0.01f;
-    public Transform miniMapParent;
-    public Transform miniMapRoom;
+    public Transform miniMapParent;                         //Mini map parent gameobject
+    public Transform miniMapRoom;                           //Minimap room prefab
     [HideInInspector]
-    public bool complete = false;
+    public bool complete = false;                           //Check if the level has completed genration
 
     private List<Vector2> takenPositions =                  //Positions taken in the map
         new List<Vector2>();
-    private int gridSizeX;                              //Size of the grid on the X-axis    
-    private int gridSizeY;                              //Size of the grid on the Y-axis
+    private int gridSizeX;                                  //Size of the grid on the X-axis    
+    private int gridSizeY;                                  //Size of the grid on the Y-axis
     private bool bossRoom = false;
    
 
@@ -43,7 +43,6 @@ public class LevelGeneration : MonoBehaviour
         gridSizeY = Mathf.RoundToInt(worldSize.y);
 
         //Generate the room data and create both the mini map and level
-
         CreateRooms();
         SetRoomExits();
         DrawMap();

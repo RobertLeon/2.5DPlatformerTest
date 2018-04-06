@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 using TMPro;
 
 public class MainMenu : MonoBehaviour
@@ -77,11 +76,11 @@ public class MainMenu : MonoBehaviour
         resolutionDropdown.RefreshShownValue();
     }
 
-    //Starts a new game
-    public void StartNewGame()
+
+    //Continues a saved game
+    public void ContinueGame()
     {
-        //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-        Debug.Log("Starting Game");
+        Debug.Log("Continuing a Game");
     }
 
     //Opens a confirmation menu for quitting the game

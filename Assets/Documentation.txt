@@ -1,11 +1,54 @@
 2.5D Platformer Test Project
 
 Things to Implement:
+	Character Select Menu:
+	A bunch of art assets
 	Ability System: (40%?)
+	Rooms: (20%?)
+		Camera bound in the same room as player
+		Camera only shows the current room
+		Transition between rooms
+			Fade in fade out animation?
+		Need to create rooms for the different room types
+		Need to figure out a basic 1x1 room size
+		Need to create a mini map room for different sized rooms
+		Need to make a controller for the map screen
+
 	Procedural Level Generation:
+		Need to figure out how to handle different room sizes and multiple exits in the same
+		direction.
+
+		Spawning after level was created
+
 	Controller Support for UI:
-	Enemy AI:(10%)
+
+	Key Rebinding:
+
+	Enemy AI:(10%?)
+		Enemies need to awake when the player enters the room and sleep when out of the room
+		Boss AIs
+		Enemy AIs: Currently have 3 basic AI patterns
+			Ground:
+				Walking
+				Pacing
+				Jumping
+			Flying:
+				Medusa style
+			Traps:
+				Falling Trap
+
+
+Things to Research:
+	Controller Support for the UI
+	Key Rebinding
+	Better Level generation
+	Audio System
+	Game Manager System
+	Saving the current game
+	Loading previous games
 
 
 Bugs/Unintended Behaviours:
 	Wall sliding down slopes looks weird at certain angles
+
+	Getting audio errors even though the audio source is on the Game Manager game object

@@ -16,6 +16,7 @@ public class PauseMenu : MonoBehaviour
     public GameObject confirmationMenu;             //Reference to the confirmation screen
     public TMP_Text confirmationText;               //Text to display in the confirmation menu
     public Button yesButton;                        //Reference to the confirmation button
+    public GameObject miniMap;                      //Reference to the mini map game object
 
     private PlayerInput playerInput;                //Reference to the PlayerInput script
     private CollisionController collision;          //Reference to the CollisionController script
@@ -57,6 +58,9 @@ public class PauseMenu : MonoBehaviour
         //Hides the pause menu
         pauseMenu.SetActive(false);
 
+        //Shows the minimap
+        miniMap.SetActive(true);
+
         //Enable the player's CollisionController script
         collision.enabled = true;
 
@@ -72,6 +76,9 @@ public class PauseMenu : MonoBehaviour
     {
         //Show the pause menu
         pauseMenu.SetActive(true);
+
+        //Hide the mini map
+        miniMap.SetActive(false);
 
         //Disable the player's CollisionController
         collision.enabled = false;
@@ -111,8 +118,16 @@ public class PauseMenu : MonoBehaviour
 
     //Load the main menu
     void LoadScene()
-    {
-        Debug.Log("Load Main Menu");
+    {        
+        if (GameManager.gameManager == null)
+        {
+            Debug.LogError("GameManager does not exist in this scene");
+        }
+        else
+        {
+            Debug.Log("Loading Main Menu");
+            GameManager.gameManager.GetComponent<LevelLoader>().LoadLevel(0);
+        }
     }
 
     //Exit the game application

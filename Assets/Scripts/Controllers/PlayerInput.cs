@@ -12,15 +12,15 @@ public class PlayerInput : MonoBehaviour
 {
     //Keyboard input
     [Header("Keyboard Input")]
-    public KeyCode kbJump = KeyCode.Space;
-    public KeyCode[] kbAbility;
+    public KeyCode kbJump;
+    public KeyCode kbAbility1;
     public KeyCode kbPause;
     public KeyCode kbInteract;
 
     //Xbox Controller input
     [Header("Controller Input")]
-    public KeyCode ctJump = KeyCode.Joystick1Button0;
-    public KeyCode[] ctAbility;
+    public KeyCode ctJump;
+    public KeyCode ctAbility1;
     public KeyCode ctPause;
     public KeyCode ctInteract;
 

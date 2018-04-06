@@ -41,7 +41,20 @@ public class AbilityCooldown : MonoBehaviour
 
         coolDownDuration = ability.abilityCooldown / userAttackSpeed;
         
-        kbInput = user.GetComponent<PlayerInput>().kbAbility[abilityNumber];
+        switch(abilityNumber)
+        {
+            case 1:
+                kbInput = user.GetComponent<PlayerInput>().kbAbility1;
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+            case 4:
+                break;
+            default:
+                throw new System.Exception("Ability not given a number");
+        }
         ability.Initialize(user);
 
     }

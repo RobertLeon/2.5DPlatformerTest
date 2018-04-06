@@ -1,67 +1,44 @@
 ﻿//Created by Robert Bryant
 //
-//Handles the initialization of the game world
+//Game Manager
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    public GameObject playerPrefab;                 //Player prefab
+    public static GameManager gameManager;
+    public AudioClip[] audioClips;
 
-    private LevelGeneration levelGen;               //Level generation
-    private Camera playerCam;                       //Player Camera
-    private GameObject miniMapCam;                  //Mini map camera
-    private Vector3 playerSpawnPos;                 //Position of the player spawn
-    private GameObject[] treasureSpawns;            //Treasure spawn object
-    private GameObject[] enemySpawns;               //Enemy spawn object
-    private bool initiaized = false;                //Check for game initialization
+    private AudioSource audioSource;
     
-
-	//Use this for initialization
-	void Start()
-	{
-        //Find and assign objects in the scene
-        levelGen = GameObject.FindGameObjectWithTag("LevelGeneration").GetComponent<LevelGeneration>();
-        playerCam = Camera.main;
-        miniMapCam = GameObject.FindGameObjectWithTag("MiniMapCamera");
-
-	}
-
-    private void Initialize()
+    private void Awake()
     {
-        //Get the spawn points for the player and treasure rooms
-        playerSpawnPos = GameObject.FindGameObjectWithTag("PlayerSpawn").transform.position;
-        treasureSpawns = GameObject.FindGameObjectsWithTag("TreasureSpawn");
-
-        //Create the player in the scene
-        Instantiate(playerPrefab, playerSpawnPos, Quaternion.identity);
-
-        //Eneable each treasure to spawn in
-        for (int i = 0; i < treasureSpawns.Length; i++)
+        if(gameManager == null)
         {
-            treasureSpawns[i].GetComponent<TreasureSpawner>().enabled = true;
+            DontDestroyOnLoad(gameObject);
+            gameManager = this;
         }
-       
-        //Enable the player camera and mini map camera scripts
-        playerCam.GetComponent<CameraController>().enabled = true;
-        miniMapCam.GetComponent<MiniMapCameraController>().enabled = true;
-        initiaized = true;
+        else if( gameManager != this)
+        {
+            Destroy(gameObject);
+        }
+
+        audioSource = GetComponent<AudioSource>();
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
-    //Update is called once per frame
-    void Update()
-	{
-        //Check if level generation is complete
-        if (levelGen.complete && !initiaized)
-        {
-            Initialize();
-        }
-        //Error for faild initalization
-        else if (!initiaized)
-        {
-            Debug.LogError("Game initialization failed.");
-            initiaized = true;
-        }
-	}
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        audioSource.Stop(); 
+
+        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+
+        Debug.Log("Current scene index is: " + currentSceneIndex);
+
+        audioSource.clip = audioClips[currentSceneIndex];
+        audioSource.Play();
+    }
 }
