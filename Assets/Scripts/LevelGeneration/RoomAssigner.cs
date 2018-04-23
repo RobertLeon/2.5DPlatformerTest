@@ -55,6 +55,7 @@ public class RoomAssigner : MonoBehaviour
         //Loop through the rooms
         for (int i = 0; i < roomPrefabs.Length; i++)
         {
+
             //Check for matching room types
             if (roomPrefabs[i].roomType == room.roomType)
             {
@@ -71,6 +72,7 @@ public class RoomAssigner : MonoBehaviour
                     }
                 }
             }
+            
         }
 
         //Pick a random room from the list

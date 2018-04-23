@@ -38,6 +38,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4517773221011048}
   - component: {fileID: 114024032866607354}
+  - component: {fileID: 114918947905204688}
+  - component: {fileID: 65298065805263884}
   m_Layer: 0
   m_Name: NorthWestEast Entrance
   m_TagString: Untagged
@@ -193,7 +195,7 @@ Transform:
   m_GameObject: {fileID: 1515649430760148}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -30.9699, y: -89.76424, z: 0}
-  m_LocalScale: {x: 30, y: 30, z: 1}
+  m_LocalScale: {x: 80, y: 80, z: 1}
   m_Children:
   - {fileID: 4462022691082228}
   - {fileID: 4222693973608600}
@@ -447,6 +449,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!65 &65298065805263884
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1515649430760148}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!65 &65354412213931324
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -507,7 +521,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gridPosition: {x: 0, y: 0}
-  roomSize: {x: 30, y: 30}
+  roomSize: {x: 80, y: 80}
   roomType: 1
   exits: 01000000020000000000000004000000
   gizmoColor: {r: 0, g: 0, b: 0, a: 1}
@@ -523,3 +537,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gizmoColor: {r: 1, g: 0.9724138, b: 0, a: 0.75}
+--- !u!114 &114918947905204688
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1515649430760148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fcde766b548ca1848974c876a3bb30e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

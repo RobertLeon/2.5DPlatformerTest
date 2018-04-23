@@ -10,13 +10,13 @@ public class GroundEnemyController : EnemyMovement
 {
 
     public MovementType movementType;
-    private Vector3 startPos;
+    //private Vector3 startPos;
 
     public override void Start()
     {
         base.Start();
 
-        startPos = transform.position;
+        //startPos = transform.position;
 
         if (isFlying)
             canJump = false;

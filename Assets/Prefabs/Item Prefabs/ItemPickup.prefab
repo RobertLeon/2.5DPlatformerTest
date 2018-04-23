@@ -108,3 +108,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   item: {fileID: 11400000, guid: 38453068da28fdb41929516fd7f5431c, type: 2}
+  waitTime: 1.5

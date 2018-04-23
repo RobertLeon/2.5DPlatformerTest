@@ -10,7 +10,7 @@ public class LevelLoader : MonoBehaviour
     public Slider progressBar;
     public TMP_Text progressText;
 
-	public void LoadLevel(int sceneIndex)
+    public void LoadLevel(int sceneIndex)
     {
         StartCoroutine(LoadAsynchronously(sceneIndex));
     }

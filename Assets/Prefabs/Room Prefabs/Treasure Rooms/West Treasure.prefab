@@ -56,6 +56,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4439634571802146}
   - component: {fileID: 114470789771200630}
+  - component: {fileID: 114288285430126612}
+  - component: {fileID: 65380990469409820}
   m_Layer: 0
   m_Name: West Treasure
   m_TagString: Untagged
@@ -119,7 +121,7 @@ Transform:
   m_GameObject: {fileID: 1281483595767080}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -34.708073, y: -67.21595, z: 0}
-  m_LocalScale: {x: 30, y: 30, z: 1}
+  m_LocalScale: {x: 80, y: 80, z: 1}
   m_Children:
   - {fileID: 4966291891304832}
   - {fileID: 4526840373814354}
@@ -302,6 +304,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!65 &65380990469409820
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1281483595767080}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!65 &65603332292992320
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -326,6 +340,17 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &114288285430126612
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1281483595767080}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fcde766b548ca1848974c876a3bb30e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114470789771200630
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -338,7 +363,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gridPosition: {x: 0, y: 0}
-  roomSize: {x: 30, y: 30}
+  roomSize: {x: 80, y: 80}
   roomType: 3
   exits: 00000000000000000000000004000000
   gizmoColor: {r: 0, g: 0, b: 0, a: 1}

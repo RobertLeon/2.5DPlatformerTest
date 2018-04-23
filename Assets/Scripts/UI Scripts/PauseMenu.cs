@@ -5,7 +5,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
 
@@ -17,14 +16,20 @@ public class PauseMenu : MonoBehaviour
     public TMP_Text confirmationText;               //Text to display in the confirmation menu
     public Button yesButton;                        //Reference to the confirmation button
     public GameObject miniMap;                      //Reference to the mini map game object
+    public GameObject pauseMenuOptions;             //
+    public Button resumeButton;                     //
 
+    private LevelLoader levelLoader;                //Reference to the Loading Screen
     private PlayerInput playerInput;                //Reference to the PlayerInput script
     private CollisionController collision;          //Reference to the CollisionController script
+    private GameObject currentMenu;                 //Current menu game object
 
-    private void Start()
+    public void InitializePauseMenu()
     {
         //Find the player game object
         GameObject player = GameObject.FindGameObjectWithTag("Player");
+        levelLoader = FindObjectOfType<LevelLoader>();
+        currentMenu = pauseMenu;    
 
         //If the player exists get the PlayerInput and CollisionController components
         if (player != null)
@@ -37,17 +42,35 @@ public class PauseMenu : MonoBehaviour
     //Update is called once per frame
     void Update()
 	{
+
         //Check for specified input
-		if(Input.GetKeyDown(KeyCode.Escape))
+		if(playerInput != null)
         {
-            //If the game is paused resume play otherwise pause the game
-            if (gameIsPaused)
+            if (Input.GetKeyDown(playerInput.ctPause) || Input.GetKeyDown(playerInput.kbPause))
             {
-                Resume();
+                //If the game is paused resume play otherwise pause the game
+                if (gameIsPaused)
+                {
+                    Resume();
+                }
+                else
+                {
+                    Pause();
+                }
             }
-            else
+        }
+        else
+        {
+            if(Input.GetKeyDown(KeyCode.Escape)||Input.GetKeyDown(KeyCode.Joystick1Button7))
             {
-                Pause();
+                if(gameIsPaused)
+                {
+                    Resume();
+                }
+                else
+                {
+                    Pause();
+                }
             }
         }
 	}
@@ -62,8 +85,11 @@ public class PauseMenu : MonoBehaviour
         miniMap.SetActive(true);
 
         //Enable the player's CollisionController script
-        collision.enabled = true;
-
+        if (collision != null)
+        {
+            collision.enabled = true;
+        }
+            
         //Set the game's time scale back to full
         Time.timeScale = 1f;
 
@@ -80,9 +106,20 @@ public class PauseMenu : MonoBehaviour
         //Hide the mini map
         miniMap.SetActive(false);
 
-        //Disable the player's CollisionController
-        collision.enabled = false;
+        if(currentMenu != pauseMenu)
+        {
+            pauseMenuOptions.SetActive(true);
+            currentMenu.SetActive(false);
+        }
 
+        //Selects the resume button for controller input
+        resumeButton.Select();
+
+        //Disable the player's CollisionController
+        if (collision != null)
+        {
+            collision.enabled = false;
+        }
         //Set the game's time scale to 0.
         Time.timeScale = 0f;
 
@@ -118,16 +155,10 @@ public class PauseMenu : MonoBehaviour
 
     //Load the main menu
     void LoadScene()
-    {        
-        if (GameManager.gameManager == null)
-        {
-            Debug.LogError("GameManager does not exist in this scene");
-        }
-        else
-        {
-            Debug.Log("Loading Main Menu");
-            GameManager.gameManager.GetComponent<LevelLoader>().LoadLevel(0);
-        }
+    {
+        Debug.Log("Loading Main Menu");
+        Resume();
+        levelLoader.LoadLevel(0);
     }
 
     //Exit the game application
@@ -135,5 +166,10 @@ public class PauseMenu : MonoBehaviour
     {
         Debug.Log("Exited Game");
         Application.Quit();
+    }
+
+    public void SetCurrentMenu(GameObject menu)
+    {
+        currentMenu = menu;
     }
 }

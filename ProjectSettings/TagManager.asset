@@ -12,6 +12,7 @@ TagManager:
   - EnemySpawn
   - TreasureSpawn
   - LevelGeneration
+  - PauseMenu
   layers:
   - Default
   - TransparentFX

@@ -8,6 +8,7 @@ using UnityEngine;
 public class ItemPickup : MonoBehaviour
 {
     public Items item;                  //Reference to the item
+    public float waitTime;
     
     private PlayerStats playerStats;    //Reference to the PlayerStats
 
@@ -18,8 +19,13 @@ public class ItemPickup : MonoBehaviour
         GameObject player = GameObject.FindGameObjectWithTag("Player");        
         playerStats = player.GetComponent<PlayerStats>();
 
+        if(GetComponent<BoxCollider>().enabled)
+        {
+            GetComponent<BoxCollider>().enabled = false;
+        }
+
         //Get the renderer on the item to change it's color
-        Renderer rend = GetComponent<Renderer>();
+        //Renderer rend = GetComponent<Renderer>();
         //rend.material.color = item.itemColor[(int)item.itemRarity];
 
         //Allows the item to spawn on screen
@@ -30,7 +36,7 @@ public class ItemPickup : MonoBehaviour
     private IEnumerator PickUp()
     {
         //Wait for a second
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSeconds(waitTime);
 
         //Enable the box collider component
         transform.GetComponent<BoxCollider>().enabled = true;

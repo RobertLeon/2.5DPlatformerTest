@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "2.5DPlatformerTest", "2.5DPlatformerTest.csproj", "{FE488559-DEFC-D87A-6173-EB22C27C580D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "2.5DPlatformerTest.Editor", "2.5DPlatformerTest.Editor.csproj", "{55A118AE-9D90-BF6B-B8F3-B4356C481D22}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FE488559-DEFC-D87A-6173-EB22C27C580D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE488559-DEFC-D87A-6173-EB22C27C580D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE488559-DEFC-D87A-6173-EB22C27C580D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE488559-DEFC-D87A-6173-EB22C27C580D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{55A118AE-9D90-BF6B-B8F3-B4356C481D22}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55A118AE-9D90-BF6B-B8F3-B4356C481D22}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55A118AE-9D90-BF6B-B8F3-B4356C481D22}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55A118AE-9D90-BF6B-B8F3-B4356C481D22}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

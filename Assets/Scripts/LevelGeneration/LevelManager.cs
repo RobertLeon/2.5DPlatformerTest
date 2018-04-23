@@ -7,17 +7,20 @@ using UnityEngine;
 
 public class LevelManager : MonoBehaviour
 {
-    public GameObject playerPrefab;                 //Player prefab
+    public Character player;                        //Player prefab
 
     private Camera playerCam;                       //Player Camera
     private GameObject miniMapCam;                  //Mini map camera
     private Vector3 playerSpawnPos;                 //Position of the player spawn
     private GameObject[] treasureSpawns;            //Treasure spawn object
     private GameObject[] enemySpawns;               //Enemy spawn object
-    private bool initiaized = false;                //Check for game initialization
 
-    public void InitializeSpawning()
+
+    public IEnumerator InitializeSpawning()
     {
+        yield return new WaitForSeconds(0.1f);
+
+        Debug.Log("Spawning");
         //Find and assign objects in the scene        
         playerCam = Camera.main;
         miniMapCam = GameObject.FindGameObjectWithTag("MiniMapCamera");
@@ -28,12 +31,12 @@ public class LevelManager : MonoBehaviour
         enemySpawns = GameObject.FindGameObjectsWithTag("EnemySpawn");
 
         //Create the player in the scene
-        Instantiate(playerPrefab, playerSpawnPos, Quaternion.identity);
+        Instantiate(player.playerPrefab, playerSpawnPos, Quaternion.identity);
 
         //Eneable each treasure to spawn in
         for (int i = 0; i < treasureSpawns.Length; i++)
         {
-            treasureSpawns[i].GetComponent<TreasureSpawner>().enabled = true;
+            //  treasureSpawns[i].GetComponent<TreasureSpawner>().enabled = true;
         }
 
         for (int i = 0; i < enemySpawns.Length; i++)
@@ -45,7 +48,6 @@ public class LevelManager : MonoBehaviour
         //Enable the player camera and mini map camera scripts
         playerCam.GetComponent<CameraController>().enabled = true;
         miniMapCam.GetComponent<MiniMapCameraController>().enabled = true;
-        initiaized = true;
     }
 
     

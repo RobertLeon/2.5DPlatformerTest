@@ -97,7 +97,7 @@ public class ProjectileCollision : MonoBehaviour
             }
 
             //Or collision with an object
-            if(other.tag == "Untagged")
+            if(other.tag == "")
             {
                 DestroyProjectile();
             }

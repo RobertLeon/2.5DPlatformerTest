@@ -54,6 +54,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4051507354250020}
   - component: {fileID: 114763438894705436}
+  - component: {fileID: 114068286929985766}
+  - component: {fileID: 65484828268580646}
   m_Layer: 0
   m_Name: South Entrance
   m_TagString: Untagged
@@ -159,7 +161,7 @@ Transform:
   m_GameObject: {fileID: 1241038008849864}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -30.372084, y: -53.297405, z: 0}
-  m_LocalScale: {x: 30, y: 30, z: 1}
+  m_LocalScale: {x: 80, y: 80, z: 1}
   m_Children:
   - {fileID: 4724865328185422}
   - {fileID: 4921888065318426}
@@ -520,6 +522,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!65 &65484828268580646
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1241038008849864}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!65 &65532327863802434
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -580,6 +594,17 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &114068286929985766
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1241038008849864}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fcde766b548ca1848974c876a3bb30e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114244898666712284
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -604,7 +629,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gridPosition: {x: 0, y: 0}
-  roomSize: {x: 30, y: 30}
+  roomSize: {x: 80, y: 80}
   roomType: 1
   exits: 00000000000000000300000000000000
   gizmoColor: {r: 0, g: 0, b: 0, a: 1}

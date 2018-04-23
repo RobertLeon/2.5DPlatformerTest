@@ -18,7 +18,30 @@ Things to Implement:
 		Need to figure out how to handle different room sizes and multiple exits in the same
 		direction.
 
-		Spawning after level was created
+	Artifacts/Mutators:
+		What kind?
+		How many?
+		Unlock method?
+
+	Items:
+		On hit items:
+			How to activate them and how to activate multiple items at once.
+
+
+		Which Items should be unlocked by default
+			How many of each rarirty?
+
+
+	Characters:
+		Which characters should bee unlocked by default
+		How should characters be unlocked
+
+	Saving and Loading data:
+		What needs to be saved?
+			Unlocks for characters, items, and levels?
+			Save games that are in progress?
+		Multiple files?
+
 
 	Controller Support for UI:
 
@@ -49,6 +72,4 @@ Things to Research:
 
 
 Bugs/Unintended Behaviours:
-	Wall sliding down slopes looks weird at certain angles
-
-	Getting audio errors even though the audio source is on the Game Manager game object
+	Wall sliding down slopes looks weird at certain angles.

@@ -9,29 +9,19 @@ public class AbilityCooldown : MonoBehaviour
     public Image cooldownIcon;              //Icon of the ability
     public Image cooldownMask;              //Cooldown mask
     public TMP_Text cooldownDisplay;        //Cooldown text
-    public int abilityNumber;               //Number of the ability on the user
-
-    [SerializeField]
-    private Ability ability;                //Ability being used
-    [SerializeField]
-    private GameObject abilityUser;         //The user of the ability
+    
+    private Ability ability;                //Ability being used    
     private Image abilityImage;             //Image for the ability
-    private KeyCode kbInput;                //Input to use the ability
+    private KeyCode kbInput;                //Keyboard input to use the ability
+    private KeyCode ctInput;                //Controller input for the ability
     private float coolDownDuration;         //How long inbetween attacks
     private float coolDownTimeLeft;         //Timer for the cooldown
     private float nextReadyTime;            //Time for next ability use
     private float userAttackSpeed;          //Attack speed of the user
 
 
-	//Use this for initialization
-	void Start()
-	{
-        
-        Initialize(ability, abilityUser);
-	}
-
     //Initalize the ability
-    void Initialize(Ability selectedAbilty, GameObject user)
+    public void Initialize(Ability selectedAbilty, GameObject user, int abilityNumber)
     {
         ability = selectedAbilty;
         abilityImage = cooldownIcon.GetComponent<Image>();
@@ -39,24 +29,36 @@ public class AbilityCooldown : MonoBehaviour
         cooldownMask.sprite = ability.abilitySprite;
         userAttackSpeed = user.GetComponent<Stats>().combat.attackSpeed;
 
-        coolDownDuration = ability.abilityCooldown / userAttackSpeed;
-        
-        switch(abilityNumber)
-        {
-            case 1:
-                kbInput = user.GetComponent<PlayerInput>().kbAbility1;
-                break;
-            case 2:
-                break;
-            case 3:
-                break;
-            case 4:
-                break;
-            default:
-                throw new System.Exception("Ability not given a number");
-        }
-        ability.Initialize(user);
 
+        switch (abilityNumber)
+        {
+            case 0:
+                kbInput = user.GetComponent<PlayerInput>().kbAbility1;
+                ctInput = user.GetComponent<PlayerInput>().ctAbility1;
+                break;
+
+            case 1:
+                kbInput = user.GetComponent<PlayerInput>().kbAbility2;
+                ctInput = user.GetComponent<PlayerInput>().ctAbility2;
+                break;
+
+            case 2:
+                kbInput = user.GetComponent<PlayerInput>().kbAbility3;
+                ctInput = user.GetComponent<PlayerInput>().ctAbility3;
+                break;
+
+            case 3:
+                kbInput = user.GetComponent<PlayerInput>().kbAbility4;
+                ctInput = user.GetComponent<PlayerInput>().ctAbility4;
+                break;
+
+            default:
+                throw new System.Exception("Ability number not recognized");
+        }
+
+        coolDownDuration = ability.abilityCooldown / userAttackSpeed;
+        ability.Initialize(user);
+        AbilityReady();
     }
 
     private void Update()
@@ -69,7 +71,7 @@ public class AbilityCooldown : MonoBehaviour
             AbilityReady();
             
             //Activate the ability on input
-            if (Input.GetKeyDown(kbInput))
+            if (Input.GetKeyDown(kbInput) || Input.GetKeyDown(ctInput))
             {
                 ActivateAbility();
             }
@@ -106,6 +108,7 @@ public class AbilityCooldown : MonoBehaviour
         coolDownTimeLeft -= Time.deltaTime;
         float roundedCD = Mathf.Round(coolDownTimeLeft);
         cooldownDisplay.text = roundedCD.ToString();
+        coolDownDuration = ability.abilityCooldown / userAttackSpeed;
         cooldownMask.fillAmount = (coolDownTimeLeft / coolDownDuration);
     }
 }

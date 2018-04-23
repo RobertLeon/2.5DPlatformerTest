@@ -1,19 +1,24 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ChatacterSelect : MonoBehaviour
 {
 
-	//Use this for initialization
-	void Start()
-	{
-		
-	}
+    public int sceneIndex;
 
-	//Update is called once per frame
-	void Update()
-	{
-		
-	}
+    private LevelLoader levelLoader;
+
+    private void Start()
+    {
+        levelLoader = FindObjectOfType<LevelLoader>();
+        GetComponent<Button>().Select();
+    }
+
+    public void SelectCharacter(Character selectedCharacter)
+    {
+        GameManager.Instance.Player = selectedCharacter;
+        levelLoader.LoadLevel(sceneIndex);
+    }
 }

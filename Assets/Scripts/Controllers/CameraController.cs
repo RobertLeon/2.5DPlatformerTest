@@ -12,10 +12,12 @@ public class CameraController : MonoBehaviour
     public CollisionController cameraTarget;            //Camera's target to follow
     public Vector2 focusAreaSize;                       //Size of the focus area
     public float lookAheadDstX;                         //Distance to look ahead on the x-axis
-    public float lookSmoothTimeX;                       //Time to
+    public float lookSmoothTimeX;                       //Time to smooth horizontal movement
     public float verticalSmoothTime;                    //Time to smooth vertical movement
     public float verticalOffset;                        //Offset on the y-axis
+    public float zOffset;                               //Offset on the z-axis
     public Color gizmoColor;                            //Color for the gizmo in the editor window
+
 
     private FocusArea focusArea;                        //Area for the camera to focus on
     private float currentLookAheadX;                    //Current look ahead distance
@@ -24,6 +26,11 @@ public class CameraController : MonoBehaviour
     private float smoothLookVelocityX;                  //Amount to smooth the camera movement
     private float smoothVelocityY;                      //Amount to move the camera on the y-axis
     private bool lookAheadStopped;                      //Has the look ahead stopped?
+    private Vector3 minBounds;                          //Minimum bounds of the current room
+    private Vector3 maxBounds;                          //Maximum bounds of the current room
+    private float halfHeight;                           //Half of the camera's height
+    private float halfWidth;                            //Half of the camera's width
+
 
     //Structure for the Focus Area
     private struct FocusArea
@@ -95,6 +102,9 @@ public class CameraController : MonoBehaviour
 
             focusArea = new FocusArea(cameraTarget.boxCollider.bounds, focusAreaSize);
         }
+
+        halfHeight = GetComponent<Camera>().orthographicSize;
+        halfWidth = halfHeight * Screen.width / Screen.height;
     }
 
     private void LateUpdate()
@@ -131,19 +141,33 @@ public class CameraController : MonoBehaviour
                 }
             }
 
+            //Direction to look ahead on the x-axis
             currentLookAheadX = Mathf.SmoothDamp(currentLookAheadX, targetLookAheadX,
                 ref smoothLookVelocityX, lookSmoothTimeX);
 
+            //Position to focus the camrea on
             focusPosition.y = Mathf.SmoothDamp(transform.position.y, focusPosition.y, ref smoothVelocityY, verticalSmoothTime);
             focusPosition += Vector2.right * currentLookAheadX;
 
-            transform.position = (Vector3)focusPosition + Vector3.forward * -10;
+            //Keep the camera inside the current room
+            focusPosition.x = Mathf.Clamp(cameraTarget.transform.position.x, minBounds.x + halfWidth, maxBounds.x - halfWidth);
+            focusPosition.y = Mathf.Clamp(cameraTarget.transform.position.y, minBounds.y + halfHeight, maxBounds.y - halfHeight);
+
+            //Move the camera
+            transform.position = (Vector3)focusPosition + Vector3.forward * zOffset;                
         }
     }
 
+
+    public void SetCameraBoundary(BoxCollider boundBox)
+    {
+        minBounds = boundBox.bounds.min;
+        maxBounds = boundBox.bounds.max;
+    }
+
+    //Draws a box for the focus area
     private void OnDrawGizmos()
     {
-        gizmoColor.a = 0.5f;
         Gizmos.color = gizmoColor;
         Gizmos.DrawCube(focusArea.center, focusAreaSize);
     }

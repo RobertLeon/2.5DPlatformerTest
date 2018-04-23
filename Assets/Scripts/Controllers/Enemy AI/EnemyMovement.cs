@@ -33,7 +33,7 @@ public class EnemyMovement : MonoBehaviour
     private float accelTimeAir = 0.1f;               //Time to reach maximum velocity in the air 
     private float accelTimeGround= 0.2f;            //Time to reach maximum velocity on the ground
 
-    private float minJumpVelocity;
+    //private float minJumpVelocity;
     
     private bool updateMovement;
 
@@ -58,6 +58,15 @@ public class EnemyMovement : MonoBehaviour
         velocity.y += gravity * Time.deltaTime;
     }
 
+    //
+    private void Update()
+    {
+        if(updateMovement)
+        {
+            CalculateMovement();
+            updateMovement = false;
+        }
+    }
 
     //Update the movement variables of the enemy
     public void UpdateMovement()
@@ -82,7 +91,7 @@ public class EnemyMovement : MonoBehaviour
         }
 
         maxJumpVelocity = Mathf.Abs(gravity) * timeToJumpApex;
-        minJumpVelocity = Mathf.Sqrt(2 * Mathf.Abs(gravity) * minJumpHeight);
+        //minJumpVelocity = Mathf.Sqrt(2 * Mathf.Abs(gravity) * minJumpHeight);
     }
 }
 

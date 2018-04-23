@@ -10,7 +10,7 @@ using UnityEngine;
 public class LevelGeneration : MonoBehaviour
 {
     public Vector2 worldSize;                               //Size of the world
-    public Vector2 roomSize;                                //Size of the rooms
+    public Vector2 roomSize;                              //Size of the rooms
     public RoomData[,] rooms;                               //Data for each room position
     public int numberOfRooms = 20;                          //Number of rooms to make
     [Range(0.01f, 1.0f)]
@@ -27,7 +27,7 @@ public class LevelGeneration : MonoBehaviour
     private int gridSizeX;                                  //Size of the grid on the X-axis    
     private int gridSizeY;                                  //Size of the grid on the Y-axis
     private bool bossRoom = false;
-   
+
 
     //Use this for initialization
     void Start()
@@ -47,6 +47,17 @@ public class LevelGeneration : MonoBehaviour
         SetRoomExits();
         DrawMap();
         transform.GetComponent<RoomAssigner>().Assign(rooms);
+
+        if (GameManager.Instance.Player != null)
+        {
+            transform.GetComponent<LevelManager>().player = GameManager.Instance.Player;
+            StartCoroutine(transform.GetComponent<LevelManager>().InitializeSpawning());
+        }
+        else
+        {
+            Debug.LogError("No player chosen");
+            FindObjectOfType<PauseMenu>().InitializePauseMenu();
+        }
     }
 
 
@@ -97,12 +108,12 @@ public class LevelGeneration : MonoBehaviour
     void DrawMap()
     {
         int roomNum = 1;
-        int mRooms = 0;
+        //int mRooms = 0;
 
         //Loop through each room
         foreach(RoomData room in rooms)
         {
-            bool mystery = (mRooms >= 4);
+            //bool mystery = (mRooms >= 4);
            
             //If the room does not exists go to the next room 
             if(room == null)
@@ -397,6 +408,7 @@ public class LevelGeneration : MonoBehaviour
         takenPositions.Insert(0, Vector2.zero);
         Vector2 checkPos = Vector2.zero;
 
+        
 
         float randomCompare = 0.2f;
 
