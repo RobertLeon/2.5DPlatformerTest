@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4917763339989908}
   - component: {fileID: 114400211909700108}
   - component: {fileID: 65323289843587242}
+  - component: {fileID: 114790540291844484}
   m_Layer: 0
   m_Name: EmptyRoom
   m_TagString: Untagged
@@ -69,3 +70,14 @@ MonoBehaviour:
   roomType: 0
   exits: 00000000000000000000000000000000
   gizmoColor: {r: 0, g: 0, b: 0, a: 1}
+--- !u!114 &114790540291844484
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1604083863886898}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fcde766b548ca1848974c876a3bb30e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

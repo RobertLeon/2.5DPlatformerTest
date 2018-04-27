@@ -209,6 +209,12 @@ public class PlayerController : MonoBehaviour
             (collision.collisions.below) ? accelTimeGround : accelTimeAir);
 
         velocity.y += gravity * Time.deltaTime;
+
+        //Keeps the player from infinitly accelerating when falling
+        if(velocity.y <= gravity / 2.5f)
+        {
+            velocity.y = gravity /2.5f;
+        }
     }
 
     //Handle the player's movement for climbing up and down objects
@@ -250,7 +256,8 @@ public class PlayerController : MonoBehaviour
 
         //Wall Sliding
         if ((collision.collisions.left || collision.collisions.right)
-            && !collision.collisions.below && velocity.y < 0 )
+            && !collision.collisions.below && velocity.y < 0  
+            && collision.collisions.slopeAngle < collision.maxSlopeAngle)
         {
             wallSliding = true;
 

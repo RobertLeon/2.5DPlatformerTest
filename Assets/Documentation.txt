@@ -4,15 +4,18 @@ Things to Implement:
 	Character Select Menu:
 	A bunch of art assets
 	Ability System: (40%?)
-	Rooms: (20%?)
-		Camera bound in the same room as player
-		Camera only shows the current room
+	Rooms: (25%?)
 		Transition between rooms
 			Fade in fade out animation?
 		Need to create rooms for the different room types
-		Need to figure out a basic 1x1 room size
-		Need to create a mini map room for different sized rooms
 		Need to make a controller for the map screen
+		Basic Room Size: 80x80 units
+
+		Platform Dimensions: (x,y,z)
+			Floors: (x,7,4)
+			Walls: (7,y,4)?
+			Fall Through Platforms(x,y,4)
+
 
 	Procedural Level Generation:
 		Need to figure out how to handle different room sizes and multiple exits in the same
@@ -72,4 +75,4 @@ Things to Research:
 
 
 Bugs/Unintended Behaviours:
-	Wall sliding down slopes looks weird at certain angles.
+	Camera problems when going up into another room.
