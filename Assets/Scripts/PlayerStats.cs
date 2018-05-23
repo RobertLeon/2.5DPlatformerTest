@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 [RequireComponent(typeof(PlatformController))]
 public class PlayerStats : Stats
@@ -18,16 +19,20 @@ public class PlayerStats : Stats
     public float healthIncrease = 10f;          //Amount of health increased on level up
     public float attackIncrease = 5f;           //Amount of attack increased on level up
 
+
     private float combatTimer;                  //Combat timer
     private float regenTimer;                   //Regeneration timer
     private PlayerController playerController;  //Reference to the Player Controller
+    private HealthBar healthBar;
+    private GameObject expBar;
 
-
-	//Use this for initialization
-	void Start()
-	{
+    //Use this for initialization
+    private void Start()
+    {
         //Get the PlayerController Component
         playerController = GetComponent<PlayerController>();
+        healthBar = FindObjectOfType<HealthBar>();
+        //expBar = FindObjectOfType<ExpBar>();
 
         //Set current level to 1
         if (exp.currentLevel <= 0)
@@ -42,7 +47,15 @@ public class PlayerStats : Stats
         exp.maxLevel = exp.expLevels.Length;
         combatTimer = combatTime;
         regenTimer = regenTime;
-	}
+
+        if (healthBar != null)
+        {
+            healthBar.UpdateHealthBar(this);
+            healthBar.UpdateExpBar(this);
+        }
+
+        
+    }
 
 	//Update is called once per frame
 	void Update()
@@ -50,8 +63,7 @@ public class PlayerStats : Stats
         //When in combat stop health and shield regeneration
         if (inCombat)
         {
-            
-            combatTimer -= Time.deltaTime;            
+            combatTimer -= Time.deltaTime;
 
             //Reset the combat timer
             if (combatTimer <= 0)
@@ -75,12 +87,30 @@ public class PlayerStats : Stats
         }
 	}
 
-    //Gaining Experince
+    public override void GainExperience(int amount)
+    {
+        base.GainExperience(amount);
+
+        //Exp Bar
+        if(healthBar != null)
+        {
+            healthBar.UpdateExpBar(this);
+        }
+    }
+
+    //Gaining Levels
     public override void LevelUp()
     {
         base.LevelUp();
         IncreaseMaxHealth(healthIncrease);
         ChangeAttack(attackIncrease);
+
+        //Health bar & Exp bar
+        if (healthBar != null)
+        {
+            healthBar.UpdateHealthBar(this);
+            healthBar.UpdateExpBar(this);
+        }
     }
 
     //Taking Damage
@@ -91,12 +121,39 @@ public class PlayerStats : Stats
         combatTimer = combatTime;
 
         base.TakeDamage(amount, critChance);
+
+        if(healthBar != null)
+        {
+            healthBar.UpdateHealthBar(this);
+        }
+    }
+
+    public override void RestoreHealth(float amount)
+    {
+        base.RestoreHealth(amount);
+
+        if (healthBar != null)
+        {
+            healthBar.UpdateHealthBar(this);
+        }
+    }
+
+    public override void RestoreShields(float amount)
+    {
+        base.RestoreShields(amount);
+
+        if (healthBar != null)
+        {
+            healthBar.UpdateHealthBar(this);
+        }
     }
 
     //Death
     public override void Die()
     {
         base.Die();
+
+        transform.GetComponent<PlayerController>().enabled = false;
         
         StartCoroutine(RestartScene());
     }
@@ -129,8 +186,6 @@ public class PlayerStats : Stats
     //For Testing Purposes
     private void OnGUI()
     {
-        GUILayout.Label("HP: " + health.currentHealth + " / " + health.maxHealth);
-        GUILayout.Label("Shields: " + health.currentShields + " / " + health.maxShields);
         GUILayout.Label("EXP: " + exp.currentExp + " / " + exp.expLevels[exp.currentLevel-1]);
         
         if(GUILayout.Button("Take Damage"))

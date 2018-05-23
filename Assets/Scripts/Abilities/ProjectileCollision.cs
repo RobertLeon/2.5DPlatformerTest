@@ -1,17 +1,21 @@
-﻿using System.Collections;
+﻿//Created by Robert Bryant
+//
+//
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class ProjectileCollision : MonoBehaviour
 {
     public Vector2 velocity;                //Speed of the ability on the x and y axis
+    [HideInInspector]
+    public int direction;                   //Direction the object is moving in
 
     private float damage;                   //Amount of damage this object does
     private Vector2 startPos;               //Starting position
     private float critChance;               //Chance to double damage
     private float maxDistance;              //Maximum distance object can travel
     private float distance;                 //Current distance the object has traveled
-    private int direction;                  //Direction the object is moving in
     private PlayerStats playerStats;        //Reference to the PlayerStats script
     private EnemyStats enemyStats;          //Reference to the EnemyStats script
     private ProjectileShoot projectile;     //Reference to the ProjectioleShoot script
@@ -50,6 +54,7 @@ public class ProjectileCollision : MonoBehaviour
             critChance = playerStats.combat.critChance;
             damage = projectile.abilityDamage + playerStats.combat.attack;
             direction = transform.GetComponentInParent<CollisionController>().collisions.faceDir;
+            enemyStats = null;
         }
 
         //If the parent is an enemy assign their stats to the projectile
@@ -59,12 +64,22 @@ public class ProjectileCollision : MonoBehaviour
             enemyProjectile = true;
 
             critChance = enemyStats.combat.critChance;
-            damage = projectile.abilityDamage + playerStats.combat.attack;
-            direction = transform.GetComponentInParent<CollisionController>().collisions.faceDir;
+            damage = projectile.abilityDamage + enemyStats.combat.attack;
+
+            if (GetComponentInParent<CollisionController>() != null)
+            {
+                direction = GetComponentInParent<CollisionController>().collisions.faceDir;
+            }
+            else
+            {
+                direction = 1;
+            }
+            playerStats = null;
         }
 
         //No longer need the parent's information
         transform.parent = null;
+        transform.localScale= Vector3.one;
 	}
 
 	//Update is called once per frame
@@ -111,12 +126,13 @@ public class ProjectileCollision : MonoBehaviour
             {
                 playerStats = other.GetComponent<PlayerStats>();
                 playerStats.TakeDamage(damage, critChance);
+                
 
                 DestroyProjectile();
             }
 
             //Or collision with another object
-            if (other.tag == "Untagged")
+            if (other.tag == "")
             {
                 DestroyProjectile();
             }

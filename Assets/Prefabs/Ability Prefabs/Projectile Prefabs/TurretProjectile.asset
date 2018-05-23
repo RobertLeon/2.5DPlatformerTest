@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a7a8a2073e0acd4c888dad11fbd339c, type: 3}
+  m_Name: TurretProjectile
+  m_EditorClassIdentifier: 
+  abilityName: New Ability
+  abilitySprite: {fileID: 0}
+  abilityCooldown: 0
+  abilityDescription: 
+  projectile: {fileID: 4200691819630828, guid: 27d4cb5ebc693f044803a1dd66052c7e, type: 2}
+  abilityUser: {fileID: 0}
+  abilityDamage: 4
+  maxRange: 1000

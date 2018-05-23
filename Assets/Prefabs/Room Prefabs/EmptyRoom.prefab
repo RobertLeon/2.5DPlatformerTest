@@ -9,19 +9,18 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1604083863886898}
+  m_RootGameObject: {fileID: 1027848017761122}
   m_IsPrefabParent: 1
---- !u!1 &1604083863886898
+--- !u!1 &1027848017761122
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4917763339989908}
-  - component: {fileID: 114400211909700108}
-  - component: {fileID: 65323289843587242}
-  - component: {fileID: 114790540291844484}
+  - component: {fileID: 4857388789254644}
+  - component: {fileID: 65944786100584570}
+  - component: {fileID: 114560200188371776}
   m_Layer: 0
   m_Name: EmptyRoom
   m_TagString: Untagged
@@ -29,12 +28,12 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4917763339989908
+--- !u!4 &4857388789254644
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1604083863886898}
+  m_GameObject: {fileID: 1027848017761122}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 80, y: 80, z: 1}
@@ -42,42 +41,27 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &65323289843587242
+--- !u!65 &65944786100584570
 BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1604083863886898}
+  m_GameObject: {fileID: 1027848017761122}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.95, y: 0.95, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &114400211909700108
+--- !u!114 &114560200188371776
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1604083863886898}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7b223b3e09d25e74c8689a6ba4d0575c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gridPosition: {x: 0, y: 0}
-  roomSize: {x: 80, y: 80}
-  roomType: 0
-  exits: 00000000000000000000000000000000
-  gizmoColor: {r: 0, g: 0, b: 0, a: 1}
---- !u!114 &114790540291844484
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1604083863886898}
+  m_GameObject: {fileID: 1027848017761122}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fcde766b548ca1848974c876a3bb30e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gizmoColor: {r: 0, g: 0, b: 0, a: 1}

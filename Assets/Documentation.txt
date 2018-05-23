@@ -4,20 +4,13 @@ Things to Implement:
 	Character Select Menu:
 	A bunch of art assets
 	Ability System: (40%?)
-	Rooms: (25%?)
-		Transition between rooms
-			Fade in fade out animation?
+	Rooms: (0%)
 		Need to create rooms for the different room types
 		Need to make a controller for the map screen
-		Basic Room Size: 80x80 units
+		Basic Room Size:
 
-		Platform Dimensions: (x,y,z)
-			Floors: (x,7,4)
-			Walls: (7,y,4)?
-			Fall Through Platforms(x,y,4)
-
-
-	Procedural Level Generation:
+	Classic Metroidvania?:
+	Procedural Level Generation?:
 		Need to figure out how to handle different room sizes and multiple exits in the same
 		direction.
 
@@ -45,27 +38,20 @@ Things to Implement:
 			Save games that are in progress?
 		Multiple files?
 
-
-	Controller Support for UI:
-
 	Key Rebinding:
 
 	Enemy AI:(10%?)
 		Enemies need to awake when the player enters the room and sleep when out of the room
 		Boss AIs
-		Enemy AIs: Currently have 3 basic AI patterns
-			Ground:
-				Walking
-				Pacing
-				Jumping
-			Flying:
-				Medusa style
-			Traps:
-				Falling Trap
+		Enemy AIs:
+			
+			
+		Traps:
+			Falling Traps, Standing Traps, Spikes, etc
+
 
 
 Things to Research:
-	Controller Support for the UI
 	Key Rebinding
 	Better Level generation
 	Audio System
@@ -75,4 +61,4 @@ Things to Research:
 
 
 Bugs/Unintended Behaviours:
-	Camera problems when going up into another room.
+	Turrets that shoot at delayed intervals have unintended shot patterns.

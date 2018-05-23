@@ -1,4 +1,8 @@
-﻿using System.Collections;
+﻿//Created by Robert Bryant
+//
+//
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,6 +14,7 @@ public class AbilityCooldown : MonoBehaviour
     public Image cooldownMask;              //Cooldown mask
     public TMP_Text cooldownDisplay;        //Cooldown text
     
+    [SerializeField]
     private Ability ability;                //Ability being used    
     private Image abilityImage;             //Image for the ability
     private KeyCode kbInput;                //Keyboard input to use the ability
@@ -18,16 +23,18 @@ public class AbilityCooldown : MonoBehaviour
     private float coolDownTimeLeft;         //Timer for the cooldown
     private float nextReadyTime;            //Time for next ability use
     private float userAttackSpeed;          //Attack speed of the user
+    private int abilityNumber;
 
 
     //Initalize the ability
-    public void Initialize(Ability selectedAbilty, GameObject user, int abilityNumber)
+    public void Initialize(Ability selectedAbilty, GameObject user, int abilityNum)
     {
         ability = selectedAbilty;
         abilityImage = cooldownIcon.GetComponent<Image>();
         abilityImage.sprite = ability.abilitySprite;
         cooldownMask.sprite = ability.abilitySprite;
         userAttackSpeed = user.GetComponent<Stats>().combat.attackSpeed;
+        abilityNumber = abilityNum;
 
 
         switch (abilityNumber)

@@ -7,7 +7,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(PlayerController),typeof(ProjectileShoot))]
+[RequireComponent(typeof(PlayerController))]
 public class PlayerInput : MonoBehaviour
 {
     //Keyboard input
@@ -30,6 +30,8 @@ public class PlayerInput : MonoBehaviour
     public KeyCode ctPause;
     public KeyCode ctInteract;
 
+    private CameraController playerCam;
+    private Character playerChar;
     private PlayerController player;                //Reference to the PlayerController script
     private PauseMenu pauseMenu;                    //
     private AbilityCooldown[] coolDownButtons;      //
@@ -40,7 +42,13 @@ public class PlayerInput : MonoBehaviour
     {
         //Get the player controller script
         player = GetComponent<PlayerController>();
+        
+        playerChar = GameManager.Instance.Player;
+        coolDownButtons = FindObjectsOfType<AbilityCooldown>();
+        abilities = playerChar.characterAbilities;
 
+        Camera.main.GetComponent<CameraController>().enabled = true;
+        
         //Find the pause menu in the scene
         if (GameObject.FindGameObjectWithTag("PauseMenu") != null)
         {
@@ -50,16 +58,29 @@ public class PlayerInput : MonoBehaviour
         }
 
         if (abilities != null)
-        {
-            abilities = GameManager.Instance.Player.characterAbilities;
-
-            coolDownButtons = FindObjectsOfType<AbilityCooldown>();
-
+        {            
             for (int i = 0; i < abilities.Length; i++)
             {
-                coolDownButtons[i].Initialize(GameManager.Instance.Player.characterAbilities[i], gameObject, i);
+                coolDownButtons[i].Initialize(playerChar.characterAbilities[i], gameObject, i);                
+            }
+
+            for(int i = 0; i < coolDownButtons.Length; i++)
+            {
+                if(i >= abilities.Length)
+                {
+                    coolDownButtons[i].gameObject.SetActive(false);
+                }
             }
         }
+        else
+        {
+            Debug.LogWarning("No abilities found");
+            foreach(AbilityCooldown button in coolDownButtons)
+            {
+                button.gameObject.SetActive(false);
+            }
+        }
+
     }
 
     //Update is called once per frame

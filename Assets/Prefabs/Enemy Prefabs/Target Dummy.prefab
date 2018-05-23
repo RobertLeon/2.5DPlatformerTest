@@ -11,6 +11,21 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 1189264988770804}
   m_IsPrefabParent: 1
+--- !u!1 &1155964920774504
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4438998321943162}
+  m_Layer: 10
+  m_Name: TextSpawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 7707008975528953803, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1189264988770804
 GameObject:
   m_ObjectHideFlags: 0
@@ -24,7 +39,6 @@ GameObject:
   - component: {fileID: 54991981653655224}
   - component: {fileID: 23015653389430412}
   - component: {fileID: 114029001184851792}
-  - component: {fileID: 114316439099178920}
   - component: {fileID: 114641505121882210}
   - component: {fileID: 114483630995377266}
   m_Layer: 10
@@ -34,6 +48,19 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!4 &4438998321943162
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1155964920774504}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.6666667, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4450078652513084}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4450078652513084
 Transform:
   m_ObjectHideFlags: 1
@@ -41,9 +68,10 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1189264988770804}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -8.27, y: 2.3, z: 0}
+  m_LocalPosition: {x: 31, y: -2, z: 0}
   m_LocalScale: {x: 1, y: 3, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 4438998321943162}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -136,21 +164,6 @@ MonoBehaviour:
   boxCollider: {fileID: 0}
   maxSlopeAngle: 80
   playerInput: {x: 0, y: 0}
---- !u!114 &114316439099178920
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1189264988770804}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 886830364ce077d4c90b8495b4d56a33, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 5
-  minJumpHeight: 1
-  maxJumpHeight: 4
-  timeToJumpApex: 0.4
 --- !u!114 &114483630995377266
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -202,3 +215,6 @@ MonoBehaviour:
     currentExp: 0
     expLevels: 
     maxLevel: 0
+  damageText: {fileID: 114049718346184036, guid: 0e04aa1a4942e23498758c9c8944a4b6,
+    type: 2}
+  textSpawnPosition: {fileID: 4438998321943162}

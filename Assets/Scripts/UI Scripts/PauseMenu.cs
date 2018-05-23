@@ -158,7 +158,15 @@ public class PauseMenu : MonoBehaviour
     {
         Debug.Log("Loading Main Menu");
         Resume();
-        levelLoader.LoadLevel(0);
+        if (levelLoader != null)
+        {
+            levelLoader.LoadLevel(0);
+        }
+        else
+        {
+            levelLoader = FindObjectOfType<LevelLoader>();
+            levelLoader.LoadLevel(0);
+        }
     }
 
     //Exit the game application

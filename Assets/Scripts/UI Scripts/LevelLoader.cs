@@ -1,4 +1,7 @@
-﻿using System.Collections;
+﻿//Created by Robert Bryant
+//
+//
+using System.Collections;
 using UnityEngine.SceneManagement;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,6 +12,11 @@ public class LevelLoader : MonoBehaviour
     public GameObject loadingScreen;
     public Slider progressBar;
     public TMP_Text progressText;
+
+    private void Start()
+    {
+        
+    }
 
     public void LoadLevel(int sceneIndex)
     {

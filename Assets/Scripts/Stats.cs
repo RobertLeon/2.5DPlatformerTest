@@ -5,6 +5,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 //Stats for various entities in the game
 public class Stats : MonoBehaviour
@@ -13,7 +14,7 @@ public class Stats : MonoBehaviour
     [System.Serializable]
     public struct Health
     {
-        [Range(50, 250)]
+        [Range(10, 1000)]
         public float maxHealth;            //Maximum amount of health
         [HideInInspector]
         public float currentHealth;        //Current amount of health
@@ -75,6 +76,19 @@ public class Stats : MonoBehaviour
 
     [Header("Experience")]
     public Experience exp;
+
+    public Transform textSpawn;
+    public TMP_Text floatingText;
+    public Color damageColor;
+    public Color healColor;
+    [HideInInspector]
+    public GameObject damageCanvas;
+
+
+    private void Awake()
+    {
+        damageCanvas = GameObject.FindGameObjectWithTag("DamageCanvas");
+    }
 
     //Increases the maximium health
     public void IncreaseMaxHealth(float amount, bool restore = false)
@@ -177,7 +191,7 @@ public class Stats : MonoBehaviour
     }
 
     //Gaining Experince
-    public void GainExperience(int amount)
+    public virtual void GainExperience(int amount)
     {
         exp.currentExp += amount;
 
@@ -186,7 +200,7 @@ public class Stats : MonoBehaviour
             //Carry over extra experience to the next level
             exp.currentExp = exp.currentExp - exp.expLevels[exp.currentLevel - 1];
 
-            if (exp.currentExp != exp.maxLevel)
+            if (exp.currentLevel != exp.maxLevel)
             {
                 LevelUp();
             }
@@ -211,7 +225,7 @@ public class Stats : MonoBehaviour
         //
         float crit = Random.value;
         float damage = amount;
-        
+
         //If the attack is a critical hit double damage
         if (critChance >= crit)
         {
@@ -219,10 +233,25 @@ public class Stats : MonoBehaviour
         }
 
         //Reduce damge dealt by the amount of defense
-        damage -= combat.defense;
+        damage -= Mathf.Round(combat.defense / 2);
+
+        if (damage <= 0)
+        {
+            damage = 0;
+        }
 
         //Reduce the current shield amount by damage taken
         health.currentShields -= damage;
+
+        //Spawn floating text for damage
+        if (damage >= 1)
+        {
+            TMP_Text dmgText = Instantiate(floatingText) as TMP_Text;
+            dmgText.text = damage.ToString();
+            dmgText.color = new Color(damageColor.r, damageColor.g, damageColor.b);
+            dmgText.transform.SetParent(damageCanvas.transform);
+            dmgText.transform.position = textSpawn.position;
+        }
 
         //If the shields is less than 0 reduce health by the amount left
         if (health.currentShields < 0)
@@ -238,8 +267,6 @@ public class Stats : MonoBehaviour
             health.currentHealth = 0;            
             Die();
         }
-
-        Debug.Log(transform.name + " has taken " + damage + " damage");
     }
 
     //Death
@@ -249,10 +276,19 @@ public class Stats : MonoBehaviour
     }
 
     //Restoring health
-    public void RestoreHealth(float amount)
+    public virtual void RestoreHealth(float amount)
     {
         health.currentHealth += amount;
 
+        if (health.currentHealth < health.maxHealth)
+        {
+            //Spawn floating text for healing
+            TMP_Text healText = Instantiate(floatingText) as TMP_Text;
+            healText.text = amount.ToString();
+            healText.color = new Color(healColor.r, healColor.g, healColor.b);
+            healText.transform.SetParent(damageCanvas.transform);
+            healText.transform.position = textSpawn.position;
+        }
         //If the amount restored is more than maximum health
         //set current health to maximum
         if (health.currentHealth >= health.maxHealth)
@@ -262,7 +298,7 @@ public class Stats : MonoBehaviour
     }
 
     //Restoring Shields
-    public void RestoreShields(float amount)
+    public virtual void RestoreShields(float amount)
     {
         health.currentShields += amount;
 

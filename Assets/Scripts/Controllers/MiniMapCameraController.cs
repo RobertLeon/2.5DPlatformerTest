@@ -11,22 +11,22 @@ public class MiniMapCameraController : MonoBehaviour
     public Transform miniMap;                   //Mini map parent
     public Vector3 cameraOffset;                //Camera offset
 
-    private MiniMapSelector[] miniMapRooms;     //Array to hold the rooms in the mini map
+    //private MiniMapSelector[] miniMapRooms;     //Array to hold the rooms in the mini map
 
     private void Start()
     {
         //Get each mini map room
-        miniMapRooms = miniMap.GetComponentsInChildren<MiniMapSelector>();
+        //miniMapRooms = miniMap.GetComponentsInChildren<MiniMapSelector>();
 
         //Loop through each room
-        foreach (var room in miniMapRooms)
+        /*foreach (var room in miniMapRooms)
         {
             //Set the camera target to the specified room
             if(room.roomType == RoomType.Entrance)
             {
                 cameraTarget = room.transform;
             }
-        }   
+        } */  
 
     }
 

@@ -1,20 +1,21 @@
-﻿using System.Collections;
+﻿//Created by Robert Bryant
+//
+//
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class ProjectileShoot : MonoBehaviour
 {
+    [HideInInspector]
     public Transform projectile;        //Projectile being fired
+    [HideInInspector]
     public Transform abilityUser;       //User of the ability
+    [HideInInspector]
     public float abilityDamage;         //Damage the ability does
+    [HideInInspector]
     public float maxRange;              //Maximum range of the projectile
 
-    private void Start()
-    {
-        //If the ability user is not specified use the current transform
-        if (abilityUser == null)
-            abilityUser = transform;
-    }
 
     //Creates the specified projectile
     public void ShootProjectile()

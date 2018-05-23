@@ -13,6 +13,7 @@ TagManager:
   - TreasureSpawn
   - LevelGeneration
   - PauseMenu
+  - DamageCanvas
   layers:
   - Default
   - TransparentFX

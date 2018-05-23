@@ -10080,22 +10080,6 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 114456671214223418, guid: 71226c563d8dabe4fa0d4220edb5f067,
-        type: 2}
-      propertyPath: playerPrefab
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 82505211890202332, guid: 71226c563d8dabe4fa0d4220edb5f067,
-        type: 2}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 82505211890202332, guid: 71226c563d8dabe4fa0d4220edb5f067,
-        type: 2}
-      propertyPath: m_audioClip
-      value: 
-      objectReference: {fileID: 8300000, guid: 8f1017ef59f1e0b4fa8eb49a467a95ba, type: 3}
-    m_RemovedComponents:
-    - {fileID: 114456671214223418, guid: 71226c563d8dabe4fa0d4220edb5f067, type: 2}
+    m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 71226c563d8dabe4fa0d4220edb5f067, type: 2}
   m_IsPrefabParent: 0

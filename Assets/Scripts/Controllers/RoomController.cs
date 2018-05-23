@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class RoomController : MonoBehaviour
 {
+    public Color gizmoColor;
+
     private BoxCollider boxCollider;
     private CameraController cameraController;
 
-	//Use this for initialization
-	void Start()
+    //Use this for initialization
+    void Start()
 	{
         boxCollider = transform. GetComponent<BoxCollider>();
         cameraController = Camera.main.GetComponent<CameraController>();
@@ -20,9 +22,7 @@ public class RoomController : MonoBehaviour
         //The player enters the room
         if(other.tag == "Player")
         {
-            Debug.Log("Player has entered the room: " + transform.name);
-            cameraController.SetCameraBoundary(boxCollider  );
-           
+            cameraController.SetCameraBoundary(boxCollider);          
 
             //Activate enemys
         }
@@ -43,4 +43,11 @@ public class RoomController : MonoBehaviour
 	{
 		
 	}
+
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = gizmoColor;
+        Gizmos.DrawWireCube(transform.position, transform.localScale);
+    }
 }

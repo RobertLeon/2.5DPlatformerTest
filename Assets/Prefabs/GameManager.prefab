@@ -21,7 +21,6 @@ GameObject:
   - component: {fileID: 224358441247283202}
   - component: {fileID: 82505211890202332}
   - component: {fileID: 114320633548882684}
-  - component: {fileID: 114456671214223418}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: GameController
@@ -121,19 +120,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dce67a21157a8ec4dad727e9f95d1ebb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114456671214223418
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1512748552858254}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 65dae12cf85823f4bb60f8b5e247c049, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerPrefab: {fileID: 1453273378135610, guid: 41e9e9da868c512458bb821eeb3b0d9a,
-    type: 2}
+  songList:
+  - {fileID: 8300000, guid: 8f1017ef59f1e0b4fa8eb49a467a95ba, type: 3}
+  - {fileID: 8300000, guid: 8f1017ef59f1e0b4fa8eb49a467a95ba, type: 3}
 --- !u!224 &224358441247283202
 RectTransform:
   m_ObjectHideFlags: 1
