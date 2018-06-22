@@ -19,18 +19,38 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4032796340677414}
-  - component: {fileID: 33303938472079476}
-  - component: {fileID: 23050447097501630}
   - component: {fileID: 65959680428028456}
+  - component: {fileID: 65023228083324484}
+  - component: {fileID: 54875307902956626}
+  - component: {fileID: 120101045816715140}
+  - component: {fileID: 95424087907547998}
   - component: {fileID: 114124284393262788}
   - component: {fileID: 114789967478872050}
   - component: {fileID: 114159948333316590}
   - component: {fileID: 114098650979257316}
-  - component: {fileID: 54875307902956626}
   - component: {fileID: 114235322147003518}
+  - component: {fileID: 114637909645326808}
+  - component: {fileID: 114182845110066888}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1456007306667932
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4707528214913736}
+  - component: {fileID: 33451542573550774}
+  - component: {fileID: 23495260647772338}
+  m_Layer: 8
+  m_Name: PlayerGfx
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -61,8 +81,22 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4819557872563640}
+  - {fileID: 4707528214913736}
   m_Father: {fileID: 0}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4707528214913736
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1456007306667932}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4032796340677414}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4819557872563640
 Transform:
@@ -77,12 +111,12 @@ Transform:
   m_Father: {fileID: 4032796340677414}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!23 &23050447097501630
+--- !u!23 &23495260647772338
 MeshRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1453273378135610}
+  m_GameObject: {fileID: 1456007306667932}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -111,12 +145,12 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!33 &33303938472079476
+--- !u!33 &33451542573550774
 MeshFilter:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1453273378135610}
+  m_GameObject: {fileID: 1456007306667932}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!54 &54875307902956626
 Rigidbody:
@@ -133,6 +167,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
+--- !u!65 &65023228083324484
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1453273378135610}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!65 &65959680428028456
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -145,6 +191,23 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!95 &95424087907547998
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1453273378135610}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 34f6daebec1a3a047b7db71919b8fab4, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!114 &114098650979257316
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -167,7 +230,7 @@ MonoBehaviour:
     attack: 1
     defense: 1
     critChance: 0.01
-    attackSpeed: 1
+    invulnTime: 2
   movement:
     speedModifier: 0
     jumpHeightModifier: 0
@@ -188,6 +251,7 @@ MonoBehaviour:
   regenTime: 2
   healthIncrease: 10
   attackIncrease: 5
+  canTakeDamage: 0
 --- !u!114 &114124284393262788
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -209,6 +273,9 @@ MonoBehaviour:
   wallJumpClimb: {x: 6, y: 25}
   wallJumpOff: {x: 8, y: 8}
   wallLeap: {x: 20, y: 30}
+  slide: {x: 80, y: -4}
+  wallSliding: 0
+  directionalInput: {x: 0, y: 0}
 --- !u!114 &114159948333316590
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -230,6 +297,25 @@ MonoBehaviour:
   boxCollider: {fileID: 0}
   maxSlopeAngle: 60
   playerInput: {x: 0, y: 0}
+--- !u!114 &114182845110066888
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1453273378135610}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0c20b1ad6a7729448374cd7f630597c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  abilityDamage: 0
+  abilityRange: 0
+  abilityDuration: 0
+  abilityUser: {fileID: 0}
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 1024
+  lineRenderer: {fileID: 0}
 --- !u!114 &114235322147003518
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -245,6 +331,20 @@ MonoBehaviour:
   abilityUser: {fileID: 0}
   abilityDamage: 0
   maxRange: 0
+--- !u!114 &114637909645326808
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1453273378135610}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4728cd2141862141a144e653d860b92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  particles: {fileID: 0}
+  abilityUser: {fileID: 0}
+  abilityDamage: 0
 --- !u!114 &114789967478872050
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -270,3 +370,91 @@ MonoBehaviour:
   ctAbility4: 0
   ctPause: 337
   ctInteract: 332
+--- !u!120 &120101045816715140
+LineRenderer:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1453273378135610}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 0
+  m_LightProbeUsage: 0
+  m_ReflectionProbeUsage: 0
+  m_Materials:
+  - {fileID: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Positions:
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 1}
+  m_Parameters:
+    serializedVersion: 2
+    widthMultiplier: 0.5
+    widthCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    colorGradient:
+      serializedVersion: 2
+      key0: {r: 1, g: 1, b: 1, a: 1}
+      key1: {r: 1, g: 1, b: 1, a: 1}
+      key2: {r: 0, g: 0, b: 0, a: 0}
+      key3: {r: 0, g: 0, b: 0, a: 0}
+      key4: {r: 0, g: 0, b: 0, a: 0}
+      key5: {r: 0, g: 0, b: 0, a: 0}
+      key6: {r: 0, g: 0, b: 0, a: 0}
+      key7: {r: 0, g: 0, b: 0, a: 0}
+      ctime0: 0
+      ctime1: 65535
+      ctime2: 0
+      ctime3: 0
+      ctime4: 0
+      ctime5: 0
+      ctime6: 0
+      ctime7: 0
+      atime0: 0
+      atime1: 65535
+      atime2: 0
+      atime3: 0
+      atime4: 0
+      atime5: 0
+      atime6: 0
+      atime7: 0
+      m_Mode: 0
+      m_NumColorKeys: 2
+      m_NumAlphaKeys: 2
+    numCornerVertices: 0
+    numCapVertices: 90
+    alignment: 1
+    textureMode: 0
+    generateLightingData: 0
+  m_UseWorldSpace: 1
+  m_Loop: 0

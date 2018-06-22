@@ -19,7 +19,12 @@ public class PlayerController : MonoBehaviour
     public float wallStickTime = 0.5f;              //Time to stick to a wall
     public Vector2 wallJumpClimb;                   //Force for a climbing wall jump
     public Vector2 wallJumpOff;                     //Force for jumping off a wall
-    public Vector2 wallLeap;                        //Force for leaping between walls      
+    public Vector2 wallLeap;                        //Force for leaping between walls    
+    public Vector2 slide;                           //Force for sliding on the floor
+    [HideInInspector]
+    public bool wallSliding;                        //Is the player sliding on a wall?         
+    [HideInInspector]
+    public Vector2 directionalInput;                //Input for the players movement
 
     private PlayerStats playerStats;
     private CollisionController collision;          //Reference to the CollisionController
@@ -30,13 +35,13 @@ public class PlayerController : MonoBehaviour
     private float velocityXSmoothing;               //Smoothing movement on the x-axis
     private float accelTimeAir = .2f;               //Time to reach maximum velocity in the air 
     private float accelTimeGround = .1f;            //Time to reach maximum velocity on the ground
-    private float timeToWallUnstick;                //Counter till 
-    private Vector2 directionalInput;               //Input
-    private bool wallSliding;                       //Is the player sliding on a wall?
+    private float timeToWallUnstick;                //Counter till the player unsticks from the wall
+                             
     private int wallDirX;                           //Direction of the wall on the x-axis
     private int jumps;                              //Jump counter
     private bool isJumping = false;                 //Is the player jumping?
     private bool updateMovement = false;            //Check to recalculate movement variables
+    private bool isSliding = false;
 
     //Use this for initialization
     void Start()
@@ -84,7 +89,11 @@ public class PlayerController : MonoBehaviour
             CalculateMovement();
             updateMovement = false;
         }
+        //If the player is sliding
+        if(isSliding)
+        {
 
+        }
     }
 
     //Update the movement variables of the player
@@ -171,8 +180,15 @@ public class PlayerController : MonoBehaviour
            //Not sliding down a slope
             else
             {
+                //Sliding
+                if (directionalInput.y == -1)
+                {
+                    transform.localScale = Vector3.one;
+                    collision.UpdateRaySpacing();
+                    velocity.x = slide.x * collision.collisions.faceDir;                    
+                }
                 //If the player has jump available
-                if (jumps > 0)
+                else if (jumps > 0)
                 {
                     velocity.y = maxJumpVelocity;
                     jumps--;

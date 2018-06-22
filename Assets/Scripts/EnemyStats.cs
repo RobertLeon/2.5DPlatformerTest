@@ -37,8 +37,11 @@ public class EnemyStats : Stats
         expText.transform.SetParent(damageCanvas.transform);
         expText.transform.position = textSpawn.position;
 
-        playerStats = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>();
-        playerStats.GainExperience(expAmount);
+        if (playerStats != null)
+        {
+            playerStats = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>();
+            playerStats.GainExperience(expAmount);
+        }
         gameObject.SetActive(false);
     }
 

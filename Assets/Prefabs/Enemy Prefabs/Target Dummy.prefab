@@ -41,6 +41,7 @@ GameObject:
   - component: {fileID: 114029001184851792}
   - component: {fileID: 114641505121882210}
   - component: {fileID: 114483630995377266}
+  - component: {fileID: 65600229017641914}
   m_Layer: 10
   m_Name: Target Dummy
   m_TagString: Enemy
@@ -143,6 +144,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.5, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!65 &65600229017641914
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1189264988770804}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &114029001184851792
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -205,7 +218,7 @@ MonoBehaviour:
     attack: 0
     defense: 0
     critChance: 0
-    attackSpeed: 0
+    invulnTime: 0
   movement:
     speedModifier: 0
     jumpHeightModifier: 0
@@ -215,6 +228,10 @@ MonoBehaviour:
     currentExp: 0
     expLevels: 
     maxLevel: 0
-  damageText: {fileID: 114049718346184036, guid: 0e04aa1a4942e23498758c9c8944a4b6,
-    type: 2}
-  textSpawnPosition: {fileID: 4438998321943162}
+  textSpawn: {fileID: 0}
+  floatingText: {fileID: 0}
+  damageColor: {r: 0, g: 0, b: 0, a: 0}
+  healColor: {r: 0, g: 0, b: 0, a: 0}
+  damageCanvas: {fileID: 0}
+  expAmount: 0
+  expColor: {r: 0, g: 0, b: 0, a: 0}

@@ -15,6 +15,8 @@ public class CollisionController : RaycastController
 
     [HideInInspector]
     public Vector2 playerInput;             //The player's input
+
+    private Animator animator;              //Reference to the Animator component
     
     //Collision information for the player
     public struct CollisionInfo
@@ -51,13 +53,15 @@ public class CollisionController : RaycastController
     public override void Start()
     {
         base.Start();
+        animator = GetComponent<Animator>();
 
         //Set the player to facing right by default
         collisions.faceDir = 1;
+        animator.SetFloat("FaceDir", collisions.faceDir);        
     }
 
     //Player movement
-    public void Move(Vector2 movementAmount, Vector2 input, bool standingOnPlatform = false)
+    public void Move(Vector2 movementAmount, Vector2 input,bool changeFaceDir = true, bool standingOnPlatform = false )
     {
         UpdateRaycastOrigins();
         collisions.Reset();
@@ -71,9 +75,10 @@ public class CollisionController : RaycastController
         }
 
         //Set the direction the player is facing
-        if (movementAmount.x != 0)
+        if (movementAmount.x != 0 && changeFaceDir)
         {
             collisions.faceDir = (int)Mathf.Sign(movementAmount.x);
+            animator.SetFloat("FaceDir", collisions.faceDir);
         }
         
         //Calculate horizontal collisions
@@ -96,9 +101,9 @@ public class CollisionController : RaycastController
     }
 
     //Overloaded Move
-    public void Move(Vector2 movementAmount, bool standingOnPlatform)
+    public void Move(Vector2 movementAmount, bool changeFaceDir, bool standingOnPlatform)
     {
-        Move(movementAmount, Vector2.zero, standingOnPlatform);
+        Move(movementAmount, Vector2.zero, changeFaceDir, standingOnPlatform);
     }
 
 

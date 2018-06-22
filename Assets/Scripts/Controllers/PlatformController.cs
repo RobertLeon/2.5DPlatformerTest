@@ -88,7 +88,7 @@ public class PlatformController : RaycastController
             //Moves the passenger before the platform moves
             if (passenger.moveBeforePlatform == beforeMovePlatform)
             {
-                passengerDictionary[passenger.transform].Move(passenger.velocity,
+                passengerDictionary[passenger.transform].Move(passenger.velocity, false,
                     passenger.standingOnPlatform);
             }
 
@@ -257,7 +257,7 @@ public class PlatformController : RaycastController
             Gizmos.color = Color.red;
             float size = .5f;
 
-            for(int i =0; i < localWaypoints.Length; i++)
+            for (int i = 0; i < localWaypoints.Length; i++)
             {
                 Vector3 globalWayPointsPos = (Application.isPlaying) ? globalWaypoints[i] : localWaypoints[i] + transform.position;
                 Gizmos.DrawLine(globalWayPointsPos - Vector3.up * size, globalWayPointsPos + Vector3.up * size);

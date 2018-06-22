@@ -19,12 +19,17 @@ public class PlayerStats : Stats
     public float healthIncrease = 10f;          //Amount of health increased on level up
     public float attackIncrease = 5f;           //Amount of attack increased on level up
 
+    [HideInInspector]
+    public bool canTakeDamage;
 
     private float combatTimer;                  //Combat timer
     private float regenTimer;                   //Regeneration timer
+    private float damageTimer;
     private PlayerController playerController;  //Reference to the Player Controller
     private HealthBar healthBar;
     private GameObject expBar;
+    private Animator animator;
+    
 
     //Use this for initialization
     private void Start()
@@ -32,7 +37,7 @@ public class PlayerStats : Stats
         //Get the PlayerController Component
         playerController = GetComponent<PlayerController>();
         healthBar = FindObjectOfType<HealthBar>();
-        //expBar = FindObjectOfType<ExpBar>();
+        animator = GetComponent<Animator>();
 
         //Set current level to 1
         if (exp.currentLevel <= 0)
@@ -47,6 +52,7 @@ public class PlayerStats : Stats
         exp.maxLevel = exp.expLevels.Length;
         combatTimer = combatTime;
         regenTimer = regenTime;
+        damageTimer = combat.invulnTime;
 
         if (healthBar != null)
         {
@@ -54,12 +60,13 @@ public class PlayerStats : Stats
             healthBar.UpdateExpBar(this);
         }
 
-        
+        canTakeDamage = true;
     }
 
 	//Update is called once per frame
 	void Update()
 	{
+
         //When in combat stop health and shield regeneration
         if (inCombat)
         {
@@ -67,9 +74,10 @@ public class PlayerStats : Stats
 
             //Reset the combat timer
             if (combatTimer <= 0)
-            {
+            { 
+                regenTimer = regenTime;
                 combatTimer = combatTime;
-                inCombat = false;
+                inCombat = false;                
             }
         }
         //Start regenerating health and shield to maximum
@@ -85,7 +93,19 @@ public class PlayerStats : Stats
                 regenTimer = regenTime;
             }
         }
-	}
+
+        if (!canTakeDamage)
+        {
+            damageTimer -= Time.deltaTime;
+
+            if (damageTimer <= 0.0f)
+            {
+                animator.SetBool("OnHit", false);
+                damageTimer = combat.invulnTime;
+                canTakeDamage = true;
+            }
+        }
+    }
 
     public override void GainExperience(int amount)
     {
@@ -116,15 +136,19 @@ public class PlayerStats : Stats
     //Taking Damage
     public override void TakeDamage(float amount, float critChance)
     {
-        //Put the player in combat and reset the combat timer
-        inCombat = true;
-        combatTimer = combatTime;
-
-        base.TakeDamage(amount, critChance);
-
-        if(healthBar != null)
+        if (canTakeDamage)
         {
-            healthBar.UpdateHealthBar(this);
+            //Put the player in combat and reset the combat timer
+            inCombat = true;
+            combatTimer = combatTime;
+            damageTimer = combat.invulnTime;
+
+            base.TakeDamage(amount, critChance);
+            animator.SetBool("OnHit", true);
+            if (healthBar != null)
+            {
+                healthBar.UpdateHealthBar(this);
+            }           
         }
     }
 
@@ -186,8 +210,7 @@ public class PlayerStats : Stats
     //For Testing Purposes
     private void OnGUI()
     {
-        GUILayout.Label("EXP: " + exp.currentExp + " / " + exp.expLevels[exp.currentLevel-1]);
-        
+      
         if(GUILayout.Button("Take Damage"))
         {
             TakeDamage(5, 0.25f);

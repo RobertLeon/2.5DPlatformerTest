@@ -55,7 +55,7 @@ public class GameManager : MonoBehaviour
         audioMixer = Resources.Load("MainMixer") as AudioMixer;
         audioSource = GetComponent<AudioSource>();
         audioSource.outputAudioMixerGroup = audioMixer.FindMatchingGroups("Music")[0];
-        audioSource.clip = songList[SceneManager.GetActiveScene().buildIndex];
+        //audioSource.clip = songList[SceneManager.GetActiveScene().buildIndex];
         audioSource.Play();
         SceneManager.sceneLoaded += OnSceneLoaded;        
     }
@@ -101,8 +101,8 @@ public class GameManager : MonoBehaviour
         }
         else if (!audioSource.isPlaying)
         {
-            audioSource.clip = songList[currentSceneIndex];
-            audioSource.Play();
+            //audioSource.clip = songList[currentSceneIndex];
+            //audioSource.Play();
         }
         else
         {

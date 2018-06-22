@@ -32,7 +32,7 @@ public class PlayerInput : MonoBehaviour
 
     private CameraController playerCam;
     private Character playerChar;
-    private PlayerController player;                //Reference to the PlayerController script
+    private PlayerController playerController;      //Reference to the PlayerController script
     private PauseMenu pauseMenu;                    //
     private AbilityCooldown[] coolDownButtons;      //
     private Ability[] abilities;                    //
@@ -41,13 +41,18 @@ public class PlayerInput : MonoBehaviour
     void Start()
     {
         //Get the player controller script
-        player = GetComponent<PlayerController>();
-        
-        playerChar = GameManager.Instance.Player;
-        coolDownButtons = FindObjectsOfType<AbilityCooldown>();
-        abilities = playerChar.characterAbilities;
+        playerController = GetComponent<PlayerController>();
 
         Camera.main.GetComponent<CameraController>().enabled = true;
+        playerChar = GameManager.Instance.Player;
+
+        if (playerChar != null)
+        {
+            coolDownButtons = FindObjectsOfType<AbilityCooldown>();
+            abilities = playerChar.characterAbilities;
+        }
+
+        
         
         //Find the pause menu in the scene
         if (GameObject.FindGameObjectWithTag("PauseMenu") != null)
@@ -75,10 +80,6 @@ public class PlayerInput : MonoBehaviour
         else
         {
             Debug.LogWarning("No abilities found");
-            foreach(AbilityCooldown button in coolDownButtons)
-            {
-                button.gameObject.SetActive(false);
-            }
         }
 
     }
@@ -118,18 +119,18 @@ public class PlayerInput : MonoBehaviour
 
 
         //Set the input in the PlayerController input
-        player.SetDirectionalInput(directionalInput);
+        playerController.SetDirectionalInput(directionalInput);
 
         //Jump input being pressed
         if (Input.GetKeyDown(kbJump) || Input.GetKeyDown(ctJump))
         {
-            player.OnJumpInputDown();
+            playerController.OnJumpInputDown();
         }
 
         //Jump input being released
         if (Input.GetKeyUp(kbJump) || Input.GetKeyUp(ctJump))
         {
-            player.OnJumpInputUp();
+            playerController.OnJumpInputUp();
         }
     }
 }

@@ -61,4 +61,4 @@ Things to Research:
 
 
 Bugs/Unintended Behaviours:
-	Turrets that shoot at delayed intervals have unintended shot patterns.
+	Treadmills and moving platforms need to have no rotation.

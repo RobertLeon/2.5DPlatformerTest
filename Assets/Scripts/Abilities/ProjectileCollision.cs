@@ -126,6 +126,7 @@ public class ProjectileCollision : MonoBehaviour
             {
                 playerStats = other.GetComponent<PlayerStats>();
                 playerStats.TakeDamage(damage, critChance);
+                playerStats.canTakeDamage = false;
                 
 
                 DestroyProjectile();

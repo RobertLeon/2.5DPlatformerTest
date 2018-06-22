@@ -38,8 +38,8 @@ public class Stats : MonoBehaviour
         public float defense;              //Defense
         [Range(0.01f, 0.1f)]
         public float critChance;           //Critical hit chance
-        [Range(1, 10)]
-        public float attackSpeed;          //Attack Speed
+        [Range(0f, 2f)]
+        public float invulnTime;           //Time the character is invulnerable after being hit
     }
 
     //Movement Stats
@@ -144,17 +144,6 @@ public class Stats : MonoBehaviour
 
     }
 
-    //Change the attack speed
-    public void ChangeAttackSpeed(float amount)
-    {
-        combat.attackSpeed += amount;
-
-        //Maximum cap for combat speed
-        if(combat.attackSpeed < 1.0f)
-        {
-            combat.attackSpeed = 1.0f;
-        }
-    }
 
     //Change the crit chance
     public void ChangeCritChance(float amount)
@@ -163,7 +152,9 @@ public class Stats : MonoBehaviour
 
         //Maximum cap for crit chance
         if (combat.critChance > 1.0f)
+        {
             combat.critChance = 1.0f;
+        }
     }
 
     //Increase Movement speed
@@ -252,6 +243,8 @@ public class Stats : MonoBehaviour
             dmgText.transform.SetParent(damageCanvas.transform);
             dmgText.transform.position = textSpawn.position;
         }
+                
+   
 
         //If the shields is less than 0 reduce health by the amount left
         if (health.currentShields < 0)

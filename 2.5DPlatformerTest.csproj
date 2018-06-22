@@ -310,13 +310,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\EffectExamples\Shared\Scripts\DecalDestroyer.cs" />
-    <Compile Include="Assets\EffectExamples\Shared\Scripts\ExtinguishableFire.cs" />
-    <Compile Include="Assets\EffectExamples\Shared\Scripts\GunAim.cs" />
-    <Compile Include="Assets\EffectExamples\Shared\Scripts\GunShoot.cs" />
-    <Compile Include="Assets\EffectExamples\Shared\Scripts\ParticleCollision.cs" />
-    <Compile Include="Assets\EffectExamples\Shared\Scripts\ParticleExamples.cs" />
-    <Compile Include="Assets\EffectExamples\Shared\Scripts\ParticleMenu.cs" />
     <Compile Include="Assets\ProCore\ProBuilder\API Examples\Icosphere FFT\Scripts\CameraControls.cs" />
     <Compile Include="Assets\ProCore\ProBuilder\API Examples\Icosphere FFT\Scripts\IcoBumpin.cs" />
     <Compile Include="Assets\ProCore\ProBuilder\API Examples\Misc\HueCube.cs" />
@@ -332,16 +325,19 @@
     <Compile Include="Assets\ProCore\ProGrids\MonoBehaviour\pg_IgnoreSnap.cs" />
     <Compile Include="Assets\Scripts\Abilities\Ability.cs" />
     <Compile Include="Assets\Scripts\Abilities\AbilityCooldown.cs" />
-    <Compile Include="Assets\Scripts\Abilities\CollisionParticles.cs" />
     <Compile Include="Assets\Scripts\Abilities\ParticleAbility.cs" />
+    <Compile Include="Assets\Scripts\Abilities\ParticleCollision.cs" />
     <Compile Include="Assets\Scripts\Abilities\ParticleShoot.cs" />
     <Compile Include="Assets\Scripts\Abilities\ProjectileAbility.cs" />
     <Compile Include="Assets\Scripts\Abilities\ProjectileCollision.cs" />
     <Compile Include="Assets\Scripts\Abilities\ProjectileShoot.cs" />
+    <Compile Include="Assets\Scripts\Abilities\RaycastAbility.cs" />
+    <Compile Include="Assets\Scripts\Abilities\RaycastShoot.cs" />
     <Compile Include="Assets\Scripts\Character.cs" />
     <Compile Include="Assets\Scripts\Controllers\CameraController.cs" />
     <Compile Include="Assets\Scripts\Controllers\ClimbableController.cs" />
     <Compile Include="Assets\Scripts\Controllers\CollisionController.cs" />
+    <Compile Include="Assets\Scripts\Controllers\ElevatorController.cs" />
     <Compile Include="Assets\Scripts\Controllers\Enemy AI\EnemyMovement.cs" />
     <Compile Include="Assets\Scripts\Controllers\Enemy AI\GroundEnemyController.cs" />
     <Compile Include="Assets\Scripts\Controllers\Enemy AI\Medusa.cs" />
@@ -355,6 +351,7 @@
     <Compile Include="Assets\Scripts\Controllers\PlayerInput.cs" />
     <Compile Include="Assets\Scripts\Controllers\RaycastController.cs" />
     <Compile Include="Assets\Scripts\Controllers\RoomController.cs" />
+    <Compile Include="Assets\Scripts\Controllers\TreadmillController.cs" />
     <Compile Include="Assets\Scripts\EnemyStats.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
     <Compile Include="Assets\Scripts\Items\AttackItem.cs" />

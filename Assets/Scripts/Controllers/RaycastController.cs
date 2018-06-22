@@ -10,8 +10,8 @@ using UnityEngine;
 public class RaycastController : MonoBehaviour
 {
     public LayerMask collisionMask;                 //Detect which object layer to collide with
-    public const float skinWidth =0.06f;            //Width on the object where the raycasts
-    [HideInInspector]                               //start
+    public const float skinWidth =0.05f;             //Width on the object where the raycasts starts
+    [HideInInspector]                               
     public int horizontalRayCount;                  //Amount of rays being drawn horizontally
     [HideInInspector]
     public int verticalRayCount;                    //Amount of rays being drawn vertically
@@ -43,6 +43,11 @@ public class RaycastController : MonoBehaviour
 	{        
         CalculateRaySpacing();
 	}
+
+    public void UpdateRaySpacing()
+    {
+        CalculateRaySpacing();
+    }
 
     //Calculate the space inbetween ray casts being drawn
     private void CalculateRaySpacing()

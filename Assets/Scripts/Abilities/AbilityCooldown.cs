@@ -22,7 +22,6 @@ public class AbilityCooldown : MonoBehaviour
     private float coolDownDuration;         //How long inbetween attacks
     private float coolDownTimeLeft;         //Timer for the cooldown
     private float nextReadyTime;            //Time for next ability use
-    private float userAttackSpeed;          //Attack speed of the user
     private int abilityNumber;
 
 
@@ -33,7 +32,6 @@ public class AbilityCooldown : MonoBehaviour
         abilityImage = cooldownIcon.GetComponent<Image>();
         abilityImage.sprite = ability.abilitySprite;
         cooldownMask.sprite = ability.abilitySprite;
-        userAttackSpeed = user.GetComponent<Stats>().combat.attackSpeed;
         abilityNumber = abilityNum;
 
 
@@ -63,7 +61,7 @@ public class AbilityCooldown : MonoBehaviour
                 throw new System.Exception("Ability number not recognized");
         }
 
-        coolDownDuration = ability.abilityCooldown / userAttackSpeed;
+        coolDownDuration = ability.abilityCooldown;
         ability.Initialize(user);
         AbilityReady();
     }
@@ -115,7 +113,7 @@ public class AbilityCooldown : MonoBehaviour
         coolDownTimeLeft -= Time.deltaTime;
         float roundedCD = Mathf.Round(coolDownTimeLeft);
         cooldownDisplay.text = roundedCD.ToString();
-        coolDownDuration = ability.abilityCooldown / userAttackSpeed;
+        coolDownDuration = ability.abilityCooldown;
         cooldownMask.fillAmount = (coolDownTimeLeft / coolDownDuration);
     }
 }
