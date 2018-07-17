@@ -8,16 +8,16 @@ using UnityEngine;
 public class ItemPickup : MonoBehaviour
 {
     public Items item;                  //Reference to the item
-    public float waitTime;
+    public float waitTime;              //Time to wait after spawning the item
     
-    private PlayerStats playerStats;    //Reference to the PlayerStats
+    private ItemHolder playerItems;     //Reference to the ItemHolder script
 
     //Use this for initialization
     void Start()
 	{
         //Get the player's stats
         GameObject player = GameObject.FindGameObjectWithTag("Player");        
-        playerStats = player.GetComponent<PlayerStats>();
+        //playerItems = player.GetComponent<ItemHolder>();
 
         if(GetComponent<BoxCollider>().enabled)
         {
@@ -49,7 +49,8 @@ public class ItemPickup : MonoBehaviour
         if (other.tag == "Player")
         {
             //Initialize the item
-            item.Initialize(playerStats);
+            other.GetComponent<ItemHolder>().AddItem(item);
+            FindObjectOfType<AudioController>().Play("ItemPickUp");
 
             //Destroy the gameObject
             Destroy(gameObject);

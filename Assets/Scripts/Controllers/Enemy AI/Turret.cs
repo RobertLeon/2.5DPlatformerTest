@@ -30,6 +30,7 @@ public class Turret : MonoBehaviour
             projectileShoot.abilityUser = turret;
             projectileShoot.projectile = projectileAbility.projectile;
             projectileShoot.maxRange = projectileAbility.maxRange;
+            projectileShoot.numberOfProjectiles = projectileAbility.numberOfProjectiles;
             projectileShoot.abilityDamage = projectileAbility.abilityDamage;
 
         }

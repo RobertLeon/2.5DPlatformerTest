@@ -2,12 +2,28 @@
 
 Things to Implement:
 	Character Select Menu:
-	A bunch of art assets
-	Ability System: (40%?)
+
+	Ability System: (60%?)
+		Global Cool down
+
+
+	MiniMap Controller:
+		Zoom in / Zoom out
+
+	Map Controller:
+		Move map around
+		Zoom in / Zoom out
+
 	Rooms: (0%)
 		Need to create rooms for the different room types
 		Need to make a controller for the map screen
 		Basic Room Size:
+
+		Secret Rooms:
+			Destructable walls
+			Switches
+			Walkthrough?
+			Through platform
 
 	Classic Metroidvania?:
 	Procedural Level Generation?:
@@ -23,6 +39,14 @@ Things to Implement:
 		On hit items:
 			How to activate them and how to activate multiple items at once.
 
+		Item UI:
+			Mouse over tool tips.
+
+		Item Shops?:
+			How are items bought?
+			What kind of currency?
+			How is the currency obtained
+
 
 		Which Items should be unlocked by default
 			How many of each rarirty?
@@ -37,6 +61,7 @@ Things to Implement:
 			Unlocks for characters, items, and levels?
 			Save games that are in progress?
 		Multiple files?
+			At least 3 if multiple files
 
 	Key Rebinding:
 
@@ -44,10 +69,26 @@ Things to Implement:
 		Enemies need to awake when the player enters the room and sleep when out of the room
 		Boss AIs
 		Enemy AIs:
+			Flying enemys
+			Water enemys
+			Walking enemys
+			Running enemys
+
 			
 			
-		Traps:
-			Falling Traps, Standing Traps, Spikes, etc
+	Traps:
+		Falling Traps, Standing Traps, Spikes, etc
+
+	Water:
+		Deters movement in a similar way to the treadmills
+		Swimming?:
+			Air Meter?
+			Underwater slows movement slightly
+
+	Implement Object pooling:
+		Enemy and Player projectile pools
+		Enemy Spawn pools
+
 
 
 
@@ -58,7 +99,13 @@ Things to Research:
 	Game Manager System
 	Saving the current game
 	Loading previous games
+	Water Physics
 
 
 Bugs/Unintended Behaviours:
 	Treadmills and moving platforms need to have no rotation.
+
+
+
+Code that needs commenting/better comments:
+	1 GameManager

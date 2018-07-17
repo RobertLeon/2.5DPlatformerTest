@@ -1,6 +1,6 @@
 ﻿//Created by Robert Bryant
 //
-//
+//Collision parameters for a projectile object
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -79,13 +79,12 @@ public class ProjectileCollision : MonoBehaviour
 
         //No longer need the parent's information
         transform.parent = null;
-        transform.localScale= Vector3.one;
 	}
 
 	//Update is called once per frame
 	void Update()
 	{
-        
+        //Calculate the distance from the start position to the current position
         distance = Vector2.Distance(startPos, transform.position);
         //Move the projectile based on the velocity
         transform.Translate(velocity.x * direction, velocity.y, 0);
@@ -112,7 +111,7 @@ public class ProjectileCollision : MonoBehaviour
             }
 
             //Or collision with an object
-            if(other.tag == "")
+            if(other.tag == "Obstacle")
             {
                 DestroyProjectile();
             }
@@ -126,14 +125,13 @@ public class ProjectileCollision : MonoBehaviour
             {
                 playerStats = other.GetComponent<PlayerStats>();
                 playerStats.TakeDamage(damage, critChance);
-                playerStats.canTakeDamage = false;
-                
+                playerStats.canTakeDamage = false;               
 
                 DestroyProjectile();
             }
 
             //Or collision with another object
-            if (other.tag == "")
+            if (other.tag == "Obstacle")
             {
                 DestroyProjectile();
             }

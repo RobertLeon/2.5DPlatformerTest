@@ -14,6 +14,7 @@ TagManager:
   - LevelGeneration
   - PauseMenu
   - DamageCanvas
+  - Obstacle
   layers:
   - Default
   - TransparentFX

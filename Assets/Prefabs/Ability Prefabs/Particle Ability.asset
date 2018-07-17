@@ -13,7 +13,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityName: New Ability
   abilitySprite: {fileID: 21300014, guid: 28b41fef228d6814f90e541deaf9f262, type: 3}
-  abilityCooldown: 0
+  abilityCooldown: 2
   abilityDescription: 
   particles: {fileID: 4404139189103952, guid: dbc26ff117a9891428eedcb6b9efcb3d, type: 2}
   abilityUser: {fileID: 0}

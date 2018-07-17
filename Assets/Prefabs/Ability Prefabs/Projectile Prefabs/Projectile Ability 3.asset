@@ -14,7 +14,9 @@ MonoBehaviour:
   abilityName: New Ability
   abilitySprite: {fileID: 21300006, guid: 28b41fef228d6814f90e541deaf9f262, type: 3}
   abilityCooldown: 1
-  abilityDescription: 
+  abilityDescription: Shoots {0} orb(s) that deals {1} damage.
   projectile: {fileID: 4200691819630828, guid: a8ec94e9f98ea564db20665434148ec5, type: 2}
+  abilityUser: {fileID: 0}
+  numberOfProjectiles: 4
   abilityDamage: 5
   maxRange: 20

@@ -9,16 +9,15 @@ using UnityEngine;
 public class PatrolEnemyController : EnemyMovement
 {
 
-    public Vector3[] localPatrolPoints;
-    public float waitTime;
-    public bool cyclic;
-    [Range(0,2)] public float easeAmount;
+    public Vector3[] localPatrolPoints;             //Points the enemy moves between
+    public float waitTime;                          //Time to wait inbetween movement
+    public bool cyclic;                             //Does the enemy cycle
+    [Range(0,2)] public float easeAmount;           //Smoothes the movement
 
-    private Vector3[] globalPatrolPoints;
-    
-    private int patrolIndex;
-    private float nextMoveTime;
-    private float percentBetweenPoints;
+    private Vector3[] globalPatrolPoints;           //Points the enemy moves between
+    private int patrolIndex;                        //Current point
+    private float nextMoveTime;                     //Timer for movement
+    private float percentBetweenPoints;             //Percentage of distancce between points
 
 	// Use this for initialization
 	public override void Start ()
@@ -41,26 +40,31 @@ public class PatrolEnemyController : EnemyMovement
         collision.Move(velocity, movementDir);
 	}
 
-
+    //Calculate the movement of the patrol enemy
     private Vector3 CalculatePatrolMovement()
     {
+        //Set movement to 0 while waiting
         if(Time.time < nextMoveTime)
         {
             return Vector3.zero;
         }
 
+        //Calculate the distance between waypoints
         patrolIndex %= globalPatrolPoints.Length;
         int toPatrolIndex = (patrolIndex + 1) % globalPatrolPoints.Length;
         float distanceBetweenpoints = Vector3.Distance(globalPatrolPoints[patrolIndex],
             globalPatrolPoints[toPatrolIndex]);
 
+        //Calculate the easment of the movement
         percentBetweenPoints += (Time.deltaTime * moveSpeed) / distanceBetweenpoints;
         percentBetweenPoints = Mathf.Clamp01(percentBetweenPoints);
         float easePercent = CalculateEase(percentBetweenPoints);
 
+        
         Vector3 newPos = Vector3.Lerp(globalPatrolPoints[patrolIndex],
             globalPatrolPoints[toPatrolIndex],easePercent);
 
+        //Cycle through each waypoint
         if (percentBetweenPoints >= 1 )
         {
             percentBetweenPoints = 0;
@@ -81,12 +85,15 @@ public class PatrolEnemyController : EnemyMovement
         return newPos - transform.position;
     }
 
+    //Calculate the ease amount
     private float CalculateEase(float x)
     {
         float a = easeAmount + 1;
         return (Mathf.Pow(x, a) / (Mathf.Pow(x, a) + (Mathf.Pow(1 - x, a))));
     }
     
+
+    //Draw gizmos in the scene view
     private void OnDrawGizmos()
     {
         if (localPatrolPoints != null)

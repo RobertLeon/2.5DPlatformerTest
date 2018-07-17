@@ -1,7 +1,6 @@
 ﻿//Created by Robert Bryant
 //
 //Base class for the stats and death of each entity in the game
-//
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -66,27 +65,28 @@ public class Stats : MonoBehaviour
 
 
     [Header("Health")]
-    public Health health;
+    public Health health;                   //Health Stats
 
     [Header("Attack Modifiers")]
-    public Combat combat;
+    public Combat combat;                   //Combat stats
 
     [Header("Movement Modifiers")]
-    public Movement movement;
+    public Movement movement;               //Movement stats
 
     [Header("Experience")]
-    public Experience exp;
+    public Experience exp;                  //Exp stats
 
-    public Transform textSpawn;
-    public TMP_Text floatingText;
-    public Color damageColor;
-    public Color healColor;
+    public Transform textSpawn;             //Spawn point for the damage/healing text
+    public TMP_Text floatingText;           //Floating text game object
+    public Color damageColor;               //Color of the text when taking damage
+    public Color healColor;                 //Color of the text when being healed
     [HideInInspector]
-    public GameObject damageCanvas;
+    public GameObject damageCanvas;         //UI canvas for the floating text
 
-
-    private void Awake()
+    //Use this for initialization
+    private void Start()
     {
+        //Find the damage canvas game object
         damageCanvas = GameObject.FindGameObjectWithTag("DamageCanvas");
     }
 
@@ -186,15 +186,12 @@ public class Stats : MonoBehaviour
     {
         exp.currentExp += amount;
 
+        //Check for leveling up
         if (exp.currentExp >= exp.expLevels[exp.currentLevel - 1])
         {
             //Carry over extra experience to the next level
             exp.currentExp = exp.currentExp - exp.expLevels[exp.currentLevel - 1];
-
-            if (exp.currentLevel != exp.maxLevel)
-            {
-                LevelUp();
-            }
+            LevelUp();            
         }
     }
 
@@ -213,8 +210,9 @@ public class Stats : MonoBehaviour
     //Taking Damage
     public virtual void TakeDamage(float amount, float critChance)
     {
-        //
+        //Set the crit and damage amount for the attack
         float crit = Random.value;
+        float item = Random.value;
         float damage = amount;
 
         //If the attack is a critical hit double damage
@@ -226,6 +224,7 @@ public class Stats : MonoBehaviour
         //Reduce damge dealt by the amount of defense
         damage -= Mathf.Round(combat.defense / 2);
 
+        //If the attack deals negative damage set the damage to 0.
         if (damage <= 0)
         {
             damage = 0;
@@ -234,9 +233,10 @@ public class Stats : MonoBehaviour
         //Reduce the current shield amount by damage taken
         health.currentShields -= damage;
 
-        //Spawn floating text for damage
+        //If damage is done spawn damage numbers
         if (damage >= 1)
         {
+            //Spawn floating text for damage
             TMP_Text dmgText = Instantiate(floatingText) as TMP_Text;
             dmgText.text = damage.ToString();
             dmgText.color = new Color(damageColor.r, damageColor.g, damageColor.b);
@@ -266,6 +266,7 @@ public class Stats : MonoBehaviour
     public virtual void Die()
     {
         Debug.Log(transform.name + " has died.");
+        //gameObject.SetActive(false);
     }
 
     //Restoring health
@@ -273,15 +274,21 @@ public class Stats : MonoBehaviour
     {
         health.currentHealth += amount;
 
+        //Check if the current health is less than max health
         if (health.currentHealth < health.maxHealth)
         {
-            //Spawn floating text for healing
-            TMP_Text healText = Instantiate(floatingText) as TMP_Text;
-            healText.text = amount.ToString();
-            healText.color = new Color(healColor.r, healColor.g, healColor.b);
-            healText.transform.SetParent(damageCanvas.transform);
-            healText.transform.position = textSpawn.position;
+            //Check if the amount being restored is not 0 or a negative number
+            if (amount >= 1)
+            {
+                //Spawn floating text for healing
+                TMP_Text healText = Instantiate(floatingText) as TMP_Text;
+                healText.text = amount.ToString();
+                healText.color = new Color(healColor.r, healColor.g, healColor.b);
+                healText.transform.SetParent(damageCanvas.transform);
+                healText.transform.position = textSpawn.position;
+            }
         }
+
         //If the amount restored is more than maximum health
         //set current health to maximum
         if (health.currentHealth >= health.maxHealth)

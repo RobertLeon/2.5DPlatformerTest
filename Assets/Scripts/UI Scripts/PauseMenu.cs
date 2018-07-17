@@ -16,8 +16,10 @@ public class PauseMenu : MonoBehaviour
     public TMP_Text confirmationText;               //Text to display in the confirmation menu
     public Button yesButton;                        //Reference to the confirmation button
     public GameObject miniMap;                      //Reference to the mini map game object
-    public GameObject pauseMenuOptions;             //
-    public Button resumeButton;                     //
+    public GameObject pauseMenuOptions;             //Reference to the pauseMenuOptions game object
+    public Button resumeButton;                     //Reference to the resume button
+    [HideInInspector]
+    public bool paused = false;                     //Is the game paused?
 
     private LevelLoader levelLoader;                //Reference to the Loading Screen
     private PlayerInput playerInput;                //Reference to the PlayerInput script
@@ -59,11 +61,13 @@ public class PauseMenu : MonoBehaviour
                 }
             }
         }
+        //If there is no player input script use hardcoded values
         else
         {
             if(Input.GetKeyDown(KeyCode.Escape)||Input.GetKeyDown(KeyCode.Joystick1Button7))
             {
-                if(gameIsPaused)
+                //If the game is paused resume play otherwise pause the game
+                if (gameIsPaused)
                 {
                     Resume();
                 }
@@ -88,6 +92,7 @@ public class PauseMenu : MonoBehaviour
         if (collision != null)
         {
             collision.enabled = true;
+            playerInput.enabled = true;
         }
             
         //Set the game's time scale back to full
@@ -95,10 +100,11 @@ public class PauseMenu : MonoBehaviour
 
         //Game is no longer paused
         gameIsPaused = false;
+        paused = gameIsPaused;
     }
 
     //Pause gameplay
-    private void Pause()
+    public void Pause()
     {
         //Show the pause menu
         pauseMenu.SetActive(true);
@@ -106,7 +112,8 @@ public class PauseMenu : MonoBehaviour
         //Hide the mini map
         miniMap.SetActive(false);
 
-        if(currentMenu != pauseMenu)
+        //Check if the current menu is not the pause menu
+        if (currentMenu != pauseMenu)
         {
             pauseMenuOptions.SetActive(true);
             currentMenu.SetActive(false);
@@ -119,14 +126,17 @@ public class PauseMenu : MonoBehaviour
         if (collision != null)
         {
             collision.enabled = false;
+            playerInput.enabled = false;
         }
         //Set the game's time scale to 0.
         Time.timeScale = 0f;
 
         //Game is paused
         gameIsPaused = true;
+        paused = gameIsPaused;
     }
 
+   
     //Quit to main menu
     public void LoadMainMenu(string confirmationQuestion)
     {
@@ -156,12 +166,15 @@ public class PauseMenu : MonoBehaviour
     //Load the main menu
     void LoadScene()
     {
-        Debug.Log("Loading Main Menu");
+        //Unpause the game
         Resume();
+
+        //Check for the level loader and load the main menu
         if (levelLoader != null)
         {
             levelLoader.LoadLevel(0);
         }
+        //Find the level loader and load the main menu
         else
         {
             levelLoader = FindObjectOfType<LevelLoader>();
@@ -176,6 +189,7 @@ public class PauseMenu : MonoBehaviour
         Application.Quit();
     }
 
+    //Sets the current menu when using the buttons in the pause menu
     public void SetCurrentMenu(GameObject menu)
     {
         currentMenu = menu;

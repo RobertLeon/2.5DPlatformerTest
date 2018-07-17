@@ -225,6 +225,7 @@ MonoBehaviour:
     attack: 1
     defense: 0
     critChance: 0
+    invulnTime: 0
   movement:
     speedModifier: 0
     jumpHeightModifier: 0
@@ -240,8 +241,20 @@ MonoBehaviour:
   damageColor: {r: 1, g: 0, b: 0, a: 0.78431374}
   healColor: {r: 0, g: 0.9632353, b: 0, a: 0.78431374}
   damageCanvas: {fileID: 0}
+  damageSounds: []
+  deathSound: 
   expAmount: 5
   expColor: {r: 1, g: 0.7655173, b: 0, a: 0.78431374}
+  dropChance: 0
+  itemDrops:
+  - item: {fileID: 0}
+    itemDropChance: 0
+  - item: {fileID: 0}
+    itemDropChance: 0
+  - item: {fileID: 0}
+    itemDropChance: 0
+  - item: {fileID: 0}
+    itemDropChance: 0
 --- !u!114 &114063570802248692
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -326,6 +339,7 @@ MonoBehaviour:
   abilityUser: {fileID: 0}
   abilityDamage: 0
   maxRange: 0
+  numberOfProjectiles: 0
 --- !u!114 &114691828150898506
 MonoBehaviour:
   m_ObjectHideFlags: 1

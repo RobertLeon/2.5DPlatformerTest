@@ -16,6 +16,6 @@ MonoBehaviour:
     type: 2}
   characterAbilities:
   - {fileID: 11400000, guid: c2e767081cc276b4c9524e12352f6b77, type: 2}
-  - {fileID: 11400000, guid: 5d8f92b9a0049814bbe0bdbb6f2fa98d, type: 2}
-  - {fileID: 11400000, guid: e3bc79335498bef4ea3d6b9ccb8d8112, type: 2}
-  - {fileID: 11400000, guid: 83306e5c567327e40aa1b1e9d317bcf2, type: 2}
+  - {fileID: 11400000, guid: e045586e71198a54bb9e09445bc8b550, type: 2}
+  - {fileID: 11400000, guid: f49321cb672773344a9198c84f2f280e, type: 2}
+  - {fileID: 11400000, guid: e84c7da388eb8d542b3fae8b1ba6efb7, type: 2}

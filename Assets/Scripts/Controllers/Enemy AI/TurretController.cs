@@ -1,6 +1,6 @@
 ﻿//Created by Robert Bryant
 //
-//
+//Controller for multiple turrets
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -40,21 +40,27 @@ public class TurretController : MonoBehaviour
             //Fire a projectile turret
             if (turrets[currentTurret].projectileAbility != null)
             {
-                if (shotTime > incShotTime)
+                //Check if the turret can shoot the assigned ability
+                if (shotTime > incShotTime &&
+                    shotTime > turrets[currentTurret].projectileAbility.abilityCooldown)
                 {
                     turrets[currentTurret].ShootProjectile();
                     currentTurret++;
                     incShotTime += incrementTime;
+                    shotTime = 0;
                 }
             }
             //Fire a particle turret
             else if (turrets[currentTurret].particleAbility != null)
             {
-                if (shotTime > incShotTime)
+                //Check if the turret can shoot the assigned ability
+                if (shotTime > incShotTime &&
+                    shotTime > turrets[currentTurret].particleAbility.abilityCooldown)
                 {
                     turrets[currentTurret].ShootParticles();
                     currentTurret++;
                     incShotTime += incrementTime;
+                    shotTime = 0;
                 }
             }
         }
@@ -66,20 +72,31 @@ public class TurretController : MonoBehaviour
                 //Fire each turret
                 foreach (Turret gun in turrets)
                 {
-                    if (gun.particleAbility != null)
+                    //Check if the turret can shoot the assigned ability
+                    if (gun.particleAbility != null &&
+                        shotTime > gun.particleAbility.abilityCooldown)
                     {
+                        Debug.Log(gun.particleAbility.abilityCooldown);
                         gun.ShootParticles();
+                        
                     }
-                    else if (gun.projectileAbility != null)
+                    //Check if the turret can shoot the assigned ability
+                    else if (gun.projectileAbility != null &&
+                        shotTime > gun.projectileAbility.abilityCooldown)
                     {
-                        gun.ShootProjectile();
+                        Debug.Log(gun.projectileAbility.abilityCooldown);
+                        gun.ShootProjectile();                        
                     }
-                }
-                shotTime = 0;
+                }               
             }
+
+            //Reset the timer for shooting
+            if (shotTime > shootTime + 1)
+                shotTime = 0;
         }
 
         //Increase the timer for when to shoot
         shotTime += Time.deltaTime;
     }
+
 }

@@ -37,7 +37,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1137774721548608}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -34.58564, y: -2.5, z: 0.50503993}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -107,7 +107,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb05f6a4637b7c94a95325a1ffbb41f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemList:
-  - {fileID: 11400000, guid: 38453068da28fdb41929516fd7f5431c, type: 2}
-  item: {fileID: 114327688642050924, guid: 450a598405f083c46b75a3437f4db834, type: 2}
+  itemPickup: {fileID: 114327688642050924, guid: 450a598405f083c46b75a3437f4db834,
+    type: 2}
   numberOfItems: 1
+  itemTable:
+  - item: {fileID: 11400000, guid: 38453068da28fdb41929516fd7f5431c, type: 2}
+    itemDropChance: 0.5
+  - item: {fileID: 11400000, guid: 2edf1e866e1652c4c85093309a266c7b, type: 2}
+    itemDropChance: 0.7

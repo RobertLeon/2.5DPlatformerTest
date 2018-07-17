@@ -18,7 +18,7 @@ public class PlatformController : RaycastController
 
     private Vector3[] globalWaypoints;                  //Waypoints to cycle through
     private int fromWaypointIndex;                      //Index of the platform
-    private float percentBetweenWaypoints;              //Percentage betwee 0 and 1
+    private float percentBetweenWaypoints;              //Percentage between 0 and 1
     private float nextMoveTime;                         //Timer for movement of the platform
     private List<PassengerMovement> passengerMovement;  //List of passengers
 

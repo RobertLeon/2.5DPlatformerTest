@@ -26,6 +26,7 @@ GameObject:
   - component: {fileID: 65322791164222072}
   - component: {fileID: 114908535422536478}
   - component: {fileID: 114482203873982786}
+  - component: {fileID: 95213030495258046}
   m_Layer: 10
   m_Name: ShootyBox
   m_TagString: Enemy
@@ -174,6 +175,23 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!95 &95213030495258046
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1003256670402188}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!114 &114046834602723176
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -259,6 +277,7 @@ MonoBehaviour:
   abilityUser: {fileID: 0}
   abilityDamage: 0
   maxRange: 0
+  numberOfProjectiles: 0
 --- !u!114 &114312236639414882
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -19,6 +19,7 @@ public class PlayerInput : MonoBehaviour
     public KeyCode kbAbility4;
     public KeyCode kbPause;
     public KeyCode kbInteract;
+    public KeyCode kbMap;
 
     //Xbox Controller input
     [Header("Controller Input")]
@@ -29,9 +30,10 @@ public class PlayerInput : MonoBehaviour
     public KeyCode ctAbility4;
     public KeyCode ctPause;
     public KeyCode ctInteract;
+    public KeyCode ctMap;
 
-    private CameraController playerCam;
-    private Character playerChar;
+    private CameraController playerCam;             //
+    private Character playerChar;                   //
     private PlayerController playerController;      //Reference to the PlayerController script
     private PauseMenu pauseMenu;                    //
     private AbilityCooldown[] coolDownButtons;      //
@@ -49,16 +51,15 @@ public class PlayerInput : MonoBehaviour
         if (playerChar != null)
         {
             coolDownButtons = FindObjectsOfType<AbilityCooldown>();
+
             abilities = playerChar.characterAbilities;
         }
 
-        
-        
-        //Find the pause menu in the scene
-        if (GameObject.FindGameObjectWithTag("PauseMenu") != null)
-        {
-            pauseMenu = GameObject.FindGameObjectWithTag("PauseMenu").GetComponent<PauseMenu>();
+        pauseMenu = FindObjectOfType<PauseMenu>();
 
+        //Find the pause menu in the scene
+        if (pauseMenu != null)
+        {
             pauseMenu.InitializePauseMenu();
         }
 

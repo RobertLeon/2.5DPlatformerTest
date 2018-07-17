@@ -8,20 +8,21 @@ using UnityEngine.UI;
 
 public class StartGameButton : MonoBehaviour
 {
-    public LevelLoader levelLoader;
-    public Character player;
+    public LevelLoader levelLoader;     //Reference to the level loader script
+    public Character player;            //Chosen character for the game
     public int sceneIndex;              //Scene index to load
 
     private Button playButton;          //Reference to the play game button
 
-    //Calls the Level Loader script on the Game Manager game object
+    //Starts the game
     private void StartGame()
     {
+        //Set the player and load the specified scene
         GameManager.Instance.Player = player;
         levelLoader.LoadLevel(sceneIndex);        
     }
     
-    //When the onject is active
+    //When the object is active
     private void OnEnable()
     {
         //Get the button component and wait for it to be clicked

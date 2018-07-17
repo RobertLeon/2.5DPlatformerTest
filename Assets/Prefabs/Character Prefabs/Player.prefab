@@ -20,7 +20,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4032796340677414}
   - component: {fileID: 65959680428028456}
-  - component: {fileID: 65023228083324484}
   - component: {fileID: 54875307902956626}
   - component: {fileID: 120101045816715140}
   - component: {fileID: 95424087907547998}
@@ -31,6 +30,7 @@ GameObject:
   - component: {fileID: 114235322147003518}
   - component: {fileID: 114637909645326808}
   - component: {fileID: 114182845110066888}
+  - component: {fileID: 114367734290532446}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -167,18 +167,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
---- !u!65 &65023228083324484
-BoxCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1453273378135610}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!65 &65959680428028456
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -331,6 +319,17 @@ MonoBehaviour:
   abilityUser: {fileID: 0}
   abilityDamage: 0
   maxRange: 0
+--- !u!114 &114367734290532446
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1453273378135610}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f01b69cc2296908419e183a5a8d9155b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114637909645326808
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -363,6 +362,7 @@ MonoBehaviour:
   kbAbility4: 259
   kbPause: 27
   kbInteract: 120
+  kbMap: 109
   ctJump: 330
   ctAbility1: 0
   ctAbility2: 0
@@ -370,6 +370,7 @@ MonoBehaviour:
   ctAbility4: 0
   ctPause: 337
   ctInteract: 332
+  ctMap: 0
 --- !u!120 &120101045816715140
 LineRenderer:
   m_ObjectHideFlags: 1

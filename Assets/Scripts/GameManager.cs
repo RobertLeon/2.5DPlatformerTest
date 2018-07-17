@@ -1,7 +1,6 @@
 ﻿//Created by Robert Bryant
 //
 //Game Manager
-
 using System;
 using System.IO;
 using System.Collections;
@@ -9,12 +8,12 @@ using System.Collections.Generic;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.Audio;
 
 
 
 public class GameManager : MonoBehaviour
 {
+    #region Singleton
     private static GameManager _instance;
     public static GameManager Instance
     {
@@ -24,21 +23,18 @@ public class GameManager : MonoBehaviour
             {
                 GameObject gameManager = new GameObject("GameManager");
                 gameManager.AddComponent<GameManager>();
-                gameManager.AddComponent<AudioSource>();
             }
             return _instance;
         }
     }
+    #endregion
 
-    public Character Player { get; set; }
-    public AudioClip CurrentSong { get; set; }
-    public AudioClip[] songList;
+    public Character Player { get; set; }           //The chosen player for the game
 
-    private AudioSource audioSource;
-    private AudioMixer audioMixer;
-
+    //
     private void Awake()
     {
+        //
         if (_instance == null)
         {
             _instance = this;
@@ -49,19 +45,27 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
-    
-    private void Start()
+
+    //
+    private void OnEnable()
     {
-        audioMixer = Resources.Load("MainMixer") as AudioMixer;
-        audioSource = GetComponent<AudioSource>();
-        audioSource.outputAudioMixerGroup = audioMixer.FindMatchingGroups("Music")[0];
-        //audioSource.clip = songList[SceneManager.GetActiveScene().buildIndex];
-        audioSource.Play();
-        SceneManager.sceneLoaded += OnSceneLoaded;        
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
+    //Used for initialization
+    private void Start()
+    {
+        //If there is no audio playing play the title music
+        if(!GetComponent<AudioSource>().isPlaying)
+        {
+            FindObjectOfType<AudioController>().Play("TitleMusic");
+        }
+    }
+
+    //Saving the game's progress
     public void SaveGame()
     {
+        //If the save data doesn't exist create it
         if (!File.Exists(Application.persistentDataPath + "/SaveData.dat"))
         {
             BinaryFormatter bf = new BinaryFormatter();
@@ -70,52 +74,39 @@ public class GameManager : MonoBehaviour
             PlayerData data = new PlayerData();
 
             data.unlockedItems = new List<Items>();
-            data.unlockedItems = new List<Items>();
+            data.unlockedCharacters = new List<Character>();
 
             bf.Serialize(file, data);
             file.Close();
         }
     }
 
+    //Loading a saved game
     public void LoadGame()
     {
 
     }
 
+    //Called when a scene is changed
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        //Number of the current scene
         int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
-        audioSource = GetComponent<AudioSource>();
 
-        if(audioSource.isPlaying)
+        //Play title music 
+        if(currentSceneIndex == 0)
         {
-            audioSource.Stop();
-        }
-
-        if(audioSource == null)
-        {
-            gameObject.AddComponent<AudioSource>();
-            audioSource = GetComponent<AudioSource>();
-            audioSource.clip = songList[currentSceneIndex];
-            audioSource.Play();
-        }
-        else if (!audioSource.isPlaying)
-        {
-            //audioSource.clip = songList[currentSceneIndex];
-            //audioSource.Play();
-        }
-        else
-        {
-            Debug.Log("Audio Source is already playing");
+            FindObjectOfType<AudioController>().Play("TitleMusic");
         }
     }
 }
 
+//Player's saved data
 [Serializable]
 class PlayerData
 {
-    public List<Items> unlockedItems;
-    public List<Character> unlockedCharacters;
+    public List<Items> unlockedItems;                   //List of unlocked items
+    public List<Character> unlockedCharacters;          //List of unlocked characters
     
 }
 

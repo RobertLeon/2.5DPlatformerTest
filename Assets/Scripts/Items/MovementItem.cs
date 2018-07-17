@@ -18,16 +18,17 @@ public class MovementItem : Items
 
 
     //Initialize the item
-    public override void Initialize(PlayerStats playerStats)
+    public override void OnPickUp(Stats stats)
     {
         //Check if the item increases jump amount
         if (increaseJumps)
         {
-            playerStats.IncreaseJumps();
+            stats.IncreaseJumps();
         }
 
         //Increase jump height and movement speed by the specified amounts
-        playerStats.IncreaseJumpHeight(jumpHeight);
-        playerStats.IncreaseSpeed(moveSpeed);
+        stats.IncreaseJumpHeight(jumpHeight);
+        stats.IncreaseSpeed(moveSpeed);
     }
+
 }

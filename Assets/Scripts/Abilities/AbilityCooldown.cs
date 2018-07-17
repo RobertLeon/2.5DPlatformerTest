@@ -1,7 +1,7 @@
 ﻿//Created by Robert Bryant
-//
-//
-
+//Based off of Unity Tuttorial
+//https://unity3d.com/learn/tutorials/topics/scripting/ability-system-scriptable-objects
+//Activates the ability and handles the ability's cooldown
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,6 +13,8 @@ public class AbilityCooldown : MonoBehaviour
     public Image cooldownIcon;              //Icon of the ability
     public Image cooldownMask;              //Cooldown mask
     public TMP_Text cooldownDisplay;        //Cooldown text
+    public GameObject descriptionBox;       //Ability description box
+    
     
     [SerializeField]
     private Ability ability;                //Ability being used    
@@ -22,52 +24,56 @@ public class AbilityCooldown : MonoBehaviour
     private float coolDownDuration;         //How long inbetween attacks
     private float coolDownTimeLeft;         //Timer for the cooldown
     private float nextReadyTime;            //Time for next ability use
-    private int abilityNumber;
-
 
     //Initalize the ability
-    public void Initialize(Ability selectedAbilty, GameObject user, int abilityNum)
+    public void Initialize(Ability selectedAbilty, GameObject user, int abilityNumber)
     {
+        //Assign the ability's 
         ability = selectedAbilty;
         abilityImage = cooldownIcon.GetComponent<Image>();
         abilityImage.sprite = ability.abilitySprite;
         cooldownMask.sprite = ability.abilitySprite;
-        abilityNumber = abilityNum;
 
+        //Reference to the player's input
+        PlayerInput input = user.GetComponent<PlayerInput>();
 
+        //Set the button to activate the ability based on which ability it is
         switch (abilityNumber)
         {
             case 0:
-                kbInput = user.GetComponent<PlayerInput>().kbAbility1;
-                ctInput = user.GetComponent<PlayerInput>().ctAbility1;
+                kbInput = input.kbAbility1;
+                ctInput = input.ctAbility1;
                 break;
 
             case 1:
-                kbInput = user.GetComponent<PlayerInput>().kbAbility2;
-                ctInput = user.GetComponent<PlayerInput>().ctAbility2;
+                kbInput = input.kbAbility2;
+                ctInput = input.ctAbility2;
                 break;
 
             case 2:
-                kbInput = user.GetComponent<PlayerInput>().kbAbility3;
-                ctInput = user.GetComponent<PlayerInput>().ctAbility3;
+                kbInput = input.kbAbility3;
+                ctInput = input.ctAbility3;
                 break;
 
             case 3:
-                kbInput = user.GetComponent<PlayerInput>().kbAbility4;
-                ctInput = user.GetComponent<PlayerInput>().ctAbility4;
+                kbInput = input.kbAbility4;
+                ctInput = input.ctAbility4;
                 break;
 
             default:
                 throw new System.Exception("Ability number not recognized");
         }
 
+        //Set the cooldown, initialize the ability and ready it for use
         coolDownDuration = ability.abilityCooldown;
         ability.Initialize(user);
         AbilityReady();
     }
 
+    //
     private void Update()
     {
+        //Check if the ability cooldown has completed
         bool coolDownComplete = (Time.time > nextReadyTime);
 
         //If the ability is not on cooldown
@@ -115,5 +121,23 @@ public class AbilityCooldown : MonoBehaviour
         cooldownDisplay.text = roundedCD.ToString();
         coolDownDuration = ability.abilityCooldown;
         cooldownMask.fillAmount = (coolDownTimeLeft / coolDownDuration);
+    }
+
+    //Shows the Ability's description on mouse over
+    public void MouseEnter()
+    {
+        //Show the description box at a set position above the ability
+        descriptionBox.SetActive(true);
+        descriptionBox.transform.position = transform.position + new Vector3(0,100,0);
+
+        //Change the text in the description box to show the current ability
+        TMP_Text descriptionText = descriptionBox.GetComponentInChildren<TMP_Text>();
+        descriptionText.text = ability.abilityName +"\n" + ability.DescribeAbility();
+    }
+
+    //Hides the abilty's description
+    public void MouseExit()
+    {
+        descriptionBox.SetActive(false);
     }
 }

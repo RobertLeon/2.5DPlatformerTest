@@ -1,6 +1,7 @@
 ﻿//Created by Robert Bryant
-//
-//
+//Based off of Unity Tuttorial
+//https://unity3d.com/learn/tutorials/topics/scripting/ability-system-scriptable-objects
+//Handles the activation of the Raycast Ability
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,16 +9,16 @@ using UnityEngine;
 public class RaycastShoot : MonoBehaviour
 {
     [HideInInspector]
-    public float abilityDamage;
+    public float abilityDamage;                     //Damage the ability does
     [HideInInspector]
-    public float abilityRange;
+    public float abilityRange;                      //Range of the ability
     [HideInInspector]
-    public float abilityDuration;
+    public float abilityDuration;                   //Duration of the shot
     [HideInInspector]
-    public Transform abilityUser;
-    public LayerMask layerMask;       
+    public Transform abilityUser;                   //Ability's user
+    public LayerMask layerMask;                     //Layer of the targets the ability hits
     [HideInInspector]
-    public LineRenderer lineRenderer;
+    public LineRenderer lineRenderer;               //Reference to the Line Renderer componenet
 
     private CollisionController collision;
     private float damage;
@@ -42,7 +43,7 @@ public class RaycastShoot : MonoBehaviour
         }
     }
 
-
+    //
     public void Shoot()
     {
         //

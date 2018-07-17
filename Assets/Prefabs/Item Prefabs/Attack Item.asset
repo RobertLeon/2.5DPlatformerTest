@@ -11,14 +11,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 650435ffb4c51d9478ad577b3b2ab33d, type: 3}
   m_Name: Attack Item
   m_EditorClassIdentifier: 
-  ItemName: Attack Item
+  itemName: New Item
   itemRarity: 0
   itemIcon: {fileID: 0}
   isStackable: 0
-  maxStacks: 99
+  maxStacks: 4
   itemDescription: 
   itemColor: []
   attack: 1
   defense: 1
   critChance: 0.01
-  attackSpeed: 0.01
+  onHit: 0
+  hitChance: 0

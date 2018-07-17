@@ -1,6 +1,7 @@
 ﻿//Created by Robert Bryant
-//
-//
+//Based off of Unity Tuttorial
+//https://unity3d.com/learn/tutorials/topics/scripting/ability-system-scriptable-objects
+//Ability parent class
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,4 +18,7 @@ public abstract class Ability : ScriptableObject
 
     //Activate the ability
     public abstract void TriggerAbility();
+
+    //Describes the ability in the UI
+    public abstract string DescribeAbility();
 }

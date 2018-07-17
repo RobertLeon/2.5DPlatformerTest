@@ -23,9 +23,7 @@ GameObject:
   - component: {fileID: 65584840044160356}
   - component: {fileID: 23440450098783090}
   - component: {fileID: 114414133604251658}
-  - component: {fileID: 114993125556754632}
   - component: {fileID: 114442894016475564}
-  - component: {fileID: 114175215667733658}
   - component: {fileID: 114644550519170064}
   m_Layer: 9
   m_Name: TurretGuns
@@ -134,7 +132,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1851402853987732}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 3, z: 0}
+  m_LocalPosition: {x: 0, y: 6, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4531586338537804}
@@ -147,7 +145,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1535932945711878}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 0, y: -2, z: 0}
+  m_LocalPosition: {x: 0, y: -2.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4347996240101172}
@@ -164,7 +162,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1833865495857548}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalPosition: {x: 0, y: 2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4531586338537804}
@@ -177,7 +175,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1499531057202070}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 2, z: 0}
+  m_LocalPosition: {x: 0, y: 4, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4531586338537804}
@@ -410,6 +408,7 @@ MonoBehaviour:
   abilityUser: {fileID: 0}
   abilityDamage: 0
   maxRange: 0
+  numberOfProjectiles: 0
 --- !u!114 &114078545981806046
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -425,6 +424,7 @@ MonoBehaviour:
   abilityUser: {fileID: 0}
   abilityDamage: 0
   maxRange: 0
+  numberOfProjectiles: 0
 --- !u!114 &114142553305162862
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -464,20 +464,6 @@ MonoBehaviour:
   damageCanvas: {fileID: 0}
   expAmount: 0
   expColor: {r: 0, g: 0, b: 0, a: 0}
---- !u!114 &114175215667733658
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1462172011722414}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4728cd2141862141a144e653d860b92, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  particles: {fileID: 0}
-  abilityUser: {fileID: 0}
-  abilityDamage: 0
 --- !u!114 &114178209231127684
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -563,6 +549,7 @@ MonoBehaviour:
   abilityUser: {fileID: 0}
   abilityDamage: 0
   maxRange: 0
+  numberOfProjectiles: 0
 --- !u!114 &114463276595117638
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -578,6 +565,7 @@ MonoBehaviour:
   abilityUser: {fileID: 0}
   abilityDamage: 0
   maxRange: 0
+  numberOfProjectiles: 0
 --- !u!114 &114644550519170064
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -619,6 +607,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   turrets:
   - {fileID: 114644550519170064}
+  - {fileID: 114320229384519760}
+  - {fileID: 114917868423686616}
+  - {fileID: 114293105333822178}
   shootTime: 1
   incrementalShots: 1
   incrementTime: 1
@@ -636,17 +627,3 @@ MonoBehaviour:
   projectileAbility: {fileID: 11400000, guid: 0f8f013f002bcd343a3c26d87b4f04a6, type: 2}
   particleAbility: {fileID: 0}
   turret: {fileID: 4798928638912180}
---- !u!114 &114993125556754632
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1462172011722414}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 722fb6f854eda9f43a04668fea2fe521, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  projectileAbility: {fileID: 0}
-  particleAbility: {fileID: 0}
-  turret: {fileID: 0}

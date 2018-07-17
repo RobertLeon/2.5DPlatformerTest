@@ -1,4 +1,7 @@
-﻿using System.Collections;
+﻿//Created by Robert Bryant
+//
+//Handles the movement of elevator platforms
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,14 +14,14 @@ public class ElevatorController :RaycastController
     public Vector3[] localWaypoints;                    //Waypoints for the platform
 
     private Vector3[] globalWaypoints;                  //Waypoints to cycle through
-    private int nextWaypoint = 0;                           //Index of the platform
-    private int currentWaypoint = 0;                        //Current waypoint
+    private int nextWaypoint = 0;                       //Index of the platform
+    private int currentWaypoint = 0;                    //Current waypoint
     private float percentBetweenWaypoints;              //Percentage betwee 0 and 1
     private float nextMoveTime;                         //Timer for movement of the platform
     private float distanceBetweenWaypoints;             //Distance between waypoints
     private List<PassengerMovement> passengerMovement;  //List of passengers
-    private PlayerController playerController;
-    private bool isMoving = false;
+    private PlayerController playerController;          //Reference to the Player Controller script
+    private bool isMoving = false;                      //Is the elevator moving?
 
 
     //Holds all the passengers on a platform
@@ -78,13 +81,14 @@ public class ElevatorController :RaycastController
             {
                 if (hit.transform.tag == "Player")
                 {
-
+                    //The player moves the elevator up
                     if (playerController.directionalInput == Vector2.up && currentWaypoint < localWaypoints.Length - 1 && !isMoving)
                     {
                         nextWaypoint += 1;
                         isMoving = true;
                     }
 
+                    //The player moves the elevator down
                     if (playerController.directionalInput == Vector2.down && currentWaypoint > 0 && !isMoving)
                     {
                         nextWaypoint -= 1;
@@ -94,9 +98,10 @@ public class ElevatorController :RaycastController
             }
         }
 
+
+        //Move the elevator and the passengers
         if (isMoving)
-        {
-            
+        {            
             Vector3 velocity = CalculatePlatformMovement(currentWaypoint, nextWaypoint);
             CalculatePassengerMovement(velocity);
             MovePassengers(true);

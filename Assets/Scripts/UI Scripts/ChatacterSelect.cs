@@ -1,6 +1,6 @@
 ﻿//Created by Robert Bryant
 //
-//
+//Selecting a character from a roster
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,17 +8,17 @@ using UnityEngine.UI;
 
 public class ChatacterSelect : MonoBehaviour
 {
+    public int sceneIndex;                  //The scene to be loaded
 
-    public int sceneIndex;
+    private LevelLoader levelLoader;        //Reference to the Level Loader script
 
-    private LevelLoader levelLoader;
-
+    //Use this for initialization
     private void Start()
     {
         levelLoader = FindObjectOfType<LevelLoader>();
-        GetComponent<Button>().Select();
     }
 
+    //Selects the specified character
     public void SelectCharacter(Character selectedCharacter)
     {
         GameManager.Instance.Player = selectedCharacter;

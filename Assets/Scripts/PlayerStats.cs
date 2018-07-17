@@ -5,7 +5,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using TMPro;
 
 [RequireComponent(typeof(PlatformController))]
 public class PlayerStats : Stats
@@ -20,21 +19,19 @@ public class PlayerStats : Stats
     public float attackIncrease = 5f;           //Amount of attack increased on level up
 
     [HideInInspector]
-    public bool canTakeDamage;
+    public bool canTakeDamage;                  //Check if the player can take damage
 
     private float combatTimer;                  //Combat timer
     private float regenTimer;                   //Regeneration timer
-    private float damageTimer;
-    private PlayerController playerController;  //Reference to the Player Controller
-    private HealthBar healthBar;
-    private GameObject expBar;
-    private Animator animator;
-    
+    private float damageTimer;                  //Damage Timer
+    private PlayerController playerController;  //Reference to the Player Controller script
+    private HealthBar healthBar;                //Reference to the Health Bar sctipt
+    private Animator animator;                  //Reference to the animator component
 
     //Use this for initialization
     private void Start()
     {
-        //Get the PlayerController Component
+        //Get the required components in the scene
         playerController = GetComponent<PlayerController>();
         healthBar = FindObjectOfType<HealthBar>();
         animator = GetComponent<Animator>();
@@ -54,19 +51,16 @@ public class PlayerStats : Stats
         regenTimer = regenTime;
         damageTimer = combat.invulnTime;
 
-        if (healthBar != null)
-        {
-            healthBar.UpdateHealthBar(this);
-            healthBar.UpdateExpBar(this);
-        }
+        //Update the player UI
+        UpdatePlayerUI();
 
+        //Allow the player to take damage
         canTakeDamage = true;
     }
 
 	//Update is called once per frame
 	void Update()
 	{
-
         //When in combat stop health and shield regeneration
         if (inCombat)
         {
@@ -94,10 +88,12 @@ public class PlayerStats : Stats
             }
         }
 
+        //Count down the damage timer
         if (!canTakeDamage)
         {
             damageTimer -= Time.deltaTime;
 
+            //Reset the damage timer and change the animation state
             if (damageTimer <= 0.0f)
             {
                 animator.SetBool("OnHit", false);
@@ -107,15 +103,13 @@ public class PlayerStats : Stats
         }
     }
 
+    //Gaining Experience
     public override void GainExperience(int amount)
     {
         base.GainExperience(amount);
 
-        //Exp Bar
-        if(healthBar != null)
-        {
-            healthBar.UpdateExpBar(this);
-        }
+        //Update the player UI
+        UpdatePlayerUI();
     }
 
     //Gaining Levels
@@ -125,51 +119,49 @@ public class PlayerStats : Stats
         IncreaseMaxHealth(healthIncrease);
         ChangeAttack(attackIncrease);
 
-        //Health bar & Exp bar
-        if (healthBar != null)
-        {
-            healthBar.UpdateHealthBar(this);
-            healthBar.UpdateExpBar(this);
-        }
+        //Update the player UI
+        UpdatePlayerUI();
     }
 
     //Taking Damage
     public override void TakeDamage(float amount, float critChance)
     {
+        //If the player can take damage
         if (canTakeDamage)
         {
             //Put the player in combat and reset the combat timer
             inCombat = true;
             combatTimer = combatTime;
             damageTimer = combat.invulnTime;
-
             base.TakeDamage(amount, critChance);
+
+            //Start the damaged animation
             animator.SetBool("OnHit", true);
-            if (healthBar != null)
-            {
-                healthBar.UpdateHealthBar(this);
-            }           
+
+            //Update the player UI
+            UpdatePlayerUI();
+
+            //Play the specified sound
+            FindObjectOfType<AudioController>().Play("PlayerDamageTaken");
         }
     }
 
+    //Restoring health
     public override void RestoreHealth(float amount)
     {
         base.RestoreHealth(amount);
 
-        if (healthBar != null)
-        {
-            healthBar.UpdateHealthBar(this);
-        }
+        //Update the player UI
+        UpdatePlayerUI();
     }
 
+    //Restore the shields
     public override void RestoreShields(float amount)
     {
         base.RestoreShields(amount);
 
-        if (healthBar != null)
-        {
-            healthBar.UpdateHealthBar(this);
-        }
+        //Update the player UI
+        UpdatePlayerUI();
     }
 
     //Death
@@ -177,8 +169,10 @@ public class PlayerStats : Stats
     {
         base.Die();
 
+        //Disable the PlayerController script
         transform.GetComponent<PlayerController>().enabled = false;
         
+        //Restart the scene
         StartCoroutine(RestartScene());
     }
 
@@ -207,39 +201,22 @@ public class PlayerStats : Stats
         playerController.UpdateMovement();
     }
 
-    //For Testing Purposes
-    private void OnGUI()
+    //Updates the health and experience bars
+    private void UpdatePlayerUI()
     {
-      
-        if(GUILayout.Button("Take Damage"))
+        //Check for the health and experience bars in the scene and update them
+        if (healthBar != null)
         {
-            TakeDamage(5, 0.25f);
+            healthBar.UpdateHealthBar(this);
+            healthBar.UpdateExpBar(this);
         }
-
-        if (GUILayout.Button("Gain Health"))
+        //If not found display error message and attempt to find it again
+        else
         {
-            IncreaseMaxHealth(5);
-        }
-
-        if (GUILayout.Button("Restore Health"))
-        {
-            RestoreHealth(5);
-        }
-
-        if (GUILayout.Button("Gain Shields"))
-        {
-            IncreaseMaxShields(5);
-        }
-
-        if (GUILayout.Button("Restore Shields"))
-        {
-           RestoreShields(5);
-        }
-
-        if (GUILayout.Button("Gain EXP"))
-        {
-            GainExperience(7);
+            Debug.LogWarning("Health Bar script not found in scene: "
+                + SceneManager.GetActiveScene() + 
+                ".\n Attemping to find the health bar script.");
+            healthBar = FindObjectOfType<HealthBar>();
         }
     }
-
 }

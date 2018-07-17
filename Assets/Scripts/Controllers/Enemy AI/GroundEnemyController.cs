@@ -8,29 +8,35 @@ using UnityEngine;
 
 public class GroundEnemyController : EnemyMovement
 {
-
-    public MovementType movementType;
+    public MovementType movementType;               //Type of movement the enemy uses
     //private Vector3 startPos;
 
+    //Use this for initialization
     public override void Start()
     {
         base.Start();
 
         //startPos = transform.position;
 
+        //Flying enemies can't jump
         if (isFlying)
-            canJump = false;
-        
+            canJump = false;        
     }
 
 
-    //Use this for initialization
+    //
     void Update()
     {
         CalculateVelocity();
 
         collision.Move(velocity * Time.deltaTime, movementDir);
 
+        EnemeyMove();
+    }
+
+    //Moves the enemy
+    private void EnemeyMove()
+    {
         //If the enemy collides with something above or below them
         if (collision.collisions.above || collision.collisions.below)
         {
@@ -41,7 +47,7 @@ public class GroundEnemyController : EnemyMovement
             }
             else
             {
-               velocity.y = 0;
+                velocity.y = 0;
             }
         }
 
@@ -75,7 +81,7 @@ public class GroundEnemyController : EnemyMovement
                 if (canJump && !hasJumped && (maxObstacle >= collision.collisions.objSize) &&
                     (collision.collisions.left || collision.collisions.right))
                 {
-                   hasJumped = true;
+                    hasJumped = true;
                     velocity.y = maxJumpVelocity;
                 }
                 //Otherwise stop and reverse direction
@@ -89,7 +95,7 @@ public class GroundEnemyController : EnemyMovement
                 //Stop the enemy from falling off a ledge
                 if (collision.collisions.below == false && !hasJumped)
                 {
-                   velocity.x *= -1;
+                    velocity.x *= -1;
                     movementDir.x *= -1;
                 }
                 break;
@@ -126,7 +132,7 @@ public class GroundEnemyController : EnemyMovement
                 //The enemy will move to the right if there is no movement direction
                 if (movementDir.x == 0)
                 {
-                   movementDir.x = 1;
+                    movementDir.x = 1;
                 }
 
                 //Make the enemy jump when it lands on the ground
@@ -139,8 +145,8 @@ public class GroundEnemyController : EnemyMovement
                 //Reverse direction when they collide with a wall
                 if (collision.collisions.left || collision.collisions.right)
                 {
-                   velocity.x = 0;
-                   movementDir *= -1;
+                    velocity.x = 0;
+                    movementDir *= -1;
                 }
 
                 break;
