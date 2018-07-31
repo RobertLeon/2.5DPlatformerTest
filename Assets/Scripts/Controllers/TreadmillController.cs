@@ -86,7 +86,6 @@ public class TreadmillController : RaycastController
                     movedPassengers.Add(hit.transform);
 
                     float pushX = velocity.x * Time.deltaTime;
-                    float pushY = velocity.y * Time.deltaTime;
 
                     passengerMovement.Add(new PassengerMovement(hit.transform, new Vector2(pushX, 0)));
                 }

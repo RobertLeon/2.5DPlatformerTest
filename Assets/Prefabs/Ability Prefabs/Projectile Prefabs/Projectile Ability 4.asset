@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a7a8a2073e0acd4c888dad11fbd339c, type: 3}
+  m_Name: Projectile Ability 4
+  m_EditorClassIdentifier: 
+  abilityName: Homing Projectile
+  abilitySprite: {fileID: 10915, guid: 0000000000000000f000000000000000, type: 0}
+  abilityCooldown: 0.4
+  abilityDescription: Homing Test Sphere {0}, {1}.
+  projectile: {fileID: 4200691819630828, guid: bc64866eee3ef98488ddc6f86aabc6d2, type: 2}
+  abilityUser: {fileID: 0}
+  numberOfProjectiles: 1
+  abilityDamage: 3
+  maxRange: 30

@@ -14,7 +14,6 @@ public class CameraController : MonoBehaviour
     public float lookAheadDstX;                         //Distance to look ahead on the x-axis
     public float lookSmoothTimeX;                       //Time to smooth horizontal movement
     public float verticalSmoothTime;                    //Time to smooth vertical movement
-    public float verticalOffset;                        //Offset on the y-axis
     public float zOffset;                               //Offset on the z-axis
     public Color gizmoColor;                            //Color for the gizmo in the editor window
 
@@ -151,7 +150,7 @@ public class CameraController : MonoBehaviour
 
             //Keep the camera inside the current room
             focusPosition.x = Mathf.Clamp(cameraTarget.transform.position.x, minBounds.x + halfWidth, maxBounds.x - halfWidth);
-            focusPosition.y = Mathf.Clamp(cameraTarget.transform.position.y+verticalOffset, minBounds.y + halfHeight, maxBounds.y - halfHeight);
+            focusPosition.y = Mathf.Clamp(cameraTarget.transform.position.y, minBounds.y + halfHeight, maxBounds.y - halfHeight);
 
             //Move the camera
             transform.position = (Vector3)focusPosition + Vector3.forward * zOffset;                

@@ -84,7 +84,7 @@ public class Stats : MonoBehaviour
     public GameObject damageCanvas;         //UI canvas for the floating text
 
     //Use this for initialization
-    private void Start()
+    public virtual void Start()
     {
         //Find the damage canvas game object
         damageCanvas = GameObject.FindGameObjectWithTag("DamageCanvas");

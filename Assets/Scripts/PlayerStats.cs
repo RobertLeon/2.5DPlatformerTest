@@ -29,7 +29,7 @@ public class PlayerStats : Stats
     private Animator animator;                  //Reference to the animator component
 
     //Use this for initialization
-    private void Start()
+    public override void Start()
     {
         //Get the required components in the scene
         playerController = GetComponent<PlayerController>();
@@ -56,6 +56,8 @@ public class PlayerStats : Stats
 
         //Allow the player to take damage
         canTakeDamage = true;
+
+        base.Start();
     }
 
 	//Update is called once per frame

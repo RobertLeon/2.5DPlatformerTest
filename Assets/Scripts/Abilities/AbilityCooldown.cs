@@ -14,55 +14,35 @@ public class AbilityCooldown : MonoBehaviour
     public Image cooldownMask;              //Cooldown mask
     public TMP_Text cooldownDisplay;        //Cooldown text
     public GameObject descriptionBox;       //Ability description box
+    public int abilityNumber;               //
+    [HideInInspector]
+    public bool coolDownComplete;           //
+    [HideInInspector]
+    public KeyCode controllerInput;         //
+    [HideInInspector]
+    public KeyCode keyboardInput;           //
     
-    
+
+
     [SerializeField]
     private Ability ability;                //Ability being used    
     private Image abilityImage;             //Image for the ability
-    private KeyCode kbInput;                //Keyboard input to use the ability
-    private KeyCode ctInput;                //Controller input for the ability
     private float coolDownDuration;         //How long inbetween attacks
     private float coolDownTimeLeft;         //Timer for the cooldown
     private float nextReadyTime;            //Time for next ability use
+    
 
     //Initalize the ability
-    public void Initialize(Ability selectedAbilty, GameObject user, int abilityNumber)
+    public void Initialize(Ability selectedAbilty, GameObject user,
+        KeyCode kbInput, KeyCode ctInput)
     {
-        //Assign the ability's 
+        //Assign the ability's information
         ability = selectedAbilty;
         abilityImage = cooldownIcon.GetComponent<Image>();
         abilityImage.sprite = ability.abilitySprite;
         cooldownMask.sprite = ability.abilitySprite;
-
-        //Reference to the player's input
-        PlayerInput input = user.GetComponent<PlayerInput>();
-
-        //Set the button to activate the ability based on which ability it is
-        switch (abilityNumber)
-        {
-            case 0:
-                kbInput = input.kbAbility1;
-                ctInput = input.ctAbility1;
-                break;
-
-            case 1:
-                kbInput = input.kbAbility2;
-                ctInput = input.ctAbility2;
-                break;
-
-            case 2:
-                kbInput = input.kbAbility3;
-                ctInput = input.ctAbility3;
-                break;
-
-            case 3:
-                kbInput = input.kbAbility4;
-                ctInput = input.ctAbility4;
-                break;
-
-            default:
-                throw new System.Exception("Ability number not recognized");
-        }
+        controllerInput = ctInput;
+        keyboardInput = kbInput;        
 
         //Set the cooldown, initialize the ability and ready it for use
         coolDownDuration = ability.abilityCooldown;
@@ -74,18 +54,12 @@ public class AbilityCooldown : MonoBehaviour
     private void Update()
     {
         //Check if the ability cooldown has completed
-        bool coolDownComplete = (Time.time > nextReadyTime);
+        coolDownComplete = (Time.time > nextReadyTime);
 
         //If the ability is not on cooldown
         if (coolDownComplete)
         {
             AbilityReady();
-            
-            //Activate the ability on input
-            if (Input.GetKeyDown(kbInput) || Input.GetKeyDown(ctInput))
-            {
-                ActivateAbility();
-            }
         }
         //Count down till the ability is ready again
         else
@@ -95,7 +69,7 @@ public class AbilityCooldown : MonoBehaviour
     }
 
     //Hide the cooldown mask and text
-    void AbilityReady()
+    private void AbilityReady()
     {
         cooldownDisplay.enabled = false;
         cooldownMask.enabled = false;
@@ -103,18 +77,19 @@ public class AbilityCooldown : MonoBehaviour
 
 
     //Using the ability
-    void ActivateAbility()
+    public void ActivateAbility()
     {
         nextReadyTime = coolDownDuration + Time.time;
         coolDownTimeLeft = coolDownDuration;
         cooldownMask.enabled = true;
         cooldownDisplay.enabled = true;
 
+
         ability.TriggerAbility();
     }
 
     //Set the cooldown for the ability
-    void CoolDown()
+    private void CoolDown()
     {
         coolDownTimeLeft -= Time.deltaTime;
         float roundedCD = Mathf.Round(coolDownTimeLeft);

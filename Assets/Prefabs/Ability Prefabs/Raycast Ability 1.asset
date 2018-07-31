@@ -3,7 +3,7 @@
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Name: Raycast Ability 1
   m_EditorClassIdentifier: 
   abilityName: New Ability
-  abilitySprite: {fileID: 21300012, guid: 28b41fef228d6814f90e541deaf9f262, type: 3}
+  abilitySprite: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
   abilityCooldown: 1
   abilityDescription: 
   abilityDamage: 1

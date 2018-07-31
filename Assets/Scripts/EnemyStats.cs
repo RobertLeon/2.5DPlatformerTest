@@ -24,13 +24,15 @@ public class EnemyStats : Stats
 
 
     //Used for initialization
-    private void Start()
+    public override void Start()
     {
         //Initialize the enemy's stats
         health.currentHealth = health.maxHealth;
 
         //Get the player stats
         playerStats = FindObjectOfType<PlayerStats>();
+
+        base.Start();
     }
 
 
@@ -92,13 +94,20 @@ public class EnemyStats : Stats
             //Wait the specified amount of time
             yield return new WaitForSeconds(0.5f);
 
-            //Spawn the experience floating text
-            TMP_Text expText = Instantiate(floatingText);
-            expText.text = expAmount.ToString();
-            expText.color = new Color(expColor.r, expColor.g, expColor.b);
-            expText.transform.SetParent(damageCanvas.transform);
-            expText.transform.position = textSpawn.position;
 
+            if (damageCanvas != null)
+            {
+                //Spawn the experience floating text
+                TMP_Text expText = Instantiate(floatingText);
+                expText.text = expAmount.ToString();
+                expText.color = new Color(expColor.r, expColor.g, expColor.b);
+                expText.transform.SetParent(damageCanvas.transform);
+                expText.transform.position = textSpawn.position;
+            }
+            else
+            {
+                Debug.LogError("Damage Canvas not found");
+            }
 
             //Check for the Player
             if (playerStats == null)

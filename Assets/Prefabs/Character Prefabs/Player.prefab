@@ -31,6 +31,7 @@ GameObject:
   - component: {fileID: 114637909645326808}
   - component: {fileID: 114182845110066888}
   - component: {fileID: 114367734290532446}
+  - component: {fileID: 114865009655460502}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -319,6 +320,8 @@ MonoBehaviour:
   abilityUser: {fileID: 0}
   abilityDamage: 0
   maxRange: 0
+  numberOfProjectiles: 0
+  shotDelay: 0.1
 --- !u!114 &114367734290532446
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -371,6 +374,21 @@ MonoBehaviour:
   ctPause: 337
   ctInteract: 332
   ctMap: 0
+--- !u!114 &114865009655460502
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1453273378135610}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1651a32b4e39a0b42b3c2be91ef07fdf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  abilities: []
+  globalCooldownTime: 1.5
+  controllerInputs: 
+  keyboardInputs: 
 --- !u!120 &120101045816715140
 LineRenderer:
   m_ObjectHideFlags: 1

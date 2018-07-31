@@ -325,11 +325,14 @@
     <Compile Include="Assets\ProCore\ProGrids\MonoBehaviour\pg_IgnoreSnap.cs" />
     <Compile Include="Assets\Scripts\Abilities\Ability.cs" />
     <Compile Include="Assets\Scripts\Abilities\AbilityCooldown.cs" />
+    <Compile Include="Assets\Scripts\Abilities\AbilityHolder.cs" />
+    <Compile Include="Assets\Scripts\Abilities\Bullet.cs" />
+    <Compile Include="Assets\Scripts\Abilities\HomingProjectile.cs" />
     <Compile Include="Assets\Scripts\Abilities\ParticleAbility.cs" />
     <Compile Include="Assets\Scripts\Abilities\ParticleCollision.cs" />
     <Compile Include="Assets\Scripts\Abilities\ParticleShoot.cs" />
+    <Compile Include="Assets\Scripts\Abilities\Projectile.cs" />
     <Compile Include="Assets\Scripts\Abilities\ProjectileAbility.cs" />
-    <Compile Include="Assets\Scripts\Abilities\ProjectileCollision.cs" />
     <Compile Include="Assets\Scripts\Abilities\ProjectileShoot.cs" />
     <Compile Include="Assets\Scripts\Abilities\RaycastAbility.cs" />
     <Compile Include="Assets\Scripts\Abilities\RaycastShoot.cs" />

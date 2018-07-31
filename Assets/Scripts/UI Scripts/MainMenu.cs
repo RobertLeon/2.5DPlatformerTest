@@ -88,6 +88,7 @@ public class MainMenu : MonoBehaviour
     {
         confirmationMenu.SetActive(true);
         confirmationText.text = confirmationQuestion;
+        yesButton.Select();
         yesButton.onClick.AddListener(ExitGame);
     }
 

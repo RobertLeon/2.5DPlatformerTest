@@ -4,15 +4,15 @@ Things to Implement:
 	Character Select Menu:
 
 	Ability System: (60%?)
-		Global Cool down
+		Animations
 
 
 	MiniMap Controller:
 		Zoom in / Zoom out
 
 	Map Controller:
-		Move map around
-		Zoom in / Zoom out
+		Move map to specific room types
+		
 
 	Rooms: (0%)
 		Need to create rooms for the different room types
@@ -109,3 +109,4 @@ Bugs/Unintended Behaviours:
 
 Code that needs commenting/better comments:
 	1 GameManager
+	2

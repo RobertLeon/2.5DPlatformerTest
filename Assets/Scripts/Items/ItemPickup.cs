@@ -9,15 +9,10 @@ public class ItemPickup : MonoBehaviour
 {
     public Items item;                  //Reference to the item
     public float waitTime;              //Time to wait after spawning the item
-    
-    private ItemHolder playerItems;     //Reference to the ItemHolder script
 
     //Use this for initialization
     void Start()
 	{
-        //Get the player's stats
-        GameObject player = GameObject.FindGameObjectWithTag("Player");        
-        //playerItems = player.GetComponent<ItemHolder>();
 
         if(GetComponent<BoxCollider>().enabled)
         {

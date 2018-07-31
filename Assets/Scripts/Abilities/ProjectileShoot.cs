@@ -18,8 +18,7 @@ public class ProjectileShoot : MonoBehaviour
     public float maxRange;              //Maximum range of the projectile
     [HideInInspector]
     public int numberOfProjectiles;     //The number of projectiles the ability shoots
-    [HideInInspector]
-    public float shotDelay;             //Delay between each projectile being fired
+    public float shotDelay = 0.1f;      //Delay between each projectile being fired
 
 
     //Creates the specified projectiles
@@ -29,12 +28,6 @@ public class ProjectileShoot : MonoBehaviour
         if(numberOfProjectiles <= 0 )
         {
             numberOfProjectiles = 1;
-        }
-
-        //Have no delay for a single projectile
-        if(numberOfProjectiles == 1)
-        {
-            shotDelay = 0f;
         }
  
         //Delayed shots

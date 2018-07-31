@@ -32,92 +32,35 @@ public class PlayerInput : MonoBehaviour
     public KeyCode ctInteract;
     public KeyCode ctMap;
 
-    private CameraController playerCam;             //
-    private Character playerChar;                   //
-    private PlayerController playerController;      //Reference to the PlayerController script
-    private PauseMenu pauseMenu;                    //
-    private AbilityCooldown[] coolDownButtons;      //
-    private Ability[] abilities;                    //
+    private PlayerController playerController;      //Reference to the Player Controller script
+    private PauseMenu pauseMenu;                    //Reference to the Pause Menu script
+    private Vector2 directionalInput;               //Input for the direction of the player
 
     //Use this for initialization
     void Start()
     {
-        //Get the player controller script
-        playerController = GetComponent<PlayerController>();
-
-        Camera.main.GetComponent<CameraController>().enabled = true;
-        playerChar = GameManager.Instance.Player;
-
-        if (playerChar != null)
-        {
-            coolDownButtons = FindObjectsOfType<AbilityCooldown>();
-
-            abilities = playerChar.characterAbilities;
-        }
-
+        //Get references in the scene
+        playerController = GetComponent<PlayerController>();        
         pauseMenu = FindObjectOfType<PauseMenu>();
 
-        //Find the pause menu in the scene
+        //Activate the Camera Controller script
+        Camera.main.GetComponent<CameraController>().enabled = true;
+
+        //Initialize the pause menu
         if (pauseMenu != null)
         {
             pauseMenu.InitializePauseMenu();
         }
-
-        if (abilities != null)
-        {            
-            for (int i = 0; i < abilities.Length; i++)
-            {
-                coolDownButtons[i].Initialize(playerChar.characterAbilities[i], gameObject, i);                
-            }
-
-            for(int i = 0; i < coolDownButtons.Length; i++)
-            {
-                if(i >= abilities.Length)
-                {
-                    coolDownButtons[i].gameObject.SetActive(false);
-                }
-            }
-        }
-        else
-        {
-            Debug.LogWarning("No abilities found");
-        }
-
     }
 
     //Update is called once per frame
     void Update()
     {
         //Set directional input from the horizontal and vertial axis
-        Vector2 directionalInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-        
+        directionalInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+
         //For controller input
-        if(directionalInput.y >= 0.5f)
-        {
-            directionalInput.y = 1;
-        }
-        else if(directionalInput.y <= -0.5f)
-        {
-            directionalInput.y = -1;
-        }
-        else
-        {
-            directionalInput.y = 0;
-        }
-
-        if(directionalInput.x >= 0.5f)
-        {
-            directionalInput.x = 1;
-        }
-        else if (directionalInput.x <= -0.5f)
-        {
-            directionalInput.x = -1;
-        }
-        else
-        {
-            directionalInput.x = 0;
-        }
-
+        DeadZone(0.5f);
 
         //Set the input in the PlayerController input
         playerController.SetDirectionalInput(directionalInput);
@@ -132,6 +75,36 @@ public class PlayerInput : MonoBehaviour
         if (Input.GetKeyUp(kbJump) || Input.GetKeyUp(ctJump))
         {
             playerController.OnJumpInputUp();
+        }
+    }
+
+    //Handles the amoun
+    private void DeadZone(float zoneAmount)
+    {
+        if (directionalInput.y >= zoneAmount)
+        {
+            directionalInput.y = 1;
+        }
+        else if (directionalInput.y <= -zoneAmount)
+        {
+            directionalInput.y = -1;
+        }
+        else
+        {
+            directionalInput.y = 0;
+        }
+
+        if (directionalInput.x >= zoneAmount)
+        {
+            directionalInput.x = 1;
+        }
+        else if (directionalInput.x <= -zoneAmount)
+        {
+            directionalInput.x = -1;
+        }
+        else
+        {
+            directionalInput.x = 0;
         }
     }
 }

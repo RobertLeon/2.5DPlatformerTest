@@ -13,29 +13,36 @@ public class MapCameraController : MonoBehaviour
     public GameObject pauseMenuOptions;             //Pause menu options game object
     public bool isMapOpen = false;                  //Is the map open?
     public float moveSpeed = 2f;                    //Speed the camera moves when
+    public float minSize = 50f;
+    public float maxSize = 200f;
+    public float zoomAmount = 50f;
+
 
     private PlayerInput playerInput;                //Reference to the Player Input script
-    private PlayerController playerController;      //Reference to the Player Controller script
-    private Camera mapCam;                          //Reference to the map camera
     private PauseMenu pause;                        //Reference to the Pause Menu script
-    private Vector3 dragOrigin;                     //Origin for the mouse drag
-
+    private Vector3 dragOrigin;                     //Origin of the mouse drag
+    private Camera cam;                             //Reference to the camera component
 
     //Use this for initialization
     void Start()
-	{
+    {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
-        playerInput = player.GetComponent<PlayerInput>();
-        playerController = player.GetComponent<PlayerController>();
-        pause = pauseMenu.GetComponentInParent<PauseMenu>();
-        mapCam = transform.GetComponent<Camera>();
-	}
 
-	//Update is called once per frame
-	void Update()
-	{
+        //Check if the player exists in the scene
+        if (player != null)
+        {
+            playerInput = player.GetComponent<PlayerInput>();
+        }
+
+        pause = pauseMenu.GetComponentInParent<PauseMenu>();
+        cam = GetComponent<Camera>();
+    }
+
+    //Update is called once per frame
+    void Update()
+    {
         //If the map is not open
-		if(!isMapOpen && !pause.paused)
+        if (!isMapOpen && !pause.paused)
         {
             //Check for player input
             if (playerInput != null)
@@ -47,12 +54,12 @@ public class MapCameraController : MonoBehaviour
                     mapMenu.SetActive(true);
                     pauseMenuOptions.SetActive(false);
                     pauseMenu.SetActive(true);
-                    isMapOpen = true;                    
+                    isMapOpen = true;
                 }
             }
         }
         //The map is open
-        else if(isMapOpen)
+        else if (isMapOpen)
         {
             //Check for player input
             if (playerInput != null)
@@ -64,16 +71,17 @@ public class MapCameraController : MonoBehaviour
                     mapMenu.SetActive(false);
                     pauseMenu.SetActive(false);
                     pauseMenuOptions.SetActive(true);
-                    isMapOpen = false;                                        
+                    isMapOpen = false;
                 }
             }
         }
-	}
+    }
 
 
-    //
+    //Updates after each frame
     private void LateUpdate()
     {
+
         //Check if the map is open
         if (isMapOpen)
         {
@@ -82,36 +90,52 @@ public class MapCameraController : MonoBehaviour
 
             //Moves the camera
             transform.Translate(move);
-        }
 
-        //Check if the map is open
-        if (isMapOpen)
-        {
-            //Get the mouse position when button is pressed
-            if (Input.GetMouseButtonDown(0))
+            //Zooms the camera out
+            if(Input.GetKeyDown(KeyCode.P) && cam.orthographicSize <= maxSize)
             {
-                dragOrigin = Input.mousePosition;
-
-                return;
+                cam.orthographicSize += zoomAmount;
             }
 
-            //Do nothing if mouse button is not pressed
-            if (!Input.GetMouseButton(0))
+            //Zooms the camera in
+            if(Input.GetKeyDown(KeyCode.O) && cam.orthographicSize >= minSize)
             {
-                return;
+                cam.orthographicSize -= zoomAmount;
             }
 
-            //Get the movement of the mouse from the origin and calculate the amount to move the camera
-            Vector2 camPos = Camera.main.ScreenToViewportPoint(Input.mousePosition - dragOrigin);
-            Vector2 mouseMove = new Vector2(camPos.x * moveSpeed, camPos.y * moveSpeed);
 
-            //Move the camera
-            transform.Translate(mouseMove, Space.World);
+            //DO NOT PUT CODE BELOW THIS FUNCTION
+            //Moves the camera with mouse drag
+            MouseMovement();
         }
 
-        
-        
     }
+
+    //Mouse drag moves the camera
+    private void MouseMovement()
+    {
+        //Get the mouse position when button is pressed
+        if (Input.GetMouseButtonDown(0))
+        {
+            dragOrigin = Input.mousePosition;
+
+            return;
+        }
+
+        //Do nothing if mouse button is not pressed
+        if (!Input.GetMouseButton(0))
+        {
+            return;
+        }
+
+        //Get the movement of the mouse from the origin and calculate the amount to move the camera
+        Vector2 camPos = Camera.main.ScreenToViewportPoint(Input.mousePosition - dragOrigin);
+        Vector2 mouseMove = new Vector2(camPos.x * moveSpeed, camPos.y * moveSpeed);
+
+        //Move the camera
+        transform.Translate(mouseMove, Space.World);
+    }
+
 
     //Set the map being open
     public void OpenMap()

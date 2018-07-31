@@ -8,7 +8,7 @@ using UnityEngine;
 public class LevelStart : MonoBehaviour
 {
     private GameManager manager;            //Reference to the Game Manager script
-    private Vector3 playerSpawnPoint;       //Spawn points for the player
+    private Transform playerSpawnPoint;       //Spawn points for the player
     private GameObject player;              //Reference to the player's game object
     private EnemyStats[] enemyStats;        //Reference to the enemies in the scene
 
@@ -17,7 +17,7 @@ public class LevelStart : MonoBehaviour
     {
         //Get the spawn points and the player's game object
         manager = GameManager.Instance;
-        playerSpawnPoint = GameObject.FindGameObjectWithTag("PlayerSpawn").transform.position;  
+        playerSpawnPoint = GameObject.FindGameObjectWithTag("PlayerSpawn").transform;  
         player = manager.Player.playerPrefab;
 
         //If the player exists spawn the player in a spawn point
@@ -26,7 +26,7 @@ public class LevelStart : MonoBehaviour
             //If there is a valid spawn point spawn the player at it
             if (playerSpawnPoint != null)
             {
-                Instantiate(player, playerSpawnPoint, Quaternion.identity);
+                Instantiate(player, playerSpawnPoint.position, Quaternion.identity);
             }
             //Spawn the player at (0,0,0) and return an error.
             else

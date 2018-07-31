@@ -3,7 +3,7 @@
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Name: TurretProjectile
   m_EditorClassIdentifier: 
   abilityName: New Ability
-  abilitySprite: {fileID: 0}
+  abilitySprite: {fileID: 10915, guid: 0000000000000000f000000000000000, type: 0}
   abilityCooldown: 2
   abilityDescription: 
   projectile: {fileID: 4200691819630828, guid: 27d4cb5ebc693f044803a1dd66052c7e, type: 2}

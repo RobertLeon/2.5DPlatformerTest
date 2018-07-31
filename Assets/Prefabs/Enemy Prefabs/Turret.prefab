@@ -62,14 +62,13 @@ GameObject:
   m_Component:
   - component: {fileID: 4531586338537804}
   - component: {fileID: 114752635747818932}
-  - component: {fileID: 114142553305162862}
   m_Layer: 9
   m_Name: Turret
-  m_TagString: Enemy
+  m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1833865495857548
 GameObject:
   m_ObjectHideFlags: 0
@@ -132,7 +131,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1851402853987732}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 6, z: 0}
+  m_LocalPosition: {x: 0, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4531586338537804}
@@ -162,7 +161,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1833865495857548}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 2, z: 0}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4531586338537804}
@@ -175,7 +174,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1499531057202070}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 4, z: 0}
+  m_LocalPosition: {x: 0, y: 2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4531586338537804}
@@ -409,6 +408,7 @@ MonoBehaviour:
   abilityDamage: 0
   maxRange: 0
   numberOfProjectiles: 0
+  shotDelay: 0.1
 --- !u!114 &114078545981806046
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -425,45 +425,7 @@ MonoBehaviour:
   abilityDamage: 0
   maxRange: 0
   numberOfProjectiles: 0
---- !u!114 &114142553305162862
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1535932945711878}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ae1f7a8e34e510c48b4dae3e2edbcb17, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  health:
-    maxHealth: 0
-    currentHealth: 0
-    maxShields: 0
-    currentShields: 0
-    shieldRegen: 0
-    healthRegen: 0
-  combat:
-    attack: 4
-    defense: 0
-    critChance: 0
-    invulnTime: 0
-  movement:
-    speedModifier: 0
-    jumpHeightModifier: 0
-    numJumps: 0
-  exp:
-    currentLevel: 0
-    currentExp: 0
-    expLevels: 
-    maxLevel: 0
-  textSpawn: {fileID: 0}
-  floatingText: {fileID: 0}
-  damageColor: {r: 0, g: 0, b: 0, a: 0}
-  healColor: {r: 0, g: 0, b: 0, a: 0}
-  damageCanvas: {fileID: 0}
-  expAmount: 0
-  expColor: {r: 0, g: 0, b: 0, a: 0}
+  shotDelay: 0.1
 --- !u!114 &114178209231127684
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -550,6 +512,7 @@ MonoBehaviour:
   abilityDamage: 0
   maxRange: 0
   numberOfProjectiles: 0
+  shotDelay: 0.1
 --- !u!114 &114463276595117638
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -566,6 +529,7 @@ MonoBehaviour:
   abilityDamage: 0
   maxRange: 0
   numberOfProjectiles: 0
+  shotDelay: 0.1
 --- !u!114 &114644550519170064
 MonoBehaviour:
   m_ObjectHideFlags: 1
