@@ -25,7 +25,7 @@ public class AudioController : MonoBehaviour
     }
     #endregion
 
-    public Sound[] sounds;                      //List of sounds to play
+    public Sound[] songs;                      //List of sounds to play
 
 
 	//Use this for initialization
@@ -43,24 +43,24 @@ public class AudioController : MonoBehaviour
             Destroy(gameObject);
         }
 
-        //Add an audio source for each sound
-        foreach (Sound sound in sounds)
+        //Add an audio source for each song
+        foreach (Sound song in songs)
         {
-            sound.source =  gameObject.AddComponent<AudioSource>();
-            sound.source.clip = sound.clip;
-            sound.source.outputAudioMixerGroup = sound.mixer;
+            song.source =  gameObject.AddComponent<AudioSource>();
+            song.source.clip = song.clip;
+            song.source.outputAudioMixerGroup = song.mixer;
 
-            sound.source.volume = sound.volume;
-            sound.source.pitch = sound.pitch;
-            sound.source.loop = sound.loop;
+            song.source.volume = song.volume;
+            song.source.pitch = song.pitch;
+            song.source.loop = song.loop;
         }
 	}
 
     //Plays the specified sound
-    public void Play(string name)
+    public void PlaySongs(string name)
     {
         //Find the specified sound
-        Sound s = Array.Find(sounds, sound => sound.name == name);
+        Sound s = Array.Find(songs, song => song.name == name);
 
         //If the sound does not exist show a warning and return
         if(s == null)
@@ -72,5 +72,4 @@ public class AudioController : MonoBehaviour
         //Plays the sound
         s.source.Play();
     }
-
 }

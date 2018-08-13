@@ -45,7 +45,7 @@ public class ItemPickup : MonoBehaviour
         {
             //Initialize the item
             other.GetComponent<ItemHolder>().AddItem(item);
-            FindObjectOfType<AudioController>().Play("ItemPickUp");
+            FindObjectOfType<AudioController>().PlaySongs("ItemPickUp");
 
             //Destroy the gameObject
             Destroy(gameObject);

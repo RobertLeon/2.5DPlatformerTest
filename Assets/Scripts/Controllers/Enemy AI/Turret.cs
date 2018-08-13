@@ -23,6 +23,13 @@ public class Turret : MonoBehaviour
         projectileShoot = GetComponent<ProjectileShoot>();
         particleShoot = GetComponent<ParticleShoot>();
 
+        //Default the turret to the transform it is attatched to.
+        if(turret == null)
+        {
+            turret = transform;
+        }
+
+
         //If there is no projectile ability assigned skip this
         if(projectileAbility != null)
         {

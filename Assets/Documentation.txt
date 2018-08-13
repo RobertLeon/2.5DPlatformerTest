@@ -93,6 +93,7 @@ Things to Implement:
 
 
 Things to Research:
+	Lighting
 	Key Rebinding
 	Better Level generation
 	Audio System
@@ -103,6 +104,7 @@ Things to Research:
 
 
 Bugs/Unintended Behaviours:
+	Lighting is being weird
 	Treadmills and moving platforms need to have no rotation.
 
 

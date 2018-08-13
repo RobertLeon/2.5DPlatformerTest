@@ -8,15 +8,15 @@ Prefab:
     m_TransformParent: {fileID: 0}
     m_Modifications: []
     m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 0}
+  m_SourcePrefab: {fileID: 0}
   m_RootGameObject: {fileID: 1411845376021806}
-  m_IsPrefabParent: 1
+  m_IsPrefabAsset: 1
 --- !u!1 &1411845376021806
 GameObject:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 5
+  serializedVersion: 6
   m_Component:
   - component: {fileID: 4062512598160276}
   - component: {fileID: 33830341015998790}
@@ -38,7 +38,7 @@ GameObject:
 --- !u!4 &4062512598160276
 Transform:
   m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1411845376021806}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -51,7 +51,7 @@ Transform:
 --- !u!23 &23853739164414120
 MeshRenderer:
   m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1411845376021806}
   m_Enabled: 1
@@ -61,6 +61,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 4294967295
   m_Materials:
   - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
@@ -85,14 +86,14 @@ MeshRenderer:
 --- !u!33 &33830341015998790
 MeshFilter:
   m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1411845376021806}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!54 &54522002040145844
 Rigidbody:
   m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1411845376021806}
   serializedVersion: 2
@@ -107,7 +108,7 @@ Rigidbody:
 --- !u!65 &65380235901906428
 BoxCollider:
   m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1411845376021806}
   m_Material: {fileID: 0}
@@ -119,7 +120,7 @@ BoxCollider:
 --- !u!65 &65692740523095696
 BoxCollider:
   m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1411845376021806}
   m_Material: {fileID: 0}
@@ -131,7 +132,7 @@ BoxCollider:
 --- !u!114 &114344497534827370
 MonoBehaviour:
   m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1411845376021806}
   m_Enabled: 1
@@ -156,7 +157,7 @@ MonoBehaviour:
 --- !u!114 &114434054615146054
 MonoBehaviour:
   m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1411845376021806}
   m_Enabled: 1
@@ -166,7 +167,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   collisionMask:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 0
   horizontalRayCount: 0
   verticalRayCount: 0
   horizontalRaySpacing: 0
@@ -175,7 +176,7 @@ MonoBehaviour:
 --- !u!114 &114680574589179046
 MonoBehaviour:
   m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1411845376021806}
   m_Enabled: 1
@@ -196,7 +197,7 @@ MonoBehaviour:
 --- !u!114 &114773500147158220
 MonoBehaviour:
   m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1411845376021806}
   m_Enabled: 1
@@ -226,9 +227,14 @@ MonoBehaviour:
     expLevels: 
     maxLevel: 0
   textSpawn: {fileID: 0}
-  floatingText: {fileID: 0}
+  floatingText: {fileID: 114461347141868124, guid: 06664c7dde0091b4b900aebb1bf9c5d9,
+    type: 2}
   damageColor: {r: 0, g: 0, b: 0, a: 0}
   healColor: {r: 0, g: 0, b: 0, a: 0}
   damageCanvas: {fileID: 0}
+  damageSounds: []
+  deathSound: 
   expAmount: 0
   expColor: {r: 0, g: 0, b: 0, a: 0}
+  itemPickUp: {fileID: 0}
+  itemTable: []

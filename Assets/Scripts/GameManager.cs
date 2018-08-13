@@ -30,7 +30,11 @@ public class GameManager : MonoBehaviour
     #endregion
 
     public Character Player { get; set; }           //The chosen player for the game
+    public string[] songNames;
 
+    private AudioController audioCon;               //
+    private int currentSceneIndex;
+    
     //
     private void Awake()
     {
@@ -55,10 +59,12 @@ public class GameManager : MonoBehaviour
     //Used for initialization
     private void Start()
     {
-        //If there is no audio playing play the title music
-        if(!GetComponent<AudioSource>().isPlaying)
+        audioCon = FindObjectOfType<AudioController>();
+
+        if (audioCon != null)
         {
-            FindObjectOfType<AudioController>().Play("TitleMusic");
+            Debug.Log("Playing " + songNames[currentSceneIndex]);
+            audioCon.PlaySongs(songNames[currentSceneIndex]);
         }
     }
 
@@ -91,13 +97,7 @@ public class GameManager : MonoBehaviour
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         //Number of the current scene
-        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
-
-        //Play title music 
-        if(currentSceneIndex == 0)
-        {
-            FindObjectOfType<AudioController>().Play("TitleMusic");
-        }
+        currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
     }
 }
 

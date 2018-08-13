@@ -26,7 +26,6 @@ public class PlayerStats : Stats
     private float damageTimer;                  //Damage Timer
     private PlayerController playerController;  //Reference to the Player Controller script
     private HealthBar healthBar;                //Reference to the Health Bar sctipt
-    private Animator animator;                  //Reference to the animator component
 
     //Use this for initialization
     public override void Start()
@@ -34,7 +33,7 @@ public class PlayerStats : Stats
         //Get the required components in the scene
         playerController = GetComponent<PlayerController>();
         healthBar = FindObjectOfType<HealthBar>();
-        animator = GetComponent<Animator>();
+        
 
         //Set current level to 1
         if (exp.currentLevel <= 0)
@@ -98,7 +97,7 @@ public class PlayerStats : Stats
             //Reset the damage timer and change the animation state
             if (damageTimer <= 0.0f)
             {
-                animator.SetBool("OnHit", false);
+                anim.SetBool("OnHit", false);
                 damageTimer = combat.invulnTime;
                 canTakeDamage = true;
             }
@@ -138,13 +137,16 @@ public class PlayerStats : Stats
             base.TakeDamage(amount, critChance);
 
             //Start the damaged animation
-            animator.SetBool("OnHit", true);
+            anim.SetBool("OnHit", true);
 
             //Update the player UI
             UpdatePlayerUI();
 
             //Play the specified sound
-            FindObjectOfType<AudioController>().Play("PlayerDamageTaken");
+            if(audioCon != null)
+            {
+                //Play Sound
+            }
         }
     }
 

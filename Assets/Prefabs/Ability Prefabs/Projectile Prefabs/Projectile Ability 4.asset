@@ -13,7 +13,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityName: Homing Projectile
   abilitySprite: {fileID: 10915, guid: 0000000000000000f000000000000000, type: 0}
-  abilityCooldown: 0.4
+  abilityCooldown: 6
   abilityDescription: Homing Test Sphere {0}, {1}.
   projectile: {fileID: 4200691819630828, guid: bc64866eee3ef98488ddc6f86aabc6d2, type: 2}
   abilityUser: {fileID: 0}

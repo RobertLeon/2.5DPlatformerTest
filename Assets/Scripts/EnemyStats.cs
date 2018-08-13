@@ -8,10 +8,8 @@ using TMPro;
 
 public class EnemyStats : Stats
 {
-    public string[] damageSounds;                   //Damage sounds for the enemey
-    public string deathSound;                       //Enemy's death sound
     public int expAmount;                           //Amount of experience given on death
-    public Color expColor;                          //Color of the experience text
+    public Color expColor;                          //Color of the experience text        
 
     [Header("Item Drops")]
     public ItemPickup itemPickUp;                   //Reference to the item being spawned
@@ -19,8 +17,7 @@ public class EnemyStats : Stats
     public List<ItemTable> itemTable;               //List of items and their drop rates
 
     private PlayerStats playerStats;                //Reference to the Player Stats script
-    private bool isDead = false;                    //Check if the enemy is dead
-    private AudioController audioCon;               //Reference to the Audio Controller Script                  
+    private bool isDead = false;                    //Check if the enemy is dead                  
 
 
     //Used for initialization
@@ -39,15 +36,13 @@ public class EnemyStats : Stats
     //Taking Damage
     public override void TakeDamage(float amount, float critChance)
     {
-        base.TakeDamage(amount, critChance);
-        FindObjectOfType<AudioController>().Play(damageSounds[Random.Range(0,damageSounds.Length)]);
+        base.TakeDamage(amount, critChance);        
     }
 
     //Death
     public override void Die()
     {
         //Play the death sound
-        FindObjectOfType<AudioController>().Play(deathSound);
         StartCoroutine(RemoveEnemy());
         base.Die();
     }
@@ -99,10 +94,10 @@ public class EnemyStats : Stats
             {
                 //Spawn the experience floating text
                 TMP_Text expText = Instantiate(floatingText);
+                expText.transform.position = textSpawn.position;
                 expText.text = expAmount.ToString();
                 expText.color = new Color(expColor.r, expColor.g, expColor.b);
                 expText.transform.SetParent(damageCanvas.transform);
-                expText.transform.position = textSpawn.position;
             }
             else
             {

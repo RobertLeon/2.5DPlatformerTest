@@ -11,9 +11,9 @@ public class Sound
     public string name;                 //Name of the sound clip to play
     public AudioClip clip;              //Audio clip to play
     [Range(0f,1f)]
-    public float volume;                //Volume of the audio clip
+    public float volume = 1f;           //Volume of the audio clip
     [Range(0.1f,3f)]
-    public float pitch;                 //Pitch of the audio clip
+    public float pitch = 1f;            //Pitch of the audio clip
     public AudioMixerGroup mixer;       //Audio mixer group the sound belongs in
     public bool loop;                   //Does the audio clip loop?
     [HideInInspector]

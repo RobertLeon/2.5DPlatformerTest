@@ -54,8 +54,8 @@ public class AbilityHolder : MonoBehaviour
     private void ActivateAbility()
     {
         //Activate the first ability
-        if((Input.GetKeyDown(abilityButtons[0].controllerInput) 
-            || Input.GetKeyDown(abilityButtons[0].keyboardInput)) 
+        if((Input.GetKey(abilityButtons[0].controllerInput) 
+            || Input.GetKey(abilityButtons[0].keyboardInput)) 
             && abilityButtons[0].coolDownComplete && globalCoolDown)
         {
             abilityButtons[0].ActivateAbility();
@@ -63,8 +63,8 @@ public class AbilityHolder : MonoBehaviour
         }
 
         //Activate the second ability
-        if ((Input.GetKeyDown(abilityButtons[1].controllerInput)
-            || Input.GetKeyDown(abilityButtons[1].keyboardInput))
+        if ((Input.GetKey(abilityButtons[1].controllerInput)
+            || Input.GetKey(abilityButtons[1].keyboardInput))
             && abilityButtons[1].coolDownComplete && globalCoolDown)
         {
             abilityButtons[1].ActivateAbility();
@@ -72,8 +72,8 @@ public class AbilityHolder : MonoBehaviour
         }
 
         //Activate the third ability
-        if ((Input.GetKeyDown(abilityButtons[2].controllerInput)
-            || Input.GetKeyDown(abilityButtons[2].keyboardInput))
+        if ((Input.GetKey(abilityButtons[2].controllerInput)
+            || Input.GetKey(abilityButtons[2].keyboardInput))
             && abilityButtons[2].coolDownComplete && globalCoolDown)
         {
             abilityButtons[2].ActivateAbility();
@@ -81,8 +81,8 @@ public class AbilityHolder : MonoBehaviour
         }
 
         //Activate the fourth ability
-        if ((Input.GetKeyDown(abilityButtons[3].controllerInput)
-            || Input.GetKeyDown(abilityButtons[3].keyboardInput))
+        if ((Input.GetKey(abilityButtons[3].controllerInput)
+            || Input.GetKey(abilityButtons[3].keyboardInput))
             && abilityButtons[3].coolDownComplete && globalCoolDown)
         {
             abilityButtons[3].ActivateAbility();
@@ -104,8 +104,6 @@ public class AbilityHolder : MonoBehaviour
     {
         if (ability != null)
         {
-            Debug.Log(ability.name + " " + num);
-
             //Assign the ability to the correct button
             switch (abilityButtons[num].abilityNumber)
             {

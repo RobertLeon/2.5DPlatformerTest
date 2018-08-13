@@ -76,15 +76,12 @@ public class TurretController : MonoBehaviour
                     if (gun.particleAbility != null &&
                         shotTime > gun.particleAbility.abilityCooldown)
                     {
-                        Debug.Log(gun.particleAbility.abilityCooldown);
-                        gun.ShootParticles();
-                        
+                        gun.ShootParticles();                        
                     }
                     //Check if the turret can shoot the assigned ability
                     else if (gun.projectileAbility != null &&
                         shotTime > gun.projectileAbility.abilityCooldown)
                     {
-                        Debug.Log(gun.projectileAbility.abilityCooldown);
                         gun.ShootProjectile();                        
                     }
                 }               
