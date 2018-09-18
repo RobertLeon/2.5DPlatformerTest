@@ -1,13 +1,13 @@
 ﻿//Created by Robert Bryant
 //
-//
+//Handles the activation of the camera boundary and enemy logic
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class RoomController : MonoBehaviour
 {
-    public Color gizmoColor;                            //Color of the gizmo in the scene view
+    public RoomData roomData;                           //Data of this room   
 
     private BoxCollider boxCollider;                    //Reference to the Box Collider
     private CameraController cameraController;          //Reference to the Camera Controller
@@ -53,7 +53,7 @@ public class RoomController : MonoBehaviour
     //Draws gizmnos in the scene view
     private void OnDrawGizmos()
     {
-        Gizmos.color = gizmoColor;
-        Gizmos.DrawWireCube(transform.position, transform.localScale);
+        Gizmos.color = roomData.GetRoomColor();
+        Gizmos.DrawCube(transform.position, transform.localScale);
     }
 }

@@ -115,6 +115,8 @@ public class PlatformController : RaycastController
                 Vector2 rayOrigin = (directionY == -1) ? raycastOrigins.bottomLeft : raycastOrigins.topLeft;
                 rayOrigin += Vector2.right * (verticalRaySpacing * i);
 
+                Debug.DrawRay(rayOrigin, Vector2.up * directionY, Color.green);
+
                 RaycastHit hit;
 
                 //Did the Raycast hit anything
@@ -138,13 +140,15 @@ public class PlatformController : RaycastController
         //Platform is moving on the x-axis pushes objects out of the way
         if (velocity.x != 0)
         {
-            float rayLength = Mathf.Abs(velocity.y) + skinWidth;
-
+            float rayLength = Mathf.Abs(velocity.x) + skinWidth;
+            
             //Loop through each vertical ray
-            for (int i = 0; i < verticalRayCount; i++)
+            for (int i = 0; i < horizontalRayCount; i++)
             {
                 Vector2 rayOrigin = (directionX == -1) ? raycastOrigins.bottomLeft : raycastOrigins.bottomRight;
-                rayOrigin += Vector2.up * (verticalRaySpacing * i);
+                rayOrigin += Vector2.up * (horizontalRaySpacing * i);
+
+                Debug.DrawRay(rayOrigin, Vector2.right * directionX, Color.green);
 
                 RaycastHit hit;
 
@@ -157,7 +161,7 @@ public class PlatformController : RaycastController
                         movedPassengers.Add(hit.transform);
 
                         float pushX = velocity.x - (hit.distance - skinWidth) * directionX;
-                        float pushY = -skinWidth;
+                        float pushY = -skinWidth * .01f;
 
                         passengerMovement.Add(new PassengerMovement(hit.transform,
                             new Vector3(pushX, pushY), false, true));
@@ -213,7 +217,7 @@ public class PlatformController : RaycastController
             globalWaypoints[toWaypointIndex]);
 
         //Calculate the easement of the platform
-        percentBetweenWaypoints += (Time.deltaTime * platformSpeed) / distanceBetweenWaypoints;
+        percentBetweenWaypoints += Time.deltaTime * (platformSpeed / distanceBetweenWaypoints);
         percentBetweenWaypoints = Mathf.Clamp01(percentBetweenWaypoints);
         float easePercent = CalculateEase(percentBetweenWaypoints);
 
@@ -264,5 +268,7 @@ public class PlatformController : RaycastController
                 Gizmos.DrawLine(globalWayPointsPos - Vector3.left * size, globalWayPointsPos + Vector3.left * size);
             }
         }
+
+        
     }
 }

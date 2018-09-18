@@ -44,7 +44,7 @@ public class PlayerInput : MonoBehaviour
         pauseMenu = FindObjectOfType<PauseMenu>();
 
         //Activate the Camera Controller script
-        Camera.main.GetComponent<CameraController>().enabled = true;
+        //Camera.main.GetComponent<CameraController>().enabled = true;
 
         //Initialize the pause menu
         if (pauseMenu != null)
@@ -78,7 +78,7 @@ public class PlayerInput : MonoBehaviour
         }
     }
 
-    //Handles the amoun
+    //Handles the amount
     private void DeadZone(float zoneAmount)
     {
         if (directionalInput.y >= zoneAmount)

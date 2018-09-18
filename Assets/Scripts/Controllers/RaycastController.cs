@@ -10,7 +10,7 @@ using UnityEngine;
 public class RaycastController : MonoBehaviour
 {
     public LayerMask collisionMask;                 //Detect which object layer to collide with
-    public const float skinWidth =0.05f;             //Width on the object where the raycasts starts
+    public const float skinWidth = 0.3f;          //Width on the object where the raycasts starts
     [HideInInspector]                               
     public int horizontalRayCount;                  //Amount of rays being drawn horizontally
     [HideInInspector]
@@ -23,7 +23,7 @@ public class RaycastController : MonoBehaviour
     public BoxCollider boxCollider;                 //Box Collider Object
     public RaycastOrigins raycastOrigins;           //Origin of the raycast
 
-    private const float dstBestweenRays = .25f;     //Distance between rays  
+    private const float dstBestweenRays = .05f;     //Distance between rays  
 
     //Location of the raycast origin
     public struct RaycastOrigins
@@ -44,6 +44,7 @@ public class RaycastController : MonoBehaviour
         CalculateRaySpacing();
 	}
 
+    //Recalculate the ray spacing on an object
     public void UpdateRaySpacing()
     {
         CalculateRaySpacing();

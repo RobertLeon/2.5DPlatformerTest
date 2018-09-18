@@ -90,6 +90,59 @@ public class TreadmillController : RaycastController
                     passengerMovement.Add(new PassengerMovement(hit.transform, new Vector2(pushX, 0)));
                 }
             }
+
+            //Check if a passenger is on the treadmill
+            if (Physics.Raycast(rayOrigin, Vector2.down, out hit, rayLength, passengerMask))
+            {
+                //Add new passengers to the hash set
+                if (!movedPassengers.Contains(hit.transform))
+                {
+                    movedPassengers.Add(hit.transform);
+
+                    float pushX = velocity.x * Time.deltaTime;
+
+                    passengerMovement.Add(new PassengerMovement(hit.transform, new Vector2(pushX, 0)));
+                }
+            }
+        }
+
+        //Loop through each vertical ray
+        for (int i = 0; i < horizontalRayCount; i++)
+        {
+            Vector2 rayOrigin = raycastOrigins.bottomRight;
+            rayOrigin += Vector2.up * (verticalRaySpacing * i);
+
+            RaycastHit hit;
+
+            //Did the raycast hit anything
+            if (Physics.Raycast(rayOrigin, Vector2.right, out hit, rayLength, passengerMask))
+            {
+                //If the passenger is not in the hash set add them and move them
+                if (!movedPassengers.Contains(hit.transform))
+                {
+                    movedPassengers.Add(hit.transform);
+
+                    float pushY = velocity.y * Time.deltaTime;
+
+                    passengerMovement.Add(new PassengerMovement(hit.transform,
+                        new Vector3(0, pushY)));
+                }
+            }
+
+            //Did the raycast hit anything
+            if (Physics.Raycast(rayOrigin, Vector2.left, out hit, rayLength, passengerMask))
+            {
+                //If the passenger is not in the hash set add them and move them
+                if (!movedPassengers.Contains(hit.transform))
+                {
+                    movedPassengers.Add(hit.transform);
+
+                    float pushY = velocity.y * Time.deltaTime;
+
+                    passengerMovement.Add(new PassengerMovement(hit.transform,
+                        new Vector3(0, pushY)));
+                }
+            }
         }
     }
 }

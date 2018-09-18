@@ -250,7 +250,8 @@ public class CollisionController : RaycastController
                         continue;
                     }
                 }
-
+                
+                
                 //No collision when inside an object
                 if (hit.distance == 0)
                 {

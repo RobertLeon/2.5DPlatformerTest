@@ -98,9 +98,13 @@ public class CameraController : MonoBehaviour
         if (cameraTarget == null)
         {
             //Find the player object and set them as the target
-            cameraTarget = GameObject.FindGameObjectWithTag("Player").GetComponent<CollisionController>();
+            CollisionController player = GameObject.FindGameObjectWithTag("Player").GetComponent<CollisionController>();
+            if (player != null)
+            {
+                cameraTarget = player;
 
-            focusArea = new FocusArea(cameraTarget.boxCollider.bounds, focusAreaSize);
+                focusArea = new FocusArea(cameraTarget.boxCollider.bounds, focusAreaSize);
+            }
         }
 
         halfHeight = GetComponent<Camera>().orthographicSize;

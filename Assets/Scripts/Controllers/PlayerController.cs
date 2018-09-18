@@ -59,6 +59,7 @@ public class PlayerController : MonoBehaviour
         HandleWallSliding();
         HandleClimbing();
 
+        //Move the player
         collision.Move(velocity * Time.deltaTime, directionalInput);
 
 
@@ -94,6 +95,8 @@ public class PlayerController : MonoBehaviour
         {
 
         }
+
+        
     }
 
     //Update the movement variables of the player
@@ -307,4 +310,5 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
+
 }
