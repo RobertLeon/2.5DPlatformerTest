@@ -32,7 +32,11 @@ public class GameManager : MonoBehaviour
     public Character Player { get; set; }           //The chosen player for the game
     public string[] songNames;
 
-    private AudioController audioCon;               //
+
+    public KeyCode moveLeft, moveRight, moveUp, moveDown;
+
+    
+    private AudioController audioCon;               //Reference to the Audio Controller Script
     private int currentSceneIndex;
     
     //
@@ -59,6 +63,7 @@ public class GameManager : MonoBehaviour
     //Used for initialization
     private void Start()
     {
+
         audioCon = FindObjectOfType<AudioController>();
 
         if (audioCon != null)
@@ -90,8 +95,9 @@ public class GameManager : MonoBehaviour
     //Loading a saved game
     public void LoadGame()
     {
-
+       
     }
+    
 
     //Called when a scene is changed
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)

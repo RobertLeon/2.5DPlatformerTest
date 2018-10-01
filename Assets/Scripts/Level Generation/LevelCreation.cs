@@ -274,7 +274,7 @@ public class LevelCreation : MonoBehaviour
         Dictionary<Vector2Int, Direction> pathToExit = new Dictionary<Vector2Int, Direction>();
         pathToExit = PathToExit(entrancePos);
 
-        if (pathToExit.FirstOrDefault().Key != null)
+        if (pathToExit.FirstOrDefault().Key.ToString() != null)
         {
             //Set the transition for the entrance
             Direction transition = pathToExit.FirstOrDefault().Value.GetOpposite();

@@ -64,6 +64,7 @@ Things to Implement:
 			At least 3 if multiple files
 
 	Key Rebinding:
+		Need a way to rebind movement on gamepad and bind both trigger axis.
 
 	Enemy AI:(10%?)
 		Enemies need to awake when the player enters the room and sleep when out of the room
@@ -95,9 +96,10 @@ Things to Implement:
 Things to Research:
 	Lighting
 	Key Rebinding
-	Better Level generation
+		Need a way to store axis input for gamepads
 	Audio System
 	Game Manager System
+		User Preferences
 	Saving the current game
 	Loading previous games
 	Water Physics
@@ -106,9 +108,8 @@ Things to Research:
 Bugs/Unintended Behaviours:
 	Lighting is being weird
 	Treadmills and moving platforms need to have no rotation.
-
+	Rotating orbs are throwing an error possibly related to enemies death process
 
 
 Code that needs commenting/better comments:
 	1 GameManager
-	2
