@@ -1,0 +1,72 @@
+{
+    "inputNames": [
+        "Move Left",
+        "Move Right",
+        "Move Up",
+        "Move Down",
+        "Jump",
+        "Interact",
+        "Swap Item",
+        "Ability 1",
+        "Ability 2",
+        "Ability 3",
+        "Ability 4",
+        "Use Item",
+        "Open Map",
+        "Pause"
+    ],
+    "kbInputs": [
+        97,
+        100,
+        119,
+        115,
+        32,
+        101,
+        113,
+        257,
+        258,
+        259,
+        256,
+        271,
+        109,
+        8
+    ],
+    "gpButtonNames": [
+        "Move Left",
+        "Move Right",
+        "Move Up",
+        "Move Down",
+        "Jump",
+        "Interact",
+        "Use Item",
+        "Swap Item",
+        "Ability 1",
+        "Ability 3",
+        "Open Map",
+        "Pause"
+    ],
+    "gpButtons": [
+        12,
+        13,
+        10,
+        11,
+        0,
+        1,
+        2,
+        3,
+        8,
+        9,
+        5,
+        4
+    ],
+    "gpAxisNames": [
+        "Ability 2",
+        "Ability 4"
+    ],
+    "gpAxisInputs": [
+        4,
+        5
+    ],
+    "deadZone": 0.0,
+    "vibrationStrength": 0.0
+}

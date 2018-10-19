@@ -8,25 +8,30 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 using TMPro;
+using XboxCtrlrInput;
 
 public class KeyRebinding : MonoBehaviour {
 
     public GameObject keyBindingPrefab;                     //Prefab that populates the input menu
     public Button inputMenuButton;                          //Reference to the UI button for menu navigation
     public InputType inputType;                             //Type of input to display
+   
 
     private string rebindButton = null;                     //String to check which button is being rebinded
     private InputManager inputManager;                      //Reference to the Input Manager Script
     private Dictionary<string, TMP_Text> buttonToLabel;     //Dictionary of keyboard inputs to change
     private Dictionary<string, Image> buttonToImage;        //Dictionary of gamepad inputs to change
+    private List<Button> buttons;
 
     // Use this for initialization
-    void Start()
+    public virtual void Start()
     {
+        //Get the inputManager from the scene
         inputManager = FindObjectOfType<InputManager>();
 
-        //Initialize the menu depending on input typ
+        //Initialize the menu depending on input type
         switch (inputType)
         {
             case InputType.Keyboard:
@@ -42,6 +47,13 @@ public class KeyRebinding : MonoBehaviour {
                 Debug.LogError("Input type not specified or accounted for.");
                 break;
         }
+    }
+
+    //When the script is enabled
+    private void OnEnable()
+    {
+        //Load the keyboard bindings from file
+        GameManager.Instance.SetKeyBoardInputs(GameManager.Instance.LoadInputs());
     }
 
     //Initializes the input menu for gamepad inputs
@@ -74,16 +86,8 @@ public class KeyRebinding : MonoBehaviour {
             buttonToImage.Add(btnName, bindBtnImage);
 
             //Add a listener for the button
-            bindButton.onClick.AddListener(() => { RebindKey(btnName); });
+            bindButton.onClick.AddListener(delegate { RebindKey(btnName); });            
         }
-
-        //Create a new navigation and set the select on up to the last rebind button
-        Navigation nav = new Navigation();
-        nav.mode = Navigation.Mode.Explicit;
-        nav.selectOnUp = buttonToImage.LastOrDefault().Value.transform.GetComponentInParent<Button>();
-
-        //Set the navigation on the inputMenu Button
-        inputMenuButton.navigation = nav;
     }
 
     //Initializes the input menu for keyboard inputs
@@ -164,28 +168,28 @@ public class KeyRebinding : MonoBehaviour {
         }
     }
 
-
-
     //Rebinds the keyboard  input 
     private IEnumerator RebindInput()
     {
         //Wait a small amount of time to not bind the confirmation input
-        yield return new WaitForSeconds(0.01f);
-
-        //Array of each gamepad button
-        KeyCode[] gamepadInput = { KeyCode.JoystickButton0,
-                KeyCode.JoystickButton1, KeyCode.JoystickButton2,
-                KeyCode.JoystickButton3, KeyCode.JoystickButton4,
-                KeyCode.JoystickButton5, KeyCode.JoystickButton6,
-                KeyCode.JoystickButton7, KeyCode.Joystick1Button0,
-                KeyCode.Joystick1Button1, KeyCode.Joystick1Button2,
-                KeyCode.Joystick1Button3, KeyCode.Joystick1Button4,
-                KeyCode.Joystick1Button5, KeyCode.Joystick1Button6,
-                KeyCode.Joystick1Button7 };
+        yield return new WaitForSeconds(0.1f);
 
         //Rebind keyboard input
         if (inputType == InputType.Keyboard)
         {
+            //List of gamepad inputs
+            List<KeyCode> gamepadInput = new List<KeyCode>();
+
+            //Loop through each keycode 
+            foreach (KeyCode key in Enum.GetValues(typeof(KeyCode)))
+            {
+                //Check for a joystick input and add it to the list
+                if (key.ToString().Contains("Joy"))
+                {
+                    gamepadInput.Add(key);
+                }
+            }
+
             //Cancels the current attempt to rebind the keys
             if (Input.GetButtonDown("Cancel"))
             {
@@ -198,14 +202,15 @@ public class KeyRebinding : MonoBehaviour {
                 foreach (KeyCode input in Enum.GetValues(typeof(KeyCode)))
                 {
                     //Set the key binding to the input given and reset the check for input
-                    if (Input.GetKeyDown(input))
+                    if (Input.GetKeyDown(input) && rebindButton != null)
                     {
-                        //Ignore gamepad input
+                        //Check if the input is not from a gamepad
                         if (!gamepadInput.Contains(input))
                         {
                             inputManager.SetKeyBoardButton(rebindButton, input);
                             buttonToLabel[rebindButton].text = input.ToString();
                             rebindButton = null;
+                            GameManager.Instance.SaveInputs();
                             break;
                         }
                     }
@@ -214,42 +219,121 @@ public class KeyRebinding : MonoBehaviour {
         }
 
         //Rebind game pad input
-        if(inputType == InputType.Gamepad)
+        if (inputType == InputType.Gamepad)
         {
-            //Check for input
-            if(Input.anyKeyDown)
+            //Loop through each XboxButton for a match
+            foreach (XboxButton input in Enum.GetValues(typeof(XboxButton)))
             {
-                //Loop through each input
-                foreach(KeyCode input in gamepadInput)
+                //Set the gamepad binding for the input given
+                if (XCI.GetButtonDown(input) && rebindButton != null)
                 {
-                    //Set the key binding to the input given and reset the check for input
-                    if (Input.GetKeyDown(input))
-                    {
-                        inputManager.SetGamePadButton(rebindButton, input);
-                        buttonToImage[rebindButton].sprite = inputManager.GetGamePadButton(input);
-                        rebindButton = null;
-                        break;
-                    }
+                    inputManager.SetGamePadButton(rebindButton, input);
+                    buttonToImage[rebindButton].sprite = inputManager.GetGamePadButton(rebindButton);
+                    rebindButton = null;
+                    GameManager.Instance.SaveInputs();
+                    break;                    
                 }
+            }
+
+            //Check if the left trigger has been pressed
+            if (XCI.GetAxisRaw(XboxAxis.LeftTrigger) >= 0.5f && rebindButton != null)
+            {
+                //Set the gamepad binding to left trigger
+                inputManager.SetGamePadButton(rebindButton, XboxAxis.LeftTrigger);
+                buttonToImage[rebindButton].sprite = inputManager.GetGamePadButton(rebindButton);
+                rebindButton = null;
+                GameManager.Instance.SaveInputs();
+            }
+
+            //Check if the right trigger has been pressed
+            if (XCI.GetAxis(XboxAxis.RightTrigger) >= 0.5f && rebindButton != null)
+            {
+                //set the gamepad binding to right trigger
+                inputManager.SetGamePadButton(rebindButton, XboxAxis.RightTrigger);
+                buttonToImage[rebindButton].sprite = inputManager.GetGamePadButton(rebindButton);
+                rebindButton = null;
+                GameManager.Instance.SaveInputs();
             }
         }
     }
 
-	// Update is called once per frame
-	void Update ()
+    //Update the buttons from outside rebinding
+    public void UpdateButtons()
+    {
+        //Update the keyboard inputs
+        if (inputType == InputType.Keyboard)
+        {
+            if (buttonToLabel != null)
+            {
+                //Update each button label
+                foreach (string name in buttonToLabel.Keys)
+                {
+                    buttonToLabel[name].text = inputManager.GetKeyBoardButtonName(name);
+                }
+            }
+        }
+
+        //Updatethe gamepad inputs
+        if (inputType == InputType.Gamepad)
+        {
+            //Update each button image
+            foreach (string name in buttonToImage.Keys)
+            {
+                buttonToImage[name].sprite = inputManager.GetGamePadButton(name);
+            }
+        }
+    }
+
+    //Reset the rebinds to default
+    public void ResetToDefault()
+    {
+        //Reset the rebinds for keboard input
+        if (inputType == InputType.Keyboard)
+        {
+            //Reset the inputs to default
+            inputManager.ResetInput(inputType);
+
+            //Update each button
+            foreach(string input in buttonToLabel.Keys)
+            {
+                buttonToLabel[input].text = inputManager.GetKeyBoardButtonName(input);                
+            }
+
+            //Save inputs
+            GameManager.Instance.SaveInputs();
+        }
+
+        //Reset the rebinds for gamepad
+        if(inputType == InputType.Gamepad)
+        {
+            //Reset the inputs to default
+            inputManager.ResetInput(inputType);
+
+            //Update each button
+            foreach(string input in buttonToImage.Keys)
+            {
+                buttonToImage[input].sprite = inputManager.GetGamePadButton(input);
+            }
+            //Save inputs
+            GameManager.Instance.SaveInputs();
+        }
+    }
+
+    // Update is called once per frame
+    void Update()
     {
         //Check if a key needs rebinding
-		if(rebindButton != null)
+        if (rebindButton != null)
         {
             StartCoroutine(RebindInput());
         }
-	}
+    }
 }
 
 //Different input types
 public enum InputType
 {
     Keyboard,
-    Gamepad
-        //,Xbox, SteamController,PlayStation,Nintendo
+    Gamepad,
+    //Xbox, SteamController, PlayStation, Nintendo, Other
 }

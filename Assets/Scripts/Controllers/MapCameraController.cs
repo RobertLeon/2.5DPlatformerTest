@@ -13,12 +13,12 @@ public class MapCameraController : MonoBehaviour
     public GameObject pauseMenuOptions;             //Pause menu options game object
     public bool isMapOpen = false;                  //Is the map open?
     public float moveSpeed = 2f;                    //Speed the camera moves when
-    public float minSize = 50f;
-    public float maxSize = 200f;
-    public float zoomAmount = 50f;
+    public float minSize = 50f;                     //How far out you can zoom the camera
+    public float maxSize = 200f;                    //How close in you can zoom the camera
+    public float zoomAmount = 50f;                  //Amount you move the camera in/out
 
 
-    private PlayerInput playerInput;                //Reference to the Player Input script
+    private InputManager inputManager;              //Reference to the Input Manager
     private PauseMenu pause;                        //Reference to the Pause Menu script
     private Vector3 dragOrigin;                     //Origin of the mouse drag
     private Camera cam;                             //Reference to the camera component
@@ -26,16 +26,10 @@ public class MapCameraController : MonoBehaviour
     //Use this for initialization
     void Start()
     {
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
-
-        //Check if the player exists in the scene
-        if (player != null)
-        {
-            playerInput = player.GetComponent<PlayerInput>();
-        }
-
+        //Get the Pause menu and Camera components from the scene
         pause = pauseMenu.GetComponentInParent<PauseMenu>();
         cam = GetComponent<Camera>();
+        inputManager = FindObjectOfType<InputManager>();
     }
 
     //Update is called once per frame
@@ -44,35 +38,28 @@ public class MapCameraController : MonoBehaviour
         //If the map is not open
         if (!isMapOpen && !pause.paused)
         {
-            //Check for player input
-            if (playerInput != null)
+            //If a map button was pressed open the map and pause the game
+            if (inputManager.GetKey("Open Map") || inputManager.GetButtonDown("Open Map"))
             {
-                //If a map button was pressed open the map and pause the game
-                if (Input.GetKeyDown(playerInput.ctMap) || Input.GetKeyDown(playerInput.kbMap))
-                {
-                    pause.Pause();
-                    mapMenu.SetActive(true);
-                    pauseMenuOptions.SetActive(false);
-                    pauseMenu.SetActive(true);
-                    isMapOpen = true;
-                }
+                pause.Pause();
+                mapMenu.SetActive(true);
+                pauseMenuOptions.SetActive(false);
+                pauseMenu.SetActive(true);
+                isMapOpen = true;
             }
+
         }
         //The map is open
         else if (isMapOpen)
         {
-            //Check for player input
-            if (playerInput != null)
+            //If the map button was pressed close the map and resume playing
+            if (inputManager.GetKey("Open Map") || inputManager.GetButtonDown("Open Map"))
             {
-                //If the map button was pressed close the map
-                if (Input.GetKeyDown(playerInput.ctMap) || Input.GetKeyDown(playerInput.kbMap))
-                {
-                    pause.Resume();
-                    mapMenu.SetActive(false);
-                    pauseMenu.SetActive(false);
-                    pauseMenuOptions.SetActive(true);
-                    isMapOpen = false;
-                }
+                pause.Resume();
+                mapMenu.SetActive(false);
+                pauseMenu.SetActive(false);
+                pauseMenuOptions.SetActive(true);
+                isMapOpen = false;
             }
         }
     }
@@ -81,7 +68,6 @@ public class MapCameraController : MonoBehaviour
     //Updates after each frame
     private void LateUpdate()
     {
-
         //Check if the map is open
         if (isMapOpen)
         {
@@ -102,7 +88,6 @@ public class MapCameraController : MonoBehaviour
             {
                 cam.orthographicSize -= zoomAmount;
             }
-
 
             //DO NOT PUT CODE BELOW THIS FUNCTION
             //Moves the camera with mouse drag

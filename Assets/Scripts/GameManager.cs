@@ -5,9 +5,10 @@ using System;
 using System.IO;
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.Serialization.Formatters.Binary;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using XboxCtrlrInput;
 
 
 
@@ -30,19 +31,19 @@ public class GameManager : MonoBehaviour
     #endregion
 
     public Character Player { get; set; }           //The chosen player for the game
-    public string[] songNames;
-
-
-    public KeyCode moveLeft, moveRight, moveUp, moveDown;
-
+    public string[] songNames;                      //Names of the songs
     
     private AudioController audioCon;               //Reference to the Audio Controller Script
-    private int currentSceneIndex;
-    
+    private InputManager inputManager;              //Reference to the Input Manager Script
+    private GamepadRebinding[] gpRebinds;           //Reference to the Game Pad Rebinding Script
+    private int currentSceneIndex;                  //Index of the current game scene
+    private string jsonInputPath;                   //String path to PlayerInput.json
+    private string jsonInputData;                   //String of data from PlayerInput.json
+
     //
     private void Awake()
     {
-        //
+        //Singleton
         if (_instance == null)
         {
             _instance = this;
@@ -52,6 +53,8 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        jsonInputPath = Application.streamingAssetsPath + "/PlayerInput.json";
     }
 
     //
@@ -63,8 +66,8 @@ public class GameManager : MonoBehaviour
     //Used for initialization
     private void Start()
     {
-
-        audioCon = FindObjectOfType<AudioController>();
+        audioCon = FindObjectOfType<AudioController>();        
+        inputManager = GetComponent<InputManager>();  
 
         if (audioCon != null)
         {
@@ -73,31 +76,130 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    //Saving the game's progress
-    public void SaveGame()
+    //Saving the player's inputs
+    public void SaveInputs()
     {
-        //If the save data doesn't exist create it
-        if (!File.Exists(Application.persistentDataPath + "/SaveData.dat"))
+        if(inputManager == null)
         {
-            BinaryFormatter bf = new BinaryFormatter();
-            FileStream file = File.Create(Application.persistentDataPath + "/SaveData.dat");
+            inputManager = GetComponent<InputManager>();
+        }
 
-            PlayerData data = new PlayerData();
+        gpRebinds = Resources.FindObjectsOfTypeAll<GamepadRebinding>();
+        float dZone, vibrate;
 
-            data.unlockedItems = new List<Items>();
-            data.unlockedCharacters = new List<Character>();
+        //Check for the gamepad rebinding in the scene
+        if(gpRebinds != null)
+        {
+            dZone = gpRebinds[0].GetDeadZone();
+            vibrate = gpRebinds[0].GetVibration();
+        }
+        else
+        {
+            //Attempt to load deadzone and vibration strength from file
+            PlayerInputData inputData = LoadInputs();
 
-            bf.Serialize(file, data);
-            file.Close();
+            dZone = inputData.deadZone;
+            vibrate = inputData.vibrationStrength;
+        }
+
+        //If the save data doesn't exist create it
+        if (!File.Exists(jsonInputPath))
+        {
+            //Error
+            Debug.LogError(jsonInputPath + " was not found, Attempting to create one.");
+
+            //Hopefully creates the PlayerInput.json
+            File.Create(jsonInputPath);
+
+            //Player input data
+            PlayerInputData inputData = new PlayerInputData()
+            {
+                inputNames = inputManager.GetKeyBoardInputNames().ToList(),
+                kbInputs = inputManager.SaveKeyboardInputs(),
+                gpButtonNames = inputManager.SaveGamePadButtonNames(),
+                gpButtons = inputManager.SaveGamePadButtons(),
+                gpAxisNames = inputManager.SaveGamePadAxisNames(),
+                gpAxisInputs = inputManager.SaveGamePadAxis(),
+                deadZone = dZone,
+                vibrationStrength = vibrate
+            };
+
+            //Convert the input data to json
+            jsonInputData = JsonUtility.ToJson(inputData, true);
+
+            //Write the data to json file
+            File.WriteAllText(jsonInputPath, jsonInputData);
+
+            Debug.Log("Saved json file");
+        }
+        else
+        {
+            //Create player input data
+            PlayerInputData inputData = new PlayerInputData()
+            {
+                inputNames = inputManager.GetKeyBoardInputNames().ToList(),
+                kbInputs = inputManager.SaveKeyboardInputs(),
+                gpButtonNames = inputManager.SaveGamePadButtonNames(),
+                gpButtons = inputManager.SaveGamePadButtons(),
+                gpAxisNames = inputManager.SaveGamePadAxisNames(),
+                gpAxisInputs = inputManager.SaveGamePadAxis(),
+                deadZone = dZone,
+                vibrationStrength = vibrate
+            };
+
+            //Convert the input datat to json
+            jsonInputData = JsonUtility.ToJson(inputData, true);
+
+            //Write the input data to json file
+            File.WriteAllText(jsonInputPath, jsonInputData);
+
+            Debug.Log("Saved json file");
         }
     }
 
-    //Loading a saved game
-    public void LoadGame()
+    //Loading the player's inputs
+    public PlayerInputData LoadInputs()
+    {
+        if (!File.Exists(jsonInputPath))
+        {
+            Debug.LogWarning("Failed to load Inputs from: " +jsonInputPath);
+            return null;
+        }
+        else
+        {
+            jsonInputData = File.ReadAllText(jsonInputPath);
+            PlayerInputData inputData = JsonUtility.FromJson<PlayerInputData>(jsonInputData);
+            return inputData;
+        }
+    }
+
+    //Set the keyboard inputs
+    public void SetKeyBoardInputs(PlayerInputData inputData)
     {
        
+        //Loop through and set each keyboard button
+        for (int i = 0; i < inputData.inputNames.Count; i++)
+        {
+            inputManager.SetKeyBoardButton(inputData.inputNames[i], inputData.kbInputs[i]);
+        }
+
     }
-    
+
+    //Set the gamepad inputs
+    public void SetGamePadInputs(PlayerInputData inputData)
+    {
+        //Loop through and set each of the gamepad buttons
+        for (int i = 0; i < inputData.gpButtonNames.Count; i++)
+        {
+            inputManager.SetGamePadButton(inputData.gpButtonNames[i], inputData.gpButtons[i]);
+        }
+
+        //Loop through and set each of the gamepad axis
+        for (int i = 0; i < inputData.gpAxisNames.Count; i++)
+        {
+            inputManager.SetGamePadButton(inputData.gpAxisNames[i], inputData.gpAxisInputs[i]);
+        }
+    }
 
     //Called when a scene is changed
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -107,12 +209,17 @@ public class GameManager : MonoBehaviour
     }
 }
 
-//Player's saved data
+//Player's saved input data
 [Serializable]
-class PlayerData
+public class PlayerInputData
 {
-    public List<Items> unlockedItems;                   //List of unlocked items
-    public List<Character> unlockedCharacters;          //List of unlocked characters
-    
+    public List<string> inputNames = new List<string>();
+    public List<KeyCode> kbInputs = new List<KeyCode>();
+    public List<string> gpButtonNames = new List<string>();
+    public List<XboxButton> gpButtons = new List<XboxButton>();
+    public List<string> gpAxisNames = new List<string>();
+    public List<XboxAxis> gpAxisInputs = new List<XboxAxis>();
+    public float deadZone;
+    public float vibrationStrength;
 }
 

@@ -25,18 +25,24 @@ public class PauseMenu : MonoBehaviour
     private PlayerInput playerInput;                //Reference to the PlayerInput script
     private CollisionController collision;          //Reference to the CollisionController script
     private GameObject currentMenu;                 //Current menu game object
+    private InputManager inputManager;              //Reference to the Input Manager script
 
     public void InitializePauseMenu()
     {
         //Find the player game object
         GameObject player = GameObject.FindGameObjectWithTag("Player");
-        levelLoader = FindObjectOfType<LevelLoader>();
-        currentMenu = pauseMenu;    
+        playerInput = player.GetComponent<PlayerInput>();
 
-        //If the player exists get the PlayerInput and CollisionController components
+        //Find the input manager in the scene
+        inputManager = FindObjectOfType<InputManager>();
+
+        //Find the levelLoader and set the current menu to the pauseMenu
+        levelLoader = FindObjectOfType<LevelLoader>();
+        currentMenu = pauseMenuOptions;    
+
+        //If the player exists get the CollisionController components
         if (player != null)
         {
-            playerInput = player.GetComponent<PlayerInput>();
             collision = player.GetComponent<CollisionController>();
         }
     }
@@ -44,39 +50,19 @@ public class PauseMenu : MonoBehaviour
     //Update is called once per frame
     void Update()
 	{
-
-        //Check for specified input
-		if(playerInput != null)
+        if (inputManager.GetKeyDown("Pause") || inputManager.GetButtonDown("Pause"))
         {
-            if (Input.GetKeyDown(playerInput.ctPause) || Input.GetKeyDown(playerInput.kbPause))
+            //If the game is paused resume play otherwise pause the game
+            if (gameIsPaused)
             {
-                //If the game is paused resume play otherwise pause the game
-                if (gameIsPaused)
-                {
-                    Resume();
-                }
-                else
-                {
-                    Pause();
-                }
+                Resume();
+            }
+            else
+            {
+                Pause();
             }
         }
-        //If there is no player input script use hardcoded values
-        else
-        {
-            if(Input.GetKeyDown(KeyCode.Escape)||Input.GetKeyDown(KeyCode.Joystick1Button7))
-            {
-                //If the game is paused resume play otherwise pause the game
-                if (gameIsPaused)
-                {
-                    Resume();
-                }
-                else
-                {
-                    Pause();
-                }
-            }
-        }
+                
 	}
 
     //Resume gameplay
@@ -108,16 +94,17 @@ public class PauseMenu : MonoBehaviour
     {
         //Show the pause menu
         pauseMenu.SetActive(true);
-
+        
+        //Check if the current menu is not the pause menu
+        if (currentMenu != pauseMenuOptions)
+        {
+            currentMenu.SetActive(false);
+            pauseMenuOptions.SetActive(true);            
+        }
+        
+        
         //Hide the mini map
         miniMap.SetActive(false);
-
-        //Check if the current menu is not the pause menu
-        if (currentMenu != pauseMenu)
-        {
-            pauseMenuOptions.SetActive(true);
-            currentMenu.SetActive(false);
-        }
 
         //Selects the resume button for controller input
         resumeButton.Select();

@@ -14,15 +14,11 @@ public class AbilityCooldown : MonoBehaviour
     public Image cooldownMask;              //Cooldown mask
     public TMP_Text cooldownDisplay;        //Cooldown text
     public GameObject descriptionBox;       //Ability description box
-    public int abilityNumber;               //
+    public int abilityNumber;               //Number of the ability
     [HideInInspector]
-    public bool coolDownComplete;           //
+    public bool coolDownComplete;           //Check if the cool down has completed
     [HideInInspector]
-    public KeyCode controllerInput;         //
-    [HideInInspector]
-    public KeyCode keyboardInput;           //
-    
-
+    public string inputName;                //Name of the input
 
     [SerializeField]
     private Ability ability;                //Ability being used    
@@ -33,16 +29,14 @@ public class AbilityCooldown : MonoBehaviour
     
 
     //Initalize the ability
-    public void Initialize(Ability selectedAbilty, GameObject user,
-        KeyCode kbInput, KeyCode ctInput)
+    public void Initialize(Ability selectedAbilty, GameObject user, string input)
     {
         //Assign the ability's information
         ability = selectedAbilty;
         abilityImage = cooldownIcon.GetComponent<Image>();
         abilityImage.sprite = ability.abilitySprite;
         cooldownMask.sprite = ability.abilitySprite;
-        controllerInput = ctInput;
-        keyboardInput = kbInput;        
+        inputName = input;
 
         //Set the cooldown, initialize the ability and ready it for use
         coolDownDuration = ability.abilityCooldown;

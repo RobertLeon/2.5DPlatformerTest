@@ -13,7 +13,7 @@ public class ItemSpawner : MonoBehaviour
     public List<ItemTable> itemTable;               //Items to assign to the pick up prefab
     public Vector3[] itemSpawnOffsets;              //Where the item spawns in relation to the spawner
 
-    private PlayerInput playerInput;                //Player input
+    private InputManager inputManager;              //Reference to the Input Manager Script
     private bool multipleItems = false;             //Flag for multiple items
     private float itemDrop;                         //Chance for an item to drop
     private bool itemSpawned = false;               //Check if the item has spawned
@@ -21,8 +21,7 @@ public class ItemSpawner : MonoBehaviour
     //Use this for initialization
     void Start()
     {
-        //Reference to the player's input
-        playerInput = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerInput>();
+        inputManager = FindObjectOfType<InputManager>();
         
         //Set the drop chance of the item spawner
         itemDrop = Random.value;
@@ -50,7 +49,7 @@ public class ItemSpawner : MonoBehaviour
         if (other.tag == "Player")
         {
             //Check for the player's input
-            if (Input.GetKeyDown(playerInput.kbInteract) || Input.GetKeyDown(playerInput.ctInteract))
+            if (inputManager.GetKey("Interact") || inputManager.GetButtonDown("Interact"))
             {
                 //Create a list of items to spawn
                 List<Items> itemToSpawn = new List<Items>();

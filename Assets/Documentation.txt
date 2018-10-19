@@ -12,6 +12,7 @@ Things to Implement:
 
 	Map Controller:
 		Move map to specific room types
+		Move map based on saved inputs from InputManager
 		
 
 	Rooms: (0%)
@@ -64,7 +65,7 @@ Things to Implement:
 			At least 3 if multiple files
 
 	Key Rebinding:
-		Need a way to rebind movement on gamepad and bind both trigger axis.
+		Need a way to ignore gamepad input when rebinding keyboard inputs.
 
 	Enemy AI:(10%?)
 		Enemies need to awake when the player enters the room and sleep when out of the room
@@ -106,6 +107,7 @@ Things to Research:
 
 
 Bugs/Unintended Behaviours:
+	Movement using Input Manager is a bit sticky / drops inputs?
 	Lighting is being weird
 	Treadmills and moving platforms need to have no rotation.
 	Rotating orbs are throwing an error possibly related to enemies death process
@@ -113,3 +115,4 @@ Bugs/Unintended Behaviours:
 
 Code that needs commenting/better comments:
 	1 GameManager
+	2 AbilityCooldown

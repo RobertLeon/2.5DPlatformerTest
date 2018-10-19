@@ -6,45 +6,31 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using XboxCtrlrInput;
 
 [RequireComponent(typeof(PlayerController))]
 public class PlayerInput : MonoBehaviour
 {
-    //Keyboard input
-    [Header("Keyboard Input")]
-    public KeyCode kbJump;
-    public KeyCode kbAbility1;
-    public KeyCode kbAbility2;
-    public KeyCode kbAbility3;
-    public KeyCode kbAbility4;
-    public KeyCode kbPause;
-    public KeyCode kbInteract;
-    public KeyCode kbMap;
-
-    //Xbox Controller input
-    [Header("Controller Input")]
-    public KeyCode ctJump;
-    public KeyCode ctAbility1;
-    public KeyCode ctAbility2;
-    public KeyCode ctAbility3;
-    public KeyCode ctAbility4;
-    public KeyCode ctPause;
-    public KeyCode ctInteract;
-    public KeyCode ctMap;
-
     private PlayerController playerController;      //Reference to the Player Controller script
-    private PauseMenu pauseMenu;                    //Reference to the Pause Menu script
-    private Vector2 directionalInput;               //Input for the direction of the player
+    private PauseMenu pauseMenu;                    //Reference to the Pause Menu script     
+    private InputManager inputManager;              //Reference to the Input Manager script
+    private Vector2 directionalInput;               //The amount the player moves in a certain direction
+    private float deadZone;                         //Deadzone for gamepad thumb sticks
+
 
     //Use this for initialization
     void Start()
     {
         //Get references in the scene
-        playerController = GetComponent<PlayerController>();        
+        playerController = GetComponent<PlayerController>();
         pauseMenu = FindObjectOfType<PauseMenu>();
+        inputManager = FindObjectOfType<InputManager>();
 
         //Activate the Camera Controller script
-        //Camera.main.GetComponent<CameraController>().enabled = true;
+        Camera.main.GetComponent<CameraController>().enabled = true;
+
+        //Load deadzone from file
+        deadZone = GameManager.Instance.LoadInputs().deadZone;
 
         //Initialize the pause menu
         if (pauseMenu != null)
@@ -53,58 +39,140 @@ public class PlayerInput : MonoBehaviour
         }
     }
 
+    //Updates the deadzone during play
+    public void UpdateDeadZone(float dZone)
+    {
+        deadZone = dZone;
+    }
+
     //Update is called once per frame
     void Update()
     {
-        //Set directional input from the horizontal and vertial axis
-        directionalInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+        //Gamepad  input movement
+        GamepadAxisMovement(deadZone);
 
-        //For controller input
-        DeadZone(0.5f);
-
+        //Keyboard input movmenet
+        KeyBoardMovement();
+             
         //Set the input in the PlayerController input
         playerController.SetDirectionalInput(directionalInput);
 
         //Jump input being pressed
-        if (Input.GetKeyDown(kbJump) || Input.GetKeyDown(ctJump))
+        if (inputManager.GetKeyDown("Jump") || inputManager.GetButtonDown("Jump"))
         {
             playerController.OnJumpInputDown();
         }
 
         //Jump input being released
-        if (Input.GetKeyUp(kbJump) || Input.GetKeyUp(ctJump))
+        if (inputManager.GetKeyUp("Jump") || inputManager.GetButtonUp("Jump"))
         {
             playerController.OnJumpInputUp();
         }
     }
 
-    //Handles the amount
-    private void DeadZone(float zoneAmount)
+
+    //Check for keyboard movment inputs
+    private void KeyBoardMovement()
     {
-        if (directionalInput.y >= zoneAmount)
+        //Moving left via button input
+        if (inputManager.GetKey("Move Left"))
         {
-            directionalInput.y = 1;
+            directionalInput.x = -1f;
         }
-        else if (directionalInput.y <= -zoneAmount)
+
+        //Moving right via button input
+        if (inputManager.GetKey("Move Right"))
         {
-            directionalInput.y = -1;
+            directionalInput.x = 1f;
+        }
+
+        //Moving up via button input
+        if (inputManager.GetKey("Move Up"))
+        {
+            directionalInput.y = 1f;
+        }
+
+        //Moving down via button input
+        if (inputManager.GetKey("Move Down"))
+        {
+            directionalInput.y = -1f;
+        }
+
+        //Stop moving up or down when releasing the movement button
+        if(inputManager.GetKeyUp("Move Up") || inputManager.GetKeyUp("Move Down"))
+        {
+            directionalInput.y = 0f;
+        }
+
+        //Stop moving left or right when releasing the movement button button
+        if (inputManager.GetKeyUp("Move Left") || inputManager.GetKeyUp("Move Right"))
+        {
+            directionalInput.x = 0f;
+        }
+    }
+    
+    //Check for Gamepad movement inputs
+    private void GamepadAxisMovement(float dZone)
+    {
+        //Gamepad Thumb stick input
+        float xInput = XCI.GetAxis(XboxAxis.LeftStickX);
+        float yInput = XCI.GetAxis(XboxAxis.LeftStickY);
+
+        //Check for dead zone on the x axis
+        if(Mathf.Abs(xInput) < dZone)
+        {
+            directionalInput.x = 0f; 
         }
         else
+        {
+            directionalInput.x = xInput;
+        }
+
+        //Check for dead zone on the y axis
+        if(Mathf.Abs(yInput) < dZone)
         {
             directionalInput.y = 0;
         }
-
-        if (directionalInput.x >= zoneAmount)
-        {
-            directionalInput.x = 1;
-        }
-        else if (directionalInput.x <= -zoneAmount)
-        {
-            directionalInput.x = -1;
-        }
         else
         {
-            directionalInput.x = 0;
+            directionalInput.y = yInput;
+        }
+
+
+        //Check to move left
+        if (inputManager.GetButton("Move Left"))
+        {
+            directionalInput.x = -1f;
+        }
+        
+        //Check to move right
+        if (inputManager.GetButton("Move Right"))
+        {
+            directionalInput.x = 1f;
+        }
+
+        //Check to move up
+        if (inputManager.GetButton("Move Up"))
+        {
+            directionalInput.y = 1f;
+        }
+
+        //Check to move down
+        if (inputManager.GetButton("Move Down"))
+        {
+            directionalInput.y = -1f;
+        }
+
+        //Check if the vertical movement buttons have been released
+        if (inputManager.GetButtonUp("Move Up") || inputManager.GetButtonUp("Move Down"))
+        {
+            directionalInput.y = 0f;
+        }
+
+        //Check if the horizontal movement buttons have been released
+        if (inputManager.GetButtonUp("Move Left") || inputManager.GetButtonUp("Move Right"))
+        {
+            directionalInput.x = 0f;
         }
     }
 }

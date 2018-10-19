@@ -13,16 +13,16 @@ public class AbilityHolder : MonoBehaviour
 
     private AbilityCooldown[] abilityButtons;           //References to the Ability Cool Down Scripts
     private Character playerChar;                       //Reference to the Player Character script
-    private PlayerInput playerInput;                    //Reference to the Player Input script
+    private InputManager inputManager;                    //Reference to the Player Input script
     private float globalTimer;                          //Global cool down timer
-    private bool globalCoolDown;                        //Check if the global cool sown is active
+    private bool globalCoolDown;                        //Check if the global cool down is active
 
 	//Use this for initialization
 	void Start()
 	{
         //Set
         playerChar = GameManager.Instance.Player;
-        playerInput = GetComponent<PlayerInput>();
+        inputManager = FindObjectOfType<InputManager>();
         abilities = playerChar.characterAbilities;
         abilityButtons = FindObjectsOfType<AbilityCooldown>();
 
@@ -54,8 +54,8 @@ public class AbilityHolder : MonoBehaviour
     private void ActivateAbility()
     {
         //Activate the first ability
-        if((Input.GetKey(abilityButtons[0].controllerInput) 
-            || Input.GetKey(abilityButtons[0].keyboardInput)) 
+        if((inputManager.GetKey(abilityButtons[0].inputName) 
+            || inputManager.GetButtonDown(abilityButtons[0].inputName)) 
             && abilityButtons[0].coolDownComplete && globalCoolDown)
         {
             abilityButtons[0].ActivateAbility();
@@ -63,8 +63,8 @@ public class AbilityHolder : MonoBehaviour
         }
 
         //Activate the second ability
-        if ((Input.GetKey(abilityButtons[1].controllerInput)
-            || Input.GetKey(abilityButtons[1].keyboardInput))
+        if ((inputManager.GetKey(abilityButtons[1].inputName)
+            || inputManager.GetButtonDown(abilityButtons[1].inputName))
             && abilityButtons[1].coolDownComplete && globalCoolDown)
         {
             abilityButtons[1].ActivateAbility();
@@ -72,8 +72,8 @@ public class AbilityHolder : MonoBehaviour
         }
 
         //Activate the third ability
-        if ((Input.GetKey(abilityButtons[2].controllerInput)
-            || Input.GetKey(abilityButtons[2].keyboardInput))
+        if ((inputManager.GetKey(abilityButtons[2].inputName)
+            || inputManager.GetButtonDown(abilityButtons[2].inputName))
             && abilityButtons[2].coolDownComplete && globalCoolDown)
         {
             abilityButtons[2].ActivateAbility();
@@ -81,8 +81,8 @@ public class AbilityHolder : MonoBehaviour
         }
 
         //Activate the fourth ability
-        if ((Input.GetKey(abilityButtons[3].controllerInput)
-            || Input.GetKey(abilityButtons[3].keyboardInput))
+        if ((inputManager.GetKey(abilityButtons[3].inputName)
+            || inputManager.GetButtonDown(abilityButtons[3].inputName))
             && abilityButtons[3].coolDownComplete && globalCoolDown)
         {
             abilityButtons[3].ActivateAbility();
@@ -109,22 +109,22 @@ public class AbilityHolder : MonoBehaviour
             {
                 case 0:
                     abilityButtons[num].Initialize(abilities[0], transform.gameObject,
-                        playerInput.kbAbility1, playerInput.ctAbility1);
+                        "Ability 1");
                     break;
 
                 case 1:
                     abilityButtons[num].Initialize(abilities[1], transform.gameObject,
-                        playerInput.kbAbility2, playerInput.ctAbility2);
+                        "Ability 2");
                     break;
 
                 case 2:
                     abilityButtons[num].Initialize(abilities[2], transform.gameObject,
-                        playerInput.kbAbility3, playerInput.ctAbility3);
+                        "Ability 3");
                     break;
 
                 case 3:
                     abilityButtons[num].Initialize(abilities[3], transform.gameObject,
-                        playerInput.kbAbility4, playerInput.ctAbility4);
+                        "Ability 4");
                     break;
 
                 default:

@@ -240,8 +240,8 @@ public class PlayerController : MonoBehaviour
     private void HandleClimbing()
     {
         //If the player can climb up or down
-        if (collision.collisions.canClimb && directionalInput.y == 1 || 
-            collision.collisions.canClimb && directionalInput.y == -1)
+        if (collision.collisions.canClimb && directionalInput.y >= 0.65f || 
+            collision.collisions.canClimb && directionalInput.y <= -0.65f)
         {
             velocity.y = Mathf.Sign(directionalInput.y) * (climbSpeed + playerStats.movement.speedModifier);
 
