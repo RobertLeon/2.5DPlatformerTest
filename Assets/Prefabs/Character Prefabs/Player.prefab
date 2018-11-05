@@ -67,7 +67,7 @@ GameObject:
   m_Layer: 8
   m_Name: TextSpawnPosition
   m_TagString: Untagged
-  m_Icon: {fileID: -6488666005112524639, guid: 0000000000000000d000000000000000, type: 0}
+  m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -337,6 +337,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f01b69cc2296908419e183a5a8d9155b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemIcon: {fileID: 114874999618384382, guid: 4388e8932de51c644ab62bbd1ab1fccc, type: 2}
+  inventory: []
 --- !u!114 &114637909645326808
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -362,22 +364,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9fde7a23f13645349ac27c825a2666d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  kbJump: 32
-  kbAbility1: 256
-  kbAbility2: 257
-  kbAbility3: 258
-  kbAbility4: 259
-  kbPause: 27
-  kbInteract: 120
-  kbMap: 109
-  ctJump: 330
-  ctAbility1: 0
-  ctAbility2: 0
-  ctAbility3: 0
-  ctAbility4: 0
-  ctPause: 337
-  ctInteract: 332
-  ctMap: 0
 --- !u!114 &114865009655460502
 MonoBehaviour:
   m_ObjectHideFlags: 1

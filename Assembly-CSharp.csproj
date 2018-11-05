@@ -141,6 +141,8 @@
     <Compile Include="Assets\Scripts\UI Scripts\MainMenu.cs" />
     <Compile Include="Assets\Scripts\UI Scripts\PauseMenu.cs" />
     <Compile Include="Assets\Scripts\UI Scripts\SettingsMenu.cs" />
+    <Compile Include="Assets\Scripts\UI Scripts\ShowItemInfo.cs" />
+    <Compile Include="Assets\Scripts\UI Scripts\UIScroll.cs" />
     <Compile Include="Assets\Scripts\VoidRespawn.cs" />
     <None Include="Assets\ProCore\ProGrids\Shader\pg_GridShader.shader" />
     <None Include="Assets\ProCore\ProBuilder\Shader\pb_TransparentOverlay.shader" />

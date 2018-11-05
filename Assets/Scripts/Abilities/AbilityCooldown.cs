@@ -6,31 +6,34 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 using TMPro;
 
-public class AbilityCooldown : MonoBehaviour
-{
+public class AbilityCooldown : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+{ 
     public Image cooldownIcon;              //Icon of the ability
     public Image cooldownMask;              //Cooldown mask
     public TMP_Text cooldownDisplay;        //Cooldown text
-    public GameObject descriptionBox;       //Ability description box
+    
     public int abilityNumber;               //Number of the ability
     [HideInInspector]
     public bool coolDownComplete;           //Check if the cool down has completed
     [HideInInspector]
     public string inputName;                //Name of the input
 
-    [SerializeField]
+    
     private Ability ability;                //Ability being used    
     private Image abilityImage;             //Image for the ability
     private float coolDownDuration;         //How long inbetween attacks
     private float coolDownTimeLeft;         //Timer for the cooldown
     private float nextReadyTime;            //Time for next ability use
-    
+    private GameObject descriptionBox;       //Ability description box
 
     //Initalize the ability
     public void Initialize(Ability selectedAbilty, GameObject user, string input)
     {
+        descriptionBox = GameObject.Find("PlayerInformationCanvas").transform.Find("UIDescription").gameObject;
+        
         //Assign the ability's information
         ability = selectedAbilty;
         abilityImage = cooldownIcon.GetComponent<Image>();
@@ -93,7 +96,7 @@ public class AbilityCooldown : MonoBehaviour
     }
 
     //Shows the Ability's description on mouse over
-    public void MouseEnter()
+    public void OnPointerEnter(PointerEventData pointerEventData)
     {
         //Show the description box at a set position above the ability
         descriptionBox.SetActive(true);
@@ -105,7 +108,7 @@ public class AbilityCooldown : MonoBehaviour
     }
 
     //Hides the abilty's description
-    public void MouseExit()
+    public void OnPointerExit(PointerEventData pointerEventData)
     {
         descriptionBox.SetActive(false);
     }

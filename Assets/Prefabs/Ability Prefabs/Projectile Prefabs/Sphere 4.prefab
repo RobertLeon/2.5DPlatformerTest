@@ -25,7 +25,6 @@ GameObject:
   - component: {fileID: 54938268785412078}
   - component: {fileID: 114797617142284042}
   - component: {fileID: 114233796087780064}
-  - component: {fileID: 114308048950698104}
   m_Layer: 0
   m_Name: Sphere 4
   m_TagString: Untagged
@@ -120,20 +119,6 @@ MonoBehaviour:
   maxRange: 0
   numberOfProjectiles: 0
   shotDelay: 0.1
---- !u!114 &114308048950698104
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1659684413865052}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4728cd2141862141a144e653d860b92, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  particles: {fileID: 0}
-  abilityUser: {fileID: 0}
-  abilityDamage: 0
 --- !u!114 &114797617142284042
 MonoBehaviour:
   m_ObjectHideFlags: 1

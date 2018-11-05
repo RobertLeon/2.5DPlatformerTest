@@ -41,7 +41,6 @@ public class PlayerController : MonoBehaviour
     private int jumps;                              //Jump counter
     private bool isJumping = false;                 //Is the player jumping?
     private bool updateMovement = false;            //Check to recalculate movement variables
-    private bool isSliding = false;
 
     //Use this for initialization
     void Start()
@@ -90,13 +89,12 @@ public class PlayerController : MonoBehaviour
             CalculateMovement();
             updateMovement = false;
         }
-        //If the player is sliding
-        if(isSliding)
-        {
-
-        }
-
         
+        //If the player is sliding
+        if(collision.collisions.sliding)
+        {
+            
+        }
     }
 
     //Update the movement variables of the player
@@ -105,12 +103,18 @@ public class PlayerController : MonoBehaviour
         updateMovement = true;
     }
 
+    //Reset the player's ability to slide
+    private void ResetSliding()
+    {
+        collision.collisions.ResetSliding();
+    }
+
     //Increase the amount of jumps the player can perform
     public void IncreaseJumpCount()
     {
         jumps++;
     }
-
+       
     //Calculates the player's gravity
     private void CalculateMovement()
     {
@@ -184,11 +188,11 @@ public class PlayerController : MonoBehaviour
             else
             {
                 //Sliding
-                if (directionalInput.y == -1)
+                if (directionalInput.y == -1 && !collision.collisions.sliding)
                 {
-                    transform.localScale = Vector3.one;
-                    collision.UpdateRaySpacing();
-                    velocity.x = slide.x * collision.collisions.faceDir;                    
+                    collision.collisions.sliding = true;
+                    velocity.x = slide.x * collision.collisions.faceDir;
+                    Invoke("ResetSliding", 0.1f);
                 }
                 //If the player has jump available
                 else if (jumps > 0)
@@ -243,11 +247,15 @@ public class PlayerController : MonoBehaviour
         if (collision.collisions.canClimb && directionalInput.y >= 0.65f || 
             collision.collisions.canClimb && directionalInput.y <= -0.65f)
         {
-            velocity.y = Mathf.Sign(directionalInput.y) * (climbSpeed + playerStats.movement.speedModifier);
+            //Check if the player has not activated a slide
+            if (!collision.collisions.sliding)
+            {
+                velocity.y = Mathf.Sign(directionalInput.y) * (climbSpeed + playerStats.movement.speedModifier);
 
-            velocity.x = collision.collisions.faceDir == 1 ? 0f : -0.001f;
+                velocity.x = collision.collisions.faceDir == 1 ? 0f : -0.001f;
 
-            collision.collisions.climbingObject = true;
+                collision.collisions.climbingObject = true;
+            }
         }
 
         //If the player is climbing an object and has stopped

@@ -26,9 +26,12 @@ public class ClimbableController : MonoBehaviour
     private void OnTriggerStay(Collider other)
     {
         //The player is touching the climbable object
-        if(other.tag == "Player")
+        if (other.tag == "Player")
         {
-            collision[0].collisions.canClimb = true;
+            if (!collision[0].collisions.sliding)
+            {
+                collision[0].collisions.canClimb = true;
+            }
         }
     }
 

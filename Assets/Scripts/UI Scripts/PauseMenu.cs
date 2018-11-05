@@ -26,6 +26,7 @@ public class PauseMenu : MonoBehaviour
     private CollisionController collision;          //Reference to the CollisionController script
     private GameObject currentMenu;                 //Current menu game object
     private InputManager inputManager;              //Reference to the Input Manager script
+    private bool initialized = false;
 
     public void InitializePauseMenu()
     {
@@ -45,24 +46,30 @@ public class PauseMenu : MonoBehaviour
         {
             collision = player.GetComponent<CollisionController>();
         }
+
+        initialized = true;
     }
 
     //Update is called once per frame
     void Update()
 	{
-        if (inputManager.GetKeyDown("Pause") || inputManager.GetButtonDown("Pause"))
+        //Check if the pause menu has been initialized
+        if (initialized)
         {
-            //If the game is paused resume play otherwise pause the game
-            if (gameIsPaused)
+            //Check for input
+            if (inputManager.GetKeyDown("Pause") || inputManager.GetButtonDown("Pause"))
             {
-                Resume();
-            }
-            else
-            {
-                Pause();
+                //If the game is paused resume play otherwise pause the game
+                if (gameIsPaused)
+                {
+                    Resume();
+                }
+                else
+                {
+                    Pause();
+                }
             }
         }
-                
 	}
 
     //Resume gameplay

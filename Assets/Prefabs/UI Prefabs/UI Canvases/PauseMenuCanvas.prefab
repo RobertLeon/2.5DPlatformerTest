@@ -57,6 +57,7 @@ GameObject:
   - component: {fileID: 114521663510763636}
   - component: {fileID: 222784540716473284}
   - component: {fileID: 114886869391657728}
+  - component: {fileID: 114679674262206536}
   m_Layer: 5
   m_Name: KeyBindScroll
   m_TagString: Untagged
@@ -1787,6 +1788,7 @@ GameObject:
   - component: {fileID: 114342419866566500}
   - component: {fileID: 222216948493453284}
   - component: {fileID: 114874700435877882}
+  - component: {fileID: 114411988126590150}
   m_Layer: 5
   m_Name: KeyBindScroll
   m_TagString: Untagged
@@ -5778,6 +5780,18 @@ MonoBehaviour:
   - {fileID: 0}
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &114411988126590150
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1789199779909256}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a78d27fcdc545d44b32f46037480ff7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  backButton: {fileID: 114853106885296796}
 --- !u!114 &114425957529893802
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8248,6 +8262,18 @@ MonoBehaviour:
   - {fileID: 0}
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &114679674262206536
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1023756483038968}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a78d27fcdc545d44b32f46037480ff7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  backButton: {fileID: 114137582808728980}
 --- !u!114 &114685334130576852
 MonoBehaviour:
   m_ObjectHideFlags: 1

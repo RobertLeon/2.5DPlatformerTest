@@ -133,11 +133,7 @@ public class KeyRebinding : MonoBehaviour {
         inputMenuButton.navigation = nav;
     }
 
-    //Selects the first button in the scroll list
-    public void SelectFirstButton()
-    {
-        StartCoroutine(SelectButton());
-    }
+
 
     //Selects the key to be rebind
     private void RebindKey(string button)
@@ -145,28 +141,6 @@ public class KeyRebinding : MonoBehaviour {
         rebindButton = button;
     }
 
-    //Selects the first button in the scroll list
-    private IEnumerator SelectButton()
-    {
-        //Wait a small amount of time to access the button
-        yield return new WaitForSeconds(0.1f);
-
-        //Selects the first button created for menu movement
-        switch (inputType)
-        {
-            case InputType.Gamepad:
-                buttonToImage.FirstOrDefault().Value.transform.GetComponentInParent<Button>().Select();
-                break;
-
-            case InputType.Keyboard:
-                buttonToLabel.FirstOrDefault().Value.transform.GetComponentInParent<Button>().Select();
-                break;
-
-            default:
-                Debug.LogError("");
-                break;
-        }
-    }
 
     //Rebinds the keyboard  input 
     private IEnumerator RebindInput()

@@ -3,7 +3,7 @@
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
@@ -15,8 +15,9 @@ MonoBehaviour:
   itemRarity: 0
   itemIcon: {fileID: 0}
   isStackable: 0
-  maxStacks: 4
-  itemDescription: 
+  maxStacks: 1
+  itemAbility: {fileID: 0}
+  itemDescription: Attack Item
   itemColor: []
   attack: 1
   defense: 1

@@ -26,6 +26,7 @@ public class CollisionController : RaycastController
         public bool fallingThroughPlatform;             //Flag for falling through platforms        
         public bool climbingSlope, descendingSlope;     //Flags for climbing/descending slopes
         public bool slidingDownSlope;                   //Flag for slidining down a slope
+        public bool sliding;                            //Flag ofr player activated slide
         public bool canClimb;                           //Flag for being able to climb an object
         public bool climbingObject;                     //Flag for currently climbing an object
         public float slopeAngle, prevSlopeAngle;        //The angle of the slope
@@ -47,6 +48,12 @@ public class CollisionController : RaycastController
             slopeAngle = 0;
             objSize = 0;
         }
+
+        //Reset the player's slide
+        public void ResetSliding()
+        {
+            sliding = false;
+        }
     }
 
     //Use this for initialization
@@ -56,8 +63,11 @@ public class CollisionController : RaycastController
         animator = GetComponent<Animator>();
 
         //Set the player to facing right by default
-        collisions.faceDir = 1;
-        animator.SetFloat("FaceDir", collisions.faceDir);        
+        if (animator != null)
+        {
+            collisions.faceDir = 1;
+            animator.SetFloat("FaceDir", collisions.faceDir);
+        }
     }
 
     //Player movement
