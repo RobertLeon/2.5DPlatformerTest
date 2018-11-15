@@ -7,10 +7,8 @@ Things to Implement:
 		Animations
 
 
-	MiniMap Controller:
-		Zoom in / Zoom out
-
 	Map Controller:
+		Consider rewriting the map and minmap controller classes to use same code.
 		Move map to specific room types
 		Move map based on saved inputs from InputManager
 		
@@ -97,7 +95,7 @@ Things to Implement:
 Things to Research:
 	Lighting
 	Key Rebinding
-		Need a way to store axis input for gamepads
+		Need to look into non XInput input methods
 	Audio System
 	Game Manager System
 		User Preferences
@@ -107,7 +105,8 @@ Things to Research:
 
 
 Bugs/Unintended Behaviours:
-	Movement using Input Manager is a bit sticky / drops inputs?
+	Can go through moving platforms if the platform moves through a climable object.
+	Damage numbers are sometimes hard to read
 	Lighting is being weird
 	Treadmills and moving platforms need to have no rotation.
 	

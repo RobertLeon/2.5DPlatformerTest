@@ -23,7 +23,7 @@ public class GameManager : MonoBehaviour
             if(_instance == null)
             {
                 GameObject gameManager = new GameObject("GameManager");
-                gameManager.AddComponent<GameManager>();
+                gameManager.AddComponent<GameManager>();                
             }
             return _instance;
         }
@@ -31,9 +31,6 @@ public class GameManager : MonoBehaviour
     #endregion
 
     public Character Player { get; set; }           //The chosen player for the game
-    public string[] songNames;                      //Names of the songs
-    
-    private AudioController audioCon;               //Reference to the Audio Controller Script
     private InputManager inputManager;              //Reference to the Input Manager Script
     private GamepadRebinding[] gpRebinds;           //Reference to the Game Pad Rebinding Script
     private int currentSceneIndex;                  //Index of the current game scene
@@ -66,14 +63,7 @@ public class GameManager : MonoBehaviour
     //Used for initialization
     private void Start()
     {
-        audioCon = FindObjectOfType<AudioController>();        
-        inputManager = GetComponent<InputManager>();  
-
-        if (audioCon != null)
-        {
-            Debug.Log("Playing " + songNames[currentSceneIndex]);
-            audioCon.PlaySongs(songNames[currentSceneIndex]);
-        }
+        inputManager =FindObjectOfType<InputManager>(); 
     }
 
     //Saving the player's inputs
@@ -81,7 +71,7 @@ public class GameManager : MonoBehaviour
     {
         if(inputManager == null)
         {
-            inputManager = GetComponent<InputManager>();
+            inputManager = FindObjectOfType<InputManager>();
         }
 
         gpRebinds = Resources.FindObjectsOfTypeAll<GamepadRebinding>();

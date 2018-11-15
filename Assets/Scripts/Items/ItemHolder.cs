@@ -94,7 +94,8 @@ public class ItemHolder : MonoBehaviour
             if (value < item.maxStacks)
             {
                 //Set the new amount of the item
-                itemInventory[item] = value + 1;
+                value += 1;
+                itemInventory[item] = value;
 
                 //Check for player
                 if (playerStats != null)
@@ -171,7 +172,7 @@ public class ItemHolder : MonoBehaviour
         //Reverse the image dictionary to find the image associated with the item
         KeyValuePair<Items, int> kvp = new KeyValuePair<Items, int>(item, value);
         Dictionary<KeyValuePair<Items, int>, Image> reverseDictionary =
-            imageDictionary.ToDictionary(key => key.Value, pair => pair.Key);
+            imageDictionary.ToDictionary(x => x.Value, x => x.Key); 
 
         return reverseDictionary[kvp];
     }

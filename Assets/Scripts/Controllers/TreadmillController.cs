@@ -58,7 +58,7 @@ public class TreadmillController : RaycastController
                     passenger.transform.GetComponent<CollisionController>());
             }
 
-            passengerDictionary[passenger.transform].Move(passenger.velocity, false,true); 
+            passengerDictionary[passenger.transform].Move(passenger.velocity, true); 
         }
     }
 
@@ -75,10 +75,11 @@ public class TreadmillController : RaycastController
             Vector2 rayOrigin = raycastOrigins.topLeft;
             rayOrigin += Vector2.right * (verticalRaySpacing * i);
 
-            RaycastHit hit;
+            //Check for passengers above the treadmill
+            RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.up, rayLength, passengerMask);
 
             //Check if a passenger is on the treadmill
-            if (Physics.Raycast(rayOrigin, Vector2.up, out hit, rayLength, passengerMask))
+            if (hit)
             {
                 //Add new passengers to the hash set
                 if (!movedPassengers.Contains(hit.transform))
@@ -91,8 +92,11 @@ public class TreadmillController : RaycastController
                 }
             }
 
+            //Check for passengers below the treadmill
+            hit = Physics2D.Raycast(rayOrigin, Vector2.down, rayLength, passengerMask);
+
             //Check if a passenger is on the treadmill
-            if (Physics.Raycast(rayOrigin, Vector2.down, out hit, rayLength, passengerMask))
+            if (hit)
             {
                 //Add new passengers to the hash set
                 if (!movedPassengers.Contains(hit.transform))
@@ -112,10 +116,11 @@ public class TreadmillController : RaycastController
             Vector2 rayOrigin = raycastOrigins.bottomRight;
             rayOrigin += Vector2.up * (verticalRaySpacing * i);
 
-            RaycastHit hit;
+            //Check for passengers to the right of the treadmill
+            RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.right, rayLength, passengerMask);
 
             //Did the raycast hit anything
-            if (Physics.Raycast(rayOrigin, Vector2.right, out hit, rayLength, passengerMask))
+            if (hit)
             {
                 //If the passenger is not in the hash set add them and move them
                 if (!movedPassengers.Contains(hit.transform))
@@ -129,8 +134,11 @@ public class TreadmillController : RaycastController
                 }
             }
 
+            //Check for passengers to the left of the treadmill
+            hit = Physics2D.Raycast(rayOrigin, Vector2.left, rayLength, passengerMask);
+
             //Did the raycast hit anything
-            if (Physics.Raycast(rayOrigin, Vector2.left, out hit, rayLength, passengerMask))
+            if (hit)
             {
                 //If the passenger is not in the hash set add them and move them
                 if (!movedPassengers.Contains(hit.transform))

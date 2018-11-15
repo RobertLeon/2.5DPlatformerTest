@@ -73,4 +73,10 @@ public class Turret : MonoBehaviour
             particleShoot.ActivateParticle();
         }
     }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireCube(turret.position, Vector3.one * 0.25f);
+    }
 }

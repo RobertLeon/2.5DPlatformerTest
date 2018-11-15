@@ -14,10 +14,18 @@ public class InputManager : MonoBehaviour
 
     private Dictionary<string, KeyCode> kbInputs;           //Dictionary of key board input
     private Dictionary<string, object> gpInputs;            //Dictionary of gamepad inputs
-    
 
-	// Use this for initialization
-	private void OnEnable ()
+
+    private void Awake()
+    {
+        if(gamepadButtons.Length == 0)
+        {
+            
+        }
+    }
+
+    // Use this for initialization
+    private void OnEnable ()
     {
         //Default the inputs for rebinding
         ResetInput(InputType.Gamepad);
@@ -60,6 +68,7 @@ public class InputManager : MonoBehaviour
     //Hard coded inputs for use as reset point.
     public void ResetInput(InputType type)
     {
+        //Reset the keyboard inputs
         if(type == InputType.Keyboard)
         {
             kbInputs = new Dictionary<string, KeyCode>();
@@ -79,8 +88,11 @@ public class InputManager : MonoBehaviour
             kbInputs.Add("Use Item", KeyCode.KeypadEnter);
             kbInputs.Add("Open Map", KeyCode.M);
             kbInputs.Add("Pause", KeyCode.Backspace);
+            kbInputs.Add("Zoom In", KeyCode.Equals);
+            kbInputs.Add("Zoom Out", KeyCode.Minus);
         }
 
+        //Reset gamepad inputs
         if (type == InputType.Gamepad)
         {
             gpInputs = new Dictionary<string, object>();
@@ -100,6 +112,8 @@ public class InputManager : MonoBehaviour
             gpInputs.Add("Ability 4", XboxAxis.RightTrigger);
             gpInputs.Add("Open Map", XboxButton.Back);
             gpInputs.Add("Pause", XboxButton.Start);
+            gpInputs.Add("Zoom In", XboxButton.LeftStick);
+            gpInputs.Add("Zoom Out", XboxButton.RightStick);
         }
     }
 

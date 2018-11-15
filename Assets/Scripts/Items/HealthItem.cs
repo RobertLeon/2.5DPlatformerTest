@@ -5,7 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Health Item", menuName = "Items/Health Item", order = 1)]
+[CreateAssetMenu(fileName = "Health Item", menuName = "Items/Health Item", order = 2)]
 public class HealthItem : Items
 {
     [Range(5, 50)]

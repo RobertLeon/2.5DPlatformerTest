@@ -4,6 +4,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using XboxCtrlrInput;
 
 public class MapCameraController : MonoBehaviour
 {
@@ -22,6 +23,8 @@ public class MapCameraController : MonoBehaviour
     private PauseMenu pause;                        //Reference to the Pause Menu script
     private Vector3 dragOrigin;                     //Origin of the mouse drag
     private Camera cam;                             //Reference to the camera component
+    private Vector2 directionalInput;               //
+    private float deadZone;
 
     //Use this for initialization
     void Start()
@@ -30,6 +33,7 @@ public class MapCameraController : MonoBehaviour
         pause = pauseMenu.GetComponentInParent<PauseMenu>();
         cam = GetComponent<Camera>();
         inputManager = FindObjectOfType<InputManager>();
+        deadZone = GameManager.Instance.LoadInputs().deadZone;
     }
 
     //Update is called once per frame
@@ -71,22 +75,23 @@ public class MapCameraController : MonoBehaviour
         //Check if the map is open
         if (isMapOpen)
         {
-            //Moving the camera with keyboard or controller input
-            Vector2 move = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+            //Moving the camera with keyboard or controller input            
+            GamepadAxisMovement(deadZone);
+            KeyBoardMovement();
 
             //Moves the camera
-            transform.Translate(move);
+            transform.Translate(directionalInput);
 
             //Zooms the camera out
-            if(Input.GetKeyDown(KeyCode.P) && cam.orthographicSize <= maxSize)
-            {
-                cam.orthographicSize += zoomAmount;
+            if (inputManager.GetKeyDown("Zoom Out") || inputManager.GetButtonDown("Zoom Out"))
+            { 
+                ZoomOut();
             }
 
             //Zooms the camera in
-            if(Input.GetKeyDown(KeyCode.O) && cam.orthographicSize >= minSize)
+            if(inputManager.GetKeyDown("Zoom In") || inputManager.GetButtonDown("Zoom In"))
             {
-                cam.orthographicSize -= zoomAmount;
+                ZoomIn();
             }
 
             //DO NOT PUT CODE BELOW THIS FUNCTION
@@ -94,6 +99,111 @@ public class MapCameraController : MonoBehaviour
             MouseMovement();
         }
 
+    }
+
+    //Check for keyboard movment inputs
+    private void KeyBoardMovement()
+    {
+        //Moving left via button input
+        if (inputManager.GetKey("Move Left"))
+        {
+            directionalInput.x = -1f;
+        }
+
+        //Moving right via button input
+        if (inputManager.GetKey("Move Right"))
+        {
+            directionalInput.x = 1f;
+        }
+
+        //Moving up via button input
+        if (inputManager.GetKey("Move Up"))
+        {
+            directionalInput.y = 1f;
+        }
+
+        //Moving down via button input
+        if (inputManager.GetKey("Move Down"))
+        {
+            directionalInput.y = -1f;
+        }
+
+        //Stop moving up or down when releasing the movement button
+        if (inputManager.GetKeyUp("Move Up") || inputManager.GetKeyUp("Move Down"))
+        {
+            directionalInput.y = 0f;
+        }
+
+        //Stop moving left or right when releasing the movement button button
+        if (inputManager.GetKeyUp("Move Left") || inputManager.GetKeyUp("Move Right"))
+        {
+            directionalInput.x = 0f;
+        }
+    }
+
+    //Check for Gamepad movement inputs
+    private void GamepadAxisMovement(float dZone)
+    {
+        //Gamepad Thumb stick input
+        float xInput = XCI.GetAxis(XboxAxis.LeftStickX);
+        float yInput = XCI.GetAxis(XboxAxis.LeftStickY);
+
+        //Check for dead zone on the x axis
+        if (Mathf.Abs(xInput) < dZone)
+        {
+            directionalInput.x = 0f;
+        }
+        else
+        {
+            directionalInput.x = xInput;
+        }
+
+        //Check for dead zone on the y axis
+        if (Mathf.Abs(yInput) < dZone)
+        {
+            directionalInput.y = 0;
+        }
+        else
+        {
+            directionalInput.y = yInput;
+        }
+
+
+        //Check to move left
+        if (inputManager.GetButton("Move Left"))
+        {
+            directionalInput.x = -1f;
+        }
+
+        //Check to move right
+        if (inputManager.GetButton("Move Right"))
+        {
+            directionalInput.x = 1f;
+        }
+
+        //Check to move up
+        if (inputManager.GetButton("Move Up"))
+        {
+            directionalInput.y = 1f;
+        }
+
+        //Check to move down
+        if (inputManager.GetButton("Move Down"))
+        {
+            directionalInput.y = -1f;
+        }
+
+        //Check if the vertical movement buttons have been released
+        if (inputManager.GetButtonUp("Move Up") || inputManager.GetButtonUp("Move Down"))
+        {
+            directionalInput.y = 0f;
+        }
+
+        //Check if the horizontal movement buttons have been released
+        if (inputManager.GetButtonUp("Move Left") || inputManager.GetButtonUp("Move Right"))
+        {
+            directionalInput.x = 0f;
+        }
     }
 
     //Mouse drag moves the camera
@@ -121,6 +231,25 @@ public class MapCameraController : MonoBehaviour
         transform.Translate(mouseMove, Space.World);
     }
 
+    //Zoom the camera in
+    public void ZoomIn()
+    {
+        //Check if the camera can be zoomed in
+        if (cam.orthographicSize >= minSize)
+        {
+            cam.orthographicSize -= zoomAmount;
+        }
+    }
+
+    //Zoom the camera out
+    public void ZoomOut()
+    {
+        //Check if the camera can be zoomed out
+        if (cam.orthographicSize <= maxSize)
+        {
+            cam.orthographicSize += zoomAmount;
+        }
+    }
 
     //Set the map being open
     public void OpenMap()

@@ -125,7 +125,18 @@ public class PlayerInput : MonoBehaviour
         }
         else
         {
-            directionalInput.x = xInput;
+            if (xInput > 0.5f)
+            {
+                directionalInput.x = 1f;
+            }
+            else if (xInput < -0.5f)
+            {
+                directionalInput.x = -1f;
+            }
+            else
+            {
+                directionalInput.x = 0f;
+            }
         }
 
         //Check for dead zone on the y axis
@@ -135,7 +146,18 @@ public class PlayerInput : MonoBehaviour
         }
         else
         {
-            directionalInput.y = yInput;
+            if (yInput > 0.5f)
+            {
+                directionalInput.y = 1f;
+            }
+            else if (yInput < -0.5f)
+            {
+                directionalInput.y = -1f;
+            }
+            else
+            {
+                directionalInput.y = 0;
+            }
         }
 
 

@@ -22,11 +22,11 @@ GameObject:
   - component: {fileID: 114056559951120638}
   - component: {fileID: 114246389995265372}
   - component: {fileID: 114807921615370190}
-  - component: {fileID: 65248733919145358}
-  - component: {fileID: 65322791164222072}
   - component: {fileID: 114908535422536478}
   - component: {fileID: 114482203873982786}
   - component: {fileID: 95213030495258046}
+  - component: {fileID: 50619221043265714}
+  - component: {fileID: 61111999601390686}
   m_Layer: 10
   m_Name: ShootyBox
   m_TagString: Enemy
@@ -152,30 +152,51 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1063737350781732}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!65 &65248733919145358
-BoxCollider:
+--- !u!50 &50619221043265714
+Rigidbody2D:
+  serializedVersion: 4
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1003256670402188}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!65 &65322791164222072
-BoxCollider:
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
+--- !u!61 &61111999601390686
+BoxCollider2D:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1003256670402188}
+  m_Enabled: 1
+  m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
 --- !u!95 &95213030495258046
 Animator:
   serializedVersion: 3
@@ -262,10 +283,13 @@ MonoBehaviour:
   damageColor: {r: 1, g: 0, b: 0, a: 0.78431374}
   healColor: {r: 0, g: 0.9632353, b: 0, a: 0.78431374}
   damageCanvas: {fileID: 0}
+  audioCon: {fileID: 0}
+  anim: {fileID: 0}
   expAmount: 5
   expColor: {r: 1, g: 0.7655173, b: 0, a: 0.78431374}
-  itemPickUp: {fileID: 0}
-  itemTable: []
+  itemPickUp: {fileID: 114327688642050924, guid: 450a598405f083c46b75a3437f4db834,
+    type: 2}
+  itemTable: {fileID: 11400000, guid: 33f0dcb4215098143a4a86cfd6526010, type: 2}
 --- !u!114 &114272340630223198
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -310,7 +334,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   collisionMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 512
   horizontalRayCount: 0
   verticalRayCount: 0
   horizontalRaySpacing: 0

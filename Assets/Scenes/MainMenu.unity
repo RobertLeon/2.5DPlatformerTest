@@ -235,39 +235,6 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 446446}
   m_CullTransparentMesh: 0
---- !u!1 &3245303 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1512748552858254, guid: 71226c563d8dabe4fa0d4220edb5f067,
-    type: 2}
-  m_PrefabInternal: {fileID: 2131688394}
---- !u!114 &3245306
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 3245303}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 27a9ad2822df11f44b1741108c631ba2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gamepadButtons:
-  - {fileID: 21300000, guid: 261654117029e8a45a18535681f551ee, type: 3}
-  - {fileID: 21300000, guid: 1fe2e265765a6bf42905d992743aece8, type: 3}
-  - {fileID: 21300000, guid: 28463efc3d757c24595ac60842005863, type: 3}
-  - {fileID: 21300000, guid: 54b9069451cc61f47be509937fbd97da, type: 3}
-  - {fileID: 21300000, guid: 19b57557bdb191d43b2048179a994a3f, type: 3}
-  - {fileID: 21300000, guid: 334af93003390f448912267833373e98, type: 3}
-  - {fileID: 21300000, guid: d60edb32075edc44f943672f9fdd0b07, type: 3}
-  - {fileID: 21300000, guid: 6d544298443605047814e7af310a30fc, type: 3}
-  - {fileID: 21300000, guid: 3bb3db88fe1ff8b46972ff3dc82af7bc, type: 3}
-  - {fileID: 21300000, guid: c86c896c48de0204e919d284f6e19864, type: 3}
-  - {fileID: 21300000, guid: 5202d59fa73b7b544b99cbcd4fc56d21, type: 3}
-  - {fileID: 21300000, guid: 6c535fc2bb05cae4dafc5710d7b23768, type: 3}
-  - {fileID: 21300000, guid: 64461c4f62c113a418fce59c3f1a2c92, type: 3}
-  - {fileID: 21300000, guid: 526ae05fffe458240a2b8426ebdfb4b6, type: 3}
-  - {fileID: 21300000, guid: eda6bfcca56970c4e88bed552f5eb4d7, type: 3}
-  - {fileID: 21300000, guid: 87d32e1fe1d05d446ad64a18386b35c2, type: 3}
 --- !u!1 &34290269
 GameObject:
   m_ObjectHideFlags: 0
@@ -3235,6 +3202,7 @@ GameObject:
   - component: {fileID: 703102207}
   - component: {fileID: 703102206}
   - component: {fileID: 703102205}
+  - component: {fileID: 703102209}
   m_Layer: 5
   m_Name: MainMenuCanvas
   m_TagString: Untagged
@@ -3354,6 +3322,34 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!114 &703102209
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 703102203}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27a9ad2822df11f44b1741108c631ba2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gamepadButtons:
+  - {fileID: 21300000, guid: 261654117029e8a45a18535681f551ee, type: 3}
+  - {fileID: 21300000, guid: 1fe2e265765a6bf42905d992743aece8, type: 3}
+  - {fileID: 21300000, guid: 28463efc3d757c24595ac60842005863, type: 3}
+  - {fileID: 21300000, guid: 54b9069451cc61f47be509937fbd97da, type: 3}
+  - {fileID: 21300000, guid: 19b57557bdb191d43b2048179a994a3f, type: 3}
+  - {fileID: 21300000, guid: 334af93003390f448912267833373e98, type: 3}
+  - {fileID: 21300000, guid: d60edb32075edc44f943672f9fdd0b07, type: 3}
+  - {fileID: 21300000, guid: 6d544298443605047814e7af310a30fc, type: 3}
+  - {fileID: 21300000, guid: 3bb3db88fe1ff8b46972ff3dc82af7bc, type: 3}
+  - {fileID: 21300000, guid: c86c896c48de0204e919d284f6e19864, type: 3}
+  - {fileID: 21300000, guid: 5202d59fa73b7b544b99cbcd4fc56d21, type: 3}
+  - {fileID: 21300000, guid: 6c535fc2bb05cae4dafc5710d7b23768, type: 3}
+  - {fileID: 21300000, guid: 64461c4f62c113a418fce59c3f1a2c92, type: 3}
+  - {fileID: 21300000, guid: 526ae05fffe458240a2b8426ebdfb4b6, type: 3}
+  - {fileID: 21300000, guid: eda6bfcca56970c4e88bed552f5eb4d7, type: 3}
+  - {fileID: 21300000, guid: 87d32e1fe1d05d446ad64a18386b35c2, type: 3}
 --- !u!1 &708086537
 GameObject:
   m_ObjectHideFlags: 0
@@ -13263,16 +13259,6 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 114320633548882684, guid: 71226c563d8dabe4fa0d4220edb5f067,
-        type: 2}
-      propertyPath: songs.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114320633548882684, guid: 71226c563d8dabe4fa0d4220edb5f067,
-        type: 2}
-      propertyPath: songNames.Array.size
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 224358441247283202, guid: 71226c563d8dabe4fa0d4220edb5f067,
         type: 2}
       propertyPath: m_LocalPosition.x
@@ -13363,18 +13349,8 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 114320633548882684, guid: 71226c563d8dabe4fa0d4220edb5f067,
-        type: 2}
-      propertyPath: songs.Array.data[0]
-      value: Title
-      objectReference: {fileID: 0}
-    - target: {fileID: 114320633548882684, guid: 71226c563d8dabe4fa0d4220edb5f067,
-        type: 2}
-      propertyPath: songNames.Array.data[0]
-      value: Title
-      objectReference: {fileID: 0}
     m_RemovedComponents:
-    - {fileID: 82505211890202332, guid: 71226c563d8dabe4fa0d4220edb5f067, type: 2}
+    - {fileID: 114101653022259528, guid: 71226c563d8dabe4fa0d4220edb5f067, type: 2}
   m_SourcePrefab: {fileID: 100100000, guid: 71226c563d8dabe4fa0d4220edb5f067, type: 2}
   m_IsPrefabAsset: 0
 --- !u!1 &2132551204

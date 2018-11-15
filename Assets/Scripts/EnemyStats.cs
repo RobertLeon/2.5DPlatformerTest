@@ -13,8 +13,7 @@ public class EnemyStats : Stats
 
     [Header("Item Drops")]
     public ItemPickup itemPickUp;                   //Reference to the item being spawned
-    [SerializeField]
-    public List<ItemTable> itemTable;               //List of items and their drop rates
+    public ItemTable itemTable;                     //Item table for the enemy
 
     private PlayerStats playerStats;                //Reference to the Player Stats script
     private bool isDead = false;                    //Check if the enemy is dead                  
@@ -47,31 +46,17 @@ public class EnemyStats : Stats
         base.Die();
     }
 
-    //Dropping Items
+    //Tries to spawn an item after an enemy dies
     private void DropItem()
     {
-        //Get a random value for the drop chance and make a new list of items
-        float roll = Random.value;
-        List<Items> itemToSpawn = new List<Items>();
+        //Get an item from the item table
+        Items newItem = itemTable.DropItem();
 
-        //Loop through each item in the item table
-        foreach (ItemTable drop in itemTable)
+        //If an item is picked spawn the pick up prefab
+        if (newItem != null)
         {
-            //Add the item if the it has a higher drop chance than the roll
-            if (drop.dropChance > roll)
-            {
-                itemToSpawn.Add(drop.item);
-            }
-
-            //Get a random number from the amount of items in the list
-            int item = Random.Range(0, itemToSpawn.Count - 1);
-
-            //If there is an item spawn one where the enemy died
-            if (itemToSpawn[item] != null)
-            {
-                ItemPickup pickUp = Instantiate(itemPickUp, transform.position, Quaternion.identity);
-                pickUp.item = itemToSpawn[item];
-            }
+            ItemPickup pickUp = Instantiate(itemPickUp, transform.position, Quaternion.identity);
+            pickUp.item = newItem;
         }
     }
 

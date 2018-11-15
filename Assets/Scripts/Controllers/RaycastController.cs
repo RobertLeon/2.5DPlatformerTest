@@ -6,12 +6,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(BoxCollider))]
+[RequireComponent(typeof(BoxCollider2D))]
 public class RaycastController : MonoBehaviour
 {
     public LayerMask collisionMask;                 //Detect which object layer to collide with
-    public const float skinWidth = 0.3f;          //Width on the object where the raycasts starts
-    [HideInInspector]                               
+    public const float skinWidth = 0.015f;          //Width on the object where the raycasts starts                               
+    [HideInInspector]
     public int horizontalRayCount;                  //Amount of rays being drawn horizontally
     [HideInInspector]
     public int verticalRayCount;                    //Amount of rays being drawn vertically
@@ -20,10 +20,10 @@ public class RaycastController : MonoBehaviour
     [HideInInspector]
     public float verticalRaySpacing;                //Space inbetweeen the rays being drawn
     [HideInInspector]
-    public BoxCollider boxCollider;                 //Box Collider Object
+    public BoxCollider2D boxCollider;               //Box Collider Object
     public RaycastOrigins raycastOrigins;           //Origin of the raycast
 
-    private const float dstBestweenRays = .05f;     //Distance between rays  
+    private const float dstBestweenRays = 0.25f;    //Distance between rays  
 
     //Location of the raycast origin
     public struct RaycastOrigins
@@ -35,7 +35,7 @@ public class RaycastController : MonoBehaviour
     public virtual void Awake()
     {
         //Reference for the Box Collider component
-        boxCollider = GetComponent<BoxCollider>();
+        boxCollider = GetComponent<BoxCollider2D>();
     }
 
     //Use this for initialization

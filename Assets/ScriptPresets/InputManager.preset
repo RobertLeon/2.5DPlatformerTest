@@ -1,0 +1,98 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!181963792 &2655988077585873504
+Preset:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: InputManager
+  m_TargetType:
+    m_NativeTypeID: 114
+    m_ManagedTypePPtr: {fileID: 11500000, guid: 27a9ad2822df11f44b1741108c631ba2,
+      type: 3}
+    m_ManagedTypeFallback: 
+  m_Properties:
+  - target: {fileID: 0}
+    propertyPath: m_Enabled
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_EditorHideFlags
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Name
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_EditorClassIdentifier
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: gamepadButtons.Array.size
+    value: 16
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: gamepadButtons.Array.data[0]
+    value: 
+    objectReference: {fileID: 21300000, guid: 261654117029e8a45a18535681f551ee, type: 3}
+  - target: {fileID: 0}
+    propertyPath: gamepadButtons.Array.data[1]
+    value: 
+    objectReference: {fileID: 21300000, guid: 1fe2e265765a6bf42905d992743aece8, type: 3}
+  - target: {fileID: 0}
+    propertyPath: gamepadButtons.Array.data[2]
+    value: 
+    objectReference: {fileID: 21300000, guid: 28463efc3d757c24595ac60842005863, type: 3}
+  - target: {fileID: 0}
+    propertyPath: gamepadButtons.Array.data[3]
+    value: 
+    objectReference: {fileID: 21300000, guid: 54b9069451cc61f47be509937fbd97da, type: 3}
+  - target: {fileID: 0}
+    propertyPath: gamepadButtons.Array.data[4]
+    value: 
+    objectReference: {fileID: 21300000, guid: 19b57557bdb191d43b2048179a994a3f, type: 3}
+  - target: {fileID: 0}
+    propertyPath: gamepadButtons.Array.data[5]
+    value: 
+    objectReference: {fileID: 21300000, guid: 334af93003390f448912267833373e98, type: 3}
+  - target: {fileID: 0}
+    propertyPath: gamepadButtons.Array.data[6]
+    value: 
+    objectReference: {fileID: 21300000, guid: d60edb32075edc44f943672f9fdd0b07, type: 3}
+  - target: {fileID: 0}
+    propertyPath: gamepadButtons.Array.data[7]
+    value: 
+    objectReference: {fileID: 21300000, guid: 6d544298443605047814e7af310a30fc, type: 3}
+  - target: {fileID: 0}
+    propertyPath: gamepadButtons.Array.data[8]
+    value: 
+    objectReference: {fileID: 21300000, guid: 3bb3db88fe1ff8b46972ff3dc82af7bc, type: 3}
+  - target: {fileID: 0}
+    propertyPath: gamepadButtons.Array.data[9]
+    value: 
+    objectReference: {fileID: 21300000, guid: c86c896c48de0204e919d284f6e19864, type: 3}
+  - target: {fileID: 0}
+    propertyPath: gamepadButtons.Array.data[10]
+    value: 
+    objectReference: {fileID: 21300000, guid: 5202d59fa73b7b544b99cbcd4fc56d21, type: 3}
+  - target: {fileID: 0}
+    propertyPath: gamepadButtons.Array.data[11]
+    value: 
+    objectReference: {fileID: 21300000, guid: 6c535fc2bb05cae4dafc5710d7b23768, type: 3}
+  - target: {fileID: 0}
+    propertyPath: gamepadButtons.Array.data[12]
+    value: 
+    objectReference: {fileID: 21300000, guid: 64461c4f62c113a418fce59c3f1a2c92, type: 3}
+  - target: {fileID: 0}
+    propertyPath: gamepadButtons.Array.data[13]
+    value: 
+    objectReference: {fileID: 21300000, guid: 526ae05fffe458240a2b8426ebdfb4b6, type: 3}
+  - target: {fileID: 0}
+    propertyPath: gamepadButtons.Array.data[14]
+    value: 
+    objectReference: {fileID: 21300000, guid: eda6bfcca56970c4e88bed552f5eb4d7, type: 3}
+  - target: {fileID: 0}
+    propertyPath: gamepadButtons.Array.data[15]
+    value: 
+    objectReference: {fileID: 21300000, guid: 87d32e1fe1d05d446ad64a18386b35c2, type: 3}

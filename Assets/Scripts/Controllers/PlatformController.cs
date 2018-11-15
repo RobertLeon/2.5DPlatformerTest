@@ -12,7 +12,8 @@ public class PlatformController : RaycastController
     public LayerMask passengerMask;                     //Layer mask for passengers
     public float platformSpeed;                         //Speed the platform moves
     public float waitTime;                              //Amount of time inbetween movement
-    [Range(0,2)]public float easeAmount;                //Smooths movement at the end of a waypoint
+    [Range(0,2)]
+    public float easeAmount;                            //Smooths movement at the end of a waypoint
     public bool cyclic;                                 //Does the platform cycle    
     public Vector3[] localWaypoints;                    //Waypoints for the platform
 
@@ -88,7 +89,7 @@ public class PlatformController : RaycastController
             //Moves the passenger before the platform moves
             if (passenger.moveBeforePlatform == beforeMovePlatform)
             {
-                passengerDictionary[passenger.transform].Move(passenger.velocity, false,
+                passengerDictionary[passenger.transform].Move(passenger.velocity,
                     passenger.standingOnPlatform);
             }
 
@@ -117,10 +118,10 @@ public class PlatformController : RaycastController
 
                 Debug.DrawRay(rayOrigin, Vector2.up * directionY, Color.green);
 
-                RaycastHit hit;
+                RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.up * directionY, rayLength, passengerMask);
 
                 //Did the Raycast hit anything
-                if (Physics.Raycast(rayOrigin, Vector2.up * directionY, out hit, rayLength, passengerMask) && hit.distance != 0)
+                if (hit && hit.distance != 0)
                 {
                     //If the passenger is not in the hash set add them and move them
                     if (!movedPassengers.Contains(hit.transform))
@@ -150,10 +151,10 @@ public class PlatformController : RaycastController
 
                 Debug.DrawRay(rayOrigin, Vector2.right * directionX, Color.green);
 
-                RaycastHit hit;
+                RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.right * directionX, rayLength, passengerMask);
 
                 //Did the raycast hit anything
-                if (Physics.Raycast(rayOrigin, Vector2.right * directionX, out hit, rayLength, passengerMask) && hit.distance != 0)
+                if (hit && hit.distance != 0)
                 {
                     //If the passenger is not in the hash set add them and move them
                     if (!movedPassengers.Contains(hit.transform))
@@ -161,7 +162,7 @@ public class PlatformController : RaycastController
                         movedPassengers.Add(hit.transform);
 
                         float pushX = velocity.x - (hit.distance - skinWidth) * directionX;
-                        float pushY = -skinWidth * .01f;
+                        float pushY = -skinWidth;
 
                         passengerMovement.Add(new PassengerMovement(hit.transform,
                             new Vector3(pushX, pushY), false, true));
@@ -173,17 +174,19 @@ public class PlatformController : RaycastController
         //Passenger is on top of a platform moving horizontaly or moving downwards
         if (directionY == -1 || velocity.y == 0 && velocity.x != 0)
         {
-            float rayLength = 2 * skinWidth;
+            float rayLength = skinWidth * 2;
 
             //Loop through each vertical ray
             for (int i = 0; i < verticalRayCount; i++)
             {
                 Vector2 rayOrigin = raycastOrigins.topLeft + Vector2.right * (verticalRaySpacing * i);
 
-                RaycastHit hit;
+                Debug.DrawRay(rayOrigin, Vector2.up, Color.green);
+                
+                RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.up, rayLength, passengerMask);
 
                 //Did the raycast hit anything
-                if (Physics.Raycast(rayOrigin, Vector2.up, out hit, rayLength, passengerMask) && hit.distance != 0)
+                if (hit && hit.distance != 0)
                 {
                     //If the passenger is not on the hash set add and move them
                     if (!movedPassengers.Contains(hit.transform))

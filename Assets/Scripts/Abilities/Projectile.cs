@@ -21,14 +21,14 @@ public class Projectile : MonoBehaviour
     [HideInInspector]
     public float distance;                  //Current distance the object has traveled
     [HideInInspector]
-    public bool playerProjectile;           //Type of projectile being shot
+    public bool playerProjectile = false;           //Type of projectile being shot
     [HideInInspector]
-    public bool enemyProjectile;            //Type of projectile being shot
+    public bool enemyProjectile = false;            //Type of projectile being shot
 
     private PlayerStats playerStats;        //Reference to the PlayerStats script
     private EnemyStats enemyStats;          //Reference to the EnemyStats script
     private ProjectileShoot projectile;     //Reference to the ProjectioleShoot script
-    
+
 
     //Use this for initialization
     public virtual void Start()
@@ -86,10 +86,17 @@ public class Projectile : MonoBehaviour
             playerStats = null;
         }
 
+        //Set the default to forward if no player or enemy stats found
+        if (enemyStats == null && playerStats == null)
+        {
+            direction = 1;
+            damage = projectile.abilityDamage;
+        }
+
         //No longer need the parent's information
         transform.parent = null;
     }
-    
+
     //Destroys the projectile
     public void DestroyProjectile()
     {
@@ -113,43 +120,57 @@ public class Projectile : MonoBehaviour
     //Collision with other objects
     private void OnTriggerEnter(Collider other)
     {
-        //If this is a player projectile
-        if (playerProjectile)
+        //If the projectile hits a player
+        if (other.tag == "Player")
         {
-            //Check for collision with an enemey
-            if (other.tag == "Enemy")
-            {
-                enemyStats = other.GetComponent<EnemyStats>();
-                enemyStats.TakeDamage(damage, critChance);
+            //Get the player's stats
+            playerStats = other.GetComponent<PlayerStats>();
 
+            //Check for an enemy projectile
+            if (enemyProjectile)
+            {
+                //Deal damage to the player
+                playerStats.TakeDamage(damage, critChance);
+                playerStats.canTakeDamage = false;
+
+                //Destroy the projectile
                 DestroyProjectile();
             }
 
-            //Or collision with an object
-            if (other.tag == "Obstacle")
+            //Check for a trap projectile
+            if (!enemyProjectile && !playerProjectile)
             {
+                //Deal damage to the player
+                playerStats.TakeDamage(damage, critChance);
+                playerStats.canTakeDamage = false;
+
+                //Destroy the projectile
                 DestroyProjectile();
             }
         }
 
-        //If this is an enemey projectile
-        if (enemyProjectile)
+        //If the projectile hits an enemy
+        if (other.tag == "Enemy")
         {
-            //Check for collision with the player
-            if (other.tag == "Player")
-            {
-                playerStats = other.GetComponent<PlayerStats>();
-                playerStats.TakeDamage(damage, critChance);
-                playerStats.canTakeDamage = false;
+            //Get the enemy's stats
+            enemyStats = other.GetComponent<EnemyStats>();
 
+            //Check for a player projectile
+            if (playerProjectile)
+            {
+                //Deal damage to the enemy
+                enemyStats.TakeDamage(damage, critChance);
+
+                //Destroy the projectile
                 DestroyProjectile();
             }
+        }
 
-            //Or collision with another object
-            if (other.tag == "Obstacle")
-            {
-                DestroyProjectile();
-            }
+        //If the projectile hits an obstacle
+        if (other.tag == "Obstacle")
+        {
+            //Destroy the projectile
+            DestroyProjectile();
         }
     }
 }

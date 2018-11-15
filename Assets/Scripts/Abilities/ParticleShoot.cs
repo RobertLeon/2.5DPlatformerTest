@@ -27,7 +27,7 @@ public class ParticleShoot : MonoBehaviour
     public void ActivateParticle()
     {
         //Create the particle system as a child of the user and gets the particle system component.
-        Instantiate(particles.gameObject, abilityUser.GetComponentInChildren<MeshRenderer>().transform);
+        Instantiate(particles.gameObject, abilityUser);
         
         particleSys = GetComponentInChildren<ParticleSystem>();
         particleSys.Play();

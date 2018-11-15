@@ -247,10 +247,8 @@ public class Stats : MonoBehaviour
             dmgText.text = damage.ToString();
             dmgText.color = new Color(damageColor.r, damageColor.g, damageColor.b);
             dmgText.transform.SetParent(damageCanvas.transform);
-            dmgText.transform.position = textSpawn.position;
+            dmgText.transform.position = textSpawn.position + new Vector3(Random.Range(-1,1),0,0);
         }
-                
-   
 
         //If the shields is less than 0 reduce health by the amount left
         if (health.currentShields < 0)
@@ -272,7 +270,6 @@ public class Stats : MonoBehaviour
     public virtual void Die()
     {
         Debug.Log(transform.name + " has died.");
-        //gameObject.SetActive(false);
     }
 
     //Restoring health

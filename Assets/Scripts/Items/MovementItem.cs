@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-[CreateAssetMenu(fileName = "Movement Item", menuName = "Items/Movement Item", order = 2)]
+[CreateAssetMenu(fileName = "Movement Item", menuName = "Items/Movement Item", order = 3)]
 public class MovementItem : Items
 {
     public bool increaseJumps = false;      //Increase the amount of jumps

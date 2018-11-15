@@ -5,9 +5,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(BoxCollider2D)), RequireComponent(typeof(Rigidbody2D))]
 public class ClimbableController : MonoBehaviour
 {
-    CollisionController[] collision;        //References to each CollisionController
+    CollisionController[] collisionController;        //References to each CollisionController
 
     private void Start()
     {
@@ -18,30 +19,31 @@ public class ClimbableController : MonoBehaviour
         int x = enemies.Length + 2;
 
         //Create a new array for collision
-        collision = new CollisionController[x];
-        collision[0] = player.GetComponent<CollisionController>();
+        collisionController = new CollisionController[x];
+        collisionController[0] = player.GetComponent<CollisionController>();
     }
 
 
-    private void OnTriggerStay(Collider other)
+    private void OnTriggerStay2D(Collider2D collision)
     {
         //The player is touching the climbable object
-        if (other.tag == "Player")
+        if (collision.tag == "Player")
         {
-            if (!collision[0].collisions.sliding)
+            //If the player is not sliding
+            if(!collisionController[0].collisions.sliding)
             {
-                collision[0].collisions.canClimb = true;
+                collisionController[0].collisions.canClimb = true;
             }
         }
     }
 
-    private void OnTriggerExit(Collider other)
+    private void OnTriggerExit2D(Collider2D collision)
     {
         //The player is no longer touching the climbable object
-        if (other.tag == "Player")
+        if (collision.tag == "Player")
         {
-            collision[0].collisions.canClimb = false;
-            collision[0].collisions.climbingObject = false;
+            collisionController[0].collisions.canClimb = false;
+            collisionController[0].collisions.climbingObject = false;
         }
-    }
+    }    
 }

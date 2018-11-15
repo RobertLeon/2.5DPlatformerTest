@@ -5,7 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Attack Item", menuName = "Items/Attack Item", order = 3)]
+[CreateAssetMenu(fileName = "Attack Item", menuName = "Items/Attack Item", order = 4)]
 public class AttackItem : Items
 {
     [Range(1, 10)]

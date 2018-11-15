@@ -55,7 +55,7 @@ public class AbilityHolder : MonoBehaviour
     {
         //Activate the first ability
         if((inputManager.GetKey(abilityButtons[0].inputName) 
-            || inputManager.GetButtonDown(abilityButtons[0].inputName)) 
+            || inputManager.GetButton(abilityButtons[0].inputName)) 
             && abilityButtons[0].coolDownComplete && globalCoolDown)
         {
             abilityButtons[0].ActivateAbility();
@@ -64,7 +64,7 @@ public class AbilityHolder : MonoBehaviour
 
         //Activate the second ability
         if ((inputManager.GetKey(abilityButtons[1].inputName)
-            || inputManager.GetButtonDown(abilityButtons[1].inputName))
+            || inputManager.GetButton(abilityButtons[1].inputName))
             && abilityButtons[1].coolDownComplete && globalCoolDown)
         {
             abilityButtons[1].ActivateAbility();
@@ -73,7 +73,7 @@ public class AbilityHolder : MonoBehaviour
 
         //Activate the third ability
         if ((inputManager.GetKey(abilityButtons[2].inputName)
-            || inputManager.GetButtonDown(abilityButtons[2].inputName))
+            || inputManager.GetButton(abilityButtons[2].inputName))
             && abilityButtons[2].coolDownComplete && globalCoolDown)
         {
             abilityButtons[2].ActivateAbility();
@@ -82,7 +82,7 @@ public class AbilityHolder : MonoBehaviour
 
         //Activate the fourth ability
         if ((inputManager.GetKey(abilityButtons[3].inputName)
-            || inputManager.GetButtonDown(abilityButtons[3].inputName))
+            || inputManager.GetButton(abilityButtons[3].inputName))
             && abilityButtons[3].coolDownComplete && globalCoolDown)
         {
             abilityButtons[3].ActivateAbility();

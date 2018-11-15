@@ -22,7 +22,7 @@ public class ElevatorController :RaycastController
     private List<PassengerMovement> passengerMovement;  //List of passengers
     private PlayerController playerController;          //Reference to the Player Controller script
     private bool isMoving = false;                      //Is the elevator moving?
-
+    private Renderer rend;                              //Change color for debug use
 
     //Holds all the passengers on a platform
     private Dictionary<Transform, CollisionController> passengerDictionary =
@@ -54,6 +54,7 @@ public class ElevatorController :RaycastController
 
         playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
         globalWaypoints = new Vector3[localWaypoints.Length];
+        rend = GetComponent<Renderer>();
 
         //Loop through each waypoint and add them to the array
         for (int i = 0; i < globalWaypoints.Length; i++)
@@ -74,10 +75,10 @@ public class ElevatorController :RaycastController
         {
             Vector2 rayOrigin = raycastOrigins.topLeft + Vector2.right * (verticalRaySpacing * i);
 
-            RaycastHit hit;
+            RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.up, rayLength, passengerMask);
 
             //Did the raycast hit anything
-            if (Physics.Raycast(rayOrigin, Vector2.up, out hit, rayLength, passengerMask) && hit.distance != 0)
+            if (hit && hit.distance != 0)
             {
                 if (hit.transform.tag == "Player")
                 {
@@ -107,6 +108,12 @@ public class ElevatorController :RaycastController
             MovePassengers(true);
             transform.Translate(velocity);
             MovePassengers(false);
+                      
+            rend.material.color = Color.red;
+        }
+        else
+        {
+            rend.material.color = Color.white;
         }
     }
         
@@ -126,7 +133,7 @@ public class ElevatorController :RaycastController
             //Moves the passenger before the platform moves
             if (passenger.moveBeforePlatform == beforeMovePlatform)
             {
-                passengerDictionary[passenger.transform].Move(passenger.velocity, false,
+                passengerDictionary[passenger.transform].Move(passenger.velocity,
                     passenger.standingOnPlatform);
             }
 
@@ -154,10 +161,10 @@ public class ElevatorController :RaycastController
                 Vector2 rayOrigin = (directionY == -1) ? raycastOrigins.bottomLeft : raycastOrigins.topLeft;
                 rayOrigin += Vector2.right * (verticalRaySpacing * i);
 
-                RaycastHit hit;
+                RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.up * directionY, rayLength, passengerMask);
 
                 //Did the Raycast hit anything
-                if (Physics.Raycast(rayOrigin, Vector2.up * directionY, out hit, rayLength, passengerMask) && hit.distance != 0)
+                if (hit && hit.distance != 0)
                 {
                     //If the passenger is not in the hash set add them and move them
                     if (!movedPassengers.Contains(hit.transform))
@@ -185,10 +192,10 @@ public class ElevatorController :RaycastController
                 Vector2 rayOrigin = (directionX == -1) ? raycastOrigins.bottomLeft : raycastOrigins.bottomRight;
                 rayOrigin += Vector2.up * (verticalRaySpacing * i);
 
-                RaycastHit hit;
+                RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.right * directionX, rayLength, passengerMask);
 
                 //Did the raycast hit anything
-                if (Physics.Raycast(rayOrigin, Vector2.right * directionX, out hit, rayLength, passengerMask) && hit.distance != 0)
+                if (hit && hit.distance != 0)
                 {
                     //If the passenger is not in the hash set add them and move them
                     if (!movedPassengers.Contains(hit.transform))
@@ -215,10 +222,10 @@ public class ElevatorController :RaycastController
             {
                 Vector2 rayOrigin = raycastOrigins.topLeft + Vector2.right * (verticalRaySpacing * i);
 
-                RaycastHit hit;
+                RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.up, rayLength, passengerMask);
 
                 //Did the raycast hit anything
-                if (Physics.Raycast(rayOrigin, Vector2.up, out hit, rayLength, passengerMask) && hit.distance != 0)
+                if (hit && hit.distance != 0)
                 {
                     //If the passenger is not on the hash set add and move them
                     if (!movedPassengers.Contains(hit.transform))

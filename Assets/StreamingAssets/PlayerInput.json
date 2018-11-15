@@ -13,7 +13,9 @@
         "Ability 4",
         "Use Item",
         "Open Map",
-        "Pause"
+        "Pause",
+        "Zoom In",
+        "Zoom Out"
     ],
     "kbInputs": [
         97,
@@ -29,7 +31,9 @@
         256,
         271,
         109,
-        8
+        8,
+        61,
+        45
     ],
     "gpButtonNames": [
         "Move Left",
@@ -43,7 +47,9 @@
         "Ability 1",
         "Ability 3",
         "Open Map",
-        "Pause"
+        "Pause",
+        "Zoom In",
+        "Zoom Out"
     ],
     "gpButtons": [
         12,
@@ -57,7 +63,9 @@
         8,
         9,
         5,
-        4
+        4,
+        6,
+        7
     ],
     "gpAxisNames": [
         "Ability 2",

@@ -71,7 +71,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4778155997003452}
   - component: {fileID: 20624580131153370}
-  - component: {fileID: 114841776090555012}
+  - component: {fileID: 114855849011945760}
   m_Layer: 0
   m_Name: MapCamera
   m_TagString: Untagged
@@ -99,7 +99,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1887605280268118}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: 0, y: 0, z: -47.47}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4854512302178410}
@@ -111,8 +111,8 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1450274241186450}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.000030517578, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4987303380258456}
@@ -196,13 +196,13 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60
+  field of view: 90
   orthographic: 1
-  orthographic size: 200
+  orthographic size: 100
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 2147483648
+    m_Bits: 4294967295
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 8400000, guid: 5b3a647d32d25e34680f503d4cd68242, type: 2}
   m_TargetDisplay: 0
@@ -238,11 +238,11 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 44
+  orthographic size: 10
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 2147483648
+    m_Bits: 4294967295
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 8400000, guid: a1be32a2d22338b40942ec2ef780949d, type: 2}
   m_TargetDisplay: 0
@@ -267,7 +267,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1005046973167308}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b717d3497cb9d9048b519d2ff35ccb76, type: 3}
   m_Name: 
@@ -280,27 +280,13 @@ MonoBehaviour:
   verticalSmoothTime: 2
   zOffset: -15
   gizmoColor: {r: 1, g: 0, b: 1, a: 0.5}
---- !u!114 &114841776090555012
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1887605280268118}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e13b612d871ba0743883935376b8a4b7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cameraTarget: {fileID: 0}
-  miniMap: {fileID: 0}
-  cameraOffset: {x: 0, y: 0, z: -10}
 --- !u!114 &114851018742812806
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1676955565217784}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e13b612d871ba0743883935376b8a4b7, type: 3}
   m_Name: 
@@ -308,6 +294,29 @@ MonoBehaviour:
   cameraTarget: {fileID: 0}
   miniMap: {fileID: 0}
   cameraOffset: {x: 0, y: 0, z: -10}
+  zoomAmount: 10
+  minSize: 10
+  maxSize: 100
+--- !u!114 &114855849011945760
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1887605280268118}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72a71a7eff369784194989c553b334d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraTarget: {fileID: 0}
+  mapMenu: {fileID: 0}
+  pauseMenu: {fileID: 0}
+  pauseMenuOptions: {fileID: 0}
+  isMapOpen: 0
+  moveSpeed: 2
+  minSize: 50
+  maxSize: 200
+  zoomAmount: 50
 --- !u!124 &124161565464964622
 Behaviour:
   m_ObjectHideFlags: 1
