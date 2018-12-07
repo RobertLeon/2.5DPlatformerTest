@@ -173,6 +173,7 @@ public class Stats : MonoBehaviour
         {
             movement.speedModifier = 4;
         }
+
     }
 
     //Increase the height of jumps

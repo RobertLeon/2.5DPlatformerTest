@@ -2,7 +2,6 @@
 //Based on a tutorial by: Sebastian Lague
 //Github: https://github.com/SebLague/2DPlatformer-Tutorial
 //Handles the movement of the player
-
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -26,6 +25,8 @@ public class PlayerController : MonoBehaviour
     [HideInInspector]
     public Vector2 directionalInput;                //Input for the players movement
 
+    public float sinkSpeed;
+
     private PlayerStats playerStats;
     private CollisionController collision;          //Reference to the CollisionController
     private float gravity;                          //Downward force on the player
@@ -36,7 +37,8 @@ public class PlayerController : MonoBehaviour
     private float accelTimeAir = .2f;               //Time to reach maximum velocity in the air 
     private float accelTimeGround = .1f;            //Time to reach maximum velocity on the ground
     private float timeToWallUnstick;                //Counter till the player unsticks from the wall
-                             
+    private float movementSpeed;                    //
+    private float jumpApex;                         //
     private int wallDirX;                           //Direction of the wall on the x-axis
     private int jumps;                              //Jump counter
     private bool isJumping = false;                 //Is the player jumping?
@@ -48,15 +50,19 @@ public class PlayerController : MonoBehaviour
         playerStats = GetComponent<PlayerStats>();
         collision = GetComponent<CollisionController>();
         jumps = playerStats.movement.numJumps;
+        jumpApex = timeToJumpApex;
+        ChangeMovementSpeed(0);
         CalculateMovement();
     }
 
     //Update is called once per frame
     void Update()
     {
+        HandleWater();
         CalculateVelocity();
         HandleWallSliding();
         HandleClimbing();
+        
 
         //Move the player
         collision.Move(velocity * Time.deltaTime, directionalInput);
@@ -77,7 +83,9 @@ public class PlayerController : MonoBehaviour
         }
 
         //Reset number of jumps
-        if (collision.collisions.below || collision.collisions.climbingObject || wallSliding)
+        if (collision.collisions.below || 
+            collision.collisions.climbingObject ||
+            wallSliding || collision.collisions.inWater)
         {
             jumps = playerStats.movement.numJumps;
             isJumping = false;
@@ -90,11 +98,7 @@ public class PlayerController : MonoBehaviour
             updateMovement = false;
         }
         
-        //If the player is sliding
-        if(collision.collisions.sliding)
-        {
-            
-        }
+      
     }
 
     //Update the movement variables of the player
@@ -114,13 +118,18 @@ public class PlayerController : MonoBehaviour
     {
         jumps++;
     }
+
+    public void ChangeMovementSpeed(float amount)
+    {
+        movementSpeed = moveSpeed + amount;
+    }
        
     //Calculates the player's gravity
     private void CalculateMovement()
     {
-        moveSpeed += playerStats.movement.speedModifier;
         gravity = -(2 * (maxJumpHeight + playerStats.movement.jumpHeightModifier)) / Mathf.Pow(timeToJumpApex, 2);
-        maxJumpVelocity = Mathf.Abs(gravity) * timeToJumpApex;
+
+        maxJumpVelocity = Mathf.Abs(gravity) * jumpApex;
         minJumpVelocity = Mathf.Sqrt(2 * Mathf.Abs(gravity) * minJumpHeight);
     }
 
@@ -170,7 +179,7 @@ public class PlayerController : MonoBehaviour
         }
 
         //The player is on the ground
-        if (collision.collisions.below)
+        if (collision.collisions.below || collision.collisions.inWater)
         {
             //If sliding down a slope
            if(collision.collisions.slidingDownSlope)
@@ -226,7 +235,7 @@ public class PlayerController : MonoBehaviour
     //Calculate the player's moving velocity
     private void CalculateVelocity()
     {
-        float targetVelocityX = directionalInput.x * (moveSpeed);
+        float targetVelocityX = directionalInput.x * (movementSpeed);
 
         velocity.x = Mathf.SmoothDamp(velocity.x, targetVelocityX, ref velocityXSmoothing,
             (collision.collisions.below) ? accelTimeGround : accelTimeAir);
@@ -234,9 +243,19 @@ public class PlayerController : MonoBehaviour
         velocity.y += gravity * Time.deltaTime;
 
         //Keeps the player from infinitly accelerating when falling
-        if(velocity.y <= gravity / 2.5f)
+        if (collision.collisions.inWater)
         {
-            velocity.y = gravity /2.5f;
+            if(velocity.y <= gravity/ sinkSpeed)
+            {
+                velocity.y = gravity / sinkSpeed;
+            }
+        }
+        else
+        {
+            if (velocity.y <= gravity / 2.5f)
+            {
+                velocity.y = gravity / 2.5f;
+            }
         }
     }
 
@@ -319,4 +338,19 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    //Handle the player's movement while in water
+    private void HandleWater()
+    {
+        if(collision.collisions.inWater)
+        {
+            movementSpeed = (moveSpeed + playerStats.movement.speedModifier) * 0.5f;
+            jumpApex = timeToJumpApex * 1.15f;
+            
+        }
+        else
+        {
+            movementSpeed = moveSpeed + playerStats.movement.speedModifier;
+            jumpApex = timeToJumpApex;
+        }
+    }
 }

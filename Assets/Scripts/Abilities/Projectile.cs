@@ -28,6 +28,7 @@ public class Projectile : MonoBehaviour
     private PlayerStats playerStats;        //Reference to the PlayerStats script
     private EnemyStats enemyStats;          //Reference to the EnemyStats script
     private ProjectileShoot projectile;     //Reference to the ProjectioleShoot script
+    private DestructableWalls dWalls;       //Reference to the DestructableWalls script
 
 
     //Use this for initialization
@@ -118,13 +119,13 @@ public class Projectile : MonoBehaviour
     }
 
     //Collision with other objects
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         //If the projectile hits a player
-        if (other.tag == "Player")
+        if (collision.tag == "Player")
         {
             //Get the player's stats
-            playerStats = other.GetComponent<PlayerStats>();
+            playerStats = collision.GetComponent<PlayerStats>();
 
             //Check for an enemy projectile
             if (enemyProjectile)
@@ -150,10 +151,10 @@ public class Projectile : MonoBehaviour
         }
 
         //If the projectile hits an enemy
-        if (other.tag == "Enemy")
+        if (collision.tag == "Enemy")
         {
             //Get the enemy's stats
-            enemyStats = other.GetComponent<EnemyStats>();
+            enemyStats = collision.GetComponent<EnemyStats>();
 
             //Check for a player projectile
             if (playerProjectile)
@@ -167,8 +168,20 @@ public class Projectile : MonoBehaviour
         }
 
         //If the projectile hits an obstacle
-        if (other.tag == "Obstacle")
+        if (collision.tag == "Obstacle")
         {
+            //Check for a player projectile
+            if(playerProjectile)
+            {
+                dWalls = collision.GetComponent<DestructableWalls>();
+
+                //Check if the wall is a destructable
+                if (dWalls)
+                {
+                    dWalls.SpawnParticles();
+                }
+            }
+
             //Destroy the projectile
             DestroyProjectile();
         }

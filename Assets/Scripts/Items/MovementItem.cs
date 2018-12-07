@@ -1,7 +1,6 @@
 ﻿//Created by Robert Bryany
 //
 //Creates an item that modifies the player's movement stats
-
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;

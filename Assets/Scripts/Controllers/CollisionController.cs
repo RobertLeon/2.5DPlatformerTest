@@ -26,9 +26,11 @@ public class CollisionController : RaycastController
         public bool fallingThroughPlatform;             //Flag for falling through platforms        
         public bool climbingSlope, descendingSlope;     //Flags for climbing/descending slopes
         public bool slidingDownSlope;                   //Flag for slidining down a slope
-        public bool sliding;                            //Flag ofr player activated slide
+        public bool canSlide;
+        public bool sliding;                            //Flag for player activated slide
         public bool canClimb;                           //Flag for being able to climb an object
         public bool climbingObject;                     //Flag for currently climbing an object
+        public bool inWater;
         public float slopeAngle, prevSlopeAngle;        //The angle of the slope
         public Vector2 prevMovement;                    //The player's previous movement amount
         public Vector2 slopeNormal;                     //Angle of the slope
@@ -121,7 +123,6 @@ public class CollisionController : RaycastController
         Move(movementAmount, Vector2.zero, standingOnPlatform);
     }
 
-
     //Checks for vertical collisions
     private void VerticalCollision(ref Vector2 movementAmount)
     {
@@ -148,7 +149,7 @@ public class CollisionController : RaycastController
             if (hit)
             {
                 //Jump through the bottom of certain platforms
-                if (hit.collider.tag == "Through" || hit.collider.tag == "Climbable")
+                if (hit.collider.tag == "Through")
                 {
                     //If inside a platform keep falling
                     if (directionY == 1 || hit.distance == 0)
@@ -170,8 +171,7 @@ public class CollisionController : RaycastController
                         continue;
                     }
                 }
-                
-                
+
                 movementAmount.y = (hit.distance - skinWidth) * directionY;
                 rayLength = hit.distance;
                
@@ -258,15 +258,6 @@ public class CollisionController : RaycastController
             {
                 //Size of the object being collided with
                 collisions.objSize = hit.transform.localScale.y + hit.transform.localPosition.y;    
-                
-                //No collision with climbable objects
-                if(hit.collider.tag == "Climbable")
-                {
-                    if(directionX == 1 || directionX == -1)
-                    {
-                        continue;
-                    }
-                }                
                 
                 //No collision when inside an object
                 if (hit.distance == 0)

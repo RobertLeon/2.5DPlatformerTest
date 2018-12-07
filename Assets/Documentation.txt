@@ -18,8 +18,7 @@ Things to Implement:
 		Need to make a controller for the map screen
 		Basic Room Size:
 
-		Secret Rooms:
-			Destructable walls
+		Secret Rooms:			
 			Switches
 			Walkthrough?
 			Through platform
@@ -74,23 +73,17 @@ Things to Implement:
 			Walking enemys
 			Running enemys
 
-			
-			
 	Traps:
 		Falling Traps, Standing Traps, Spikes, etc
 
 	Water:
-		Deters movement in a similar way to the treadmills
+		Buyoancy/Swimming
 		Swimming?:
 			Air Meter?
-			Underwater slows movement slightly
 
 	Implement Object pooling:
 		Enemy and Player projectile pools
 		Enemy Spawn pools
-
-
-
 
 Things to Research:
 	Lighting
@@ -104,8 +97,7 @@ Things to Research:
 	Water Physics
 
 
-Bugs/Unintended Behaviours:
-	Can go through moving platforms if the platform moves through a climable object.
+Bugs/Unintended Behaviours:	
 	Damage numbers are sometimes hard to read
 	Lighting is being weird
 	Treadmills and moving platforms need to have no rotation.

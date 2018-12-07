@@ -117,8 +117,8 @@ public class CameraController : MonoBehaviour
         if (cameraTarget != null)
         {
             focusArea.Update(cameraTarget.boxCollider.bounds);
-            
-            Vector2 focusPosition = focusArea.center + Vector2.up * verticalOffset;
+
+            Vector2 focusPosition = focusArea.center;
 
             //Set the look ahead direction on the x-axis
             if (focusArea.velocity.x != 0)
@@ -153,11 +153,12 @@ public class CameraController : MonoBehaviour
             focusPosition.y = Mathf.SmoothDamp(transform.position.y, focusPosition.y,
                 ref smoothVelocityY, verticalSmoothTime);
             focusPosition += Vector2.right * currentLookAheadX;
+           
             
             //Keep the camera inside the current room
             focusPosition.x = Mathf.Clamp(cameraTarget.transform.position.x, minBounds.x + halfWidth, maxBounds.x - halfWidth);
-            focusPosition.y = Mathf.Clamp(cameraTarget.transform.position.y, minBounds.y + halfHeight, maxBounds.y - halfHeight);
-            
+            focusPosition.y = Mathf.Clamp(cameraTarget.transform.position.y + verticalOffset, minBounds.y + halfHeight, maxBounds.y - halfHeight);
+           
             //Move the camera
             transform.position = (Vector3)focusPosition + Vector3.forward * zOffset;            
         }

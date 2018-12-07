@@ -124,7 +124,7 @@ GameObject:
   - component: {fileID: 61917651742120368}
   - component: {fileID: 114522301669518310}
   - component: {fileID: 50756608453912572}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: Ladder
   m_TagString: Climbable
   m_Icon: {fileID: 0}
@@ -389,7 +389,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1454142132975522}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 6, z: 0}
+  m_LocalPosition: {x: -12.054337, y: 1.9949999, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4313552339602976}

@@ -34,10 +34,10 @@ public class ItemSpawner : MonoBehaviour
     }
 
     //Checks for collision
-    private void OnTriggerStay(Collider other)
+    private void OnTriggerStay2D(Collider2D collision)
     {
         //If the player is on the item spawner
-        if (other.tag == "Player")
+        if (collision.tag == "Player")
         {
            
             //Check for the player's input

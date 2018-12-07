@@ -266,6 +266,7 @@ MonoBehaviour:
   slide: {x: 80, y: -4}
   wallSliding: 0
   directionalInput: {x: 0, y: 0}
+  sinkSpeed: 0
 --- !u!114 &114159948333316590
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -329,7 +330,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1453273378135610}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f01b69cc2296908419e183a5a8d9155b, type: 3}
   m_Name: 
@@ -367,7 +368,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1453273378135610}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1651a32b4e39a0b42b3c2be91ef07fdf, type: 3}
   m_Name: 

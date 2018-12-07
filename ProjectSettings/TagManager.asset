@@ -15,6 +15,7 @@ TagManager:
   - PauseMenu
   - DamageCanvas
   - Obstacle
+  - Water
   layers:
   - Default
   - TransparentFX
