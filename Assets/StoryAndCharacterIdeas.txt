@@ -1,0 +1,148 @@
+Game Title: Unknown
+
+
+Main Story Gameplay:
+	1v1 Tournament Fights
+	Each round is in two parts.
+		1st part: Participants search for the exit and items hidden in maze/gauntlet style arena.
+		2nd part: 1v1 Fight with the participant that arrived at the exit first getting an advantage.
+	Large amount of money for winning tournament. 
+
+
+Attacks:
+1: Basic Attack
+2: Combo Attack/Reload
+3: Avoidance/Utility
+4: Ultimate/Finisher
+
+
+Characters:
+
+Class: Swashbuckler
+Goal: Become a pirate captain. Buys a boat with prize money.
+Reason: Call to adventure/Wanderlust
+
+Additional Information:
+Raised from a small child on the stories of great sea adventures, doesn't have a clue about actually being on a boat.
+
+Attacks:
+1: Sword Swing
+	Basic sword swing/slash. 3 hit combo?
+
+2: Musket Blast
+	Short range piercing attack
+
+3: Dodge roll
+	Roll out of the way of attacks
+
+4: Blase Flurry
+	Deal damage to all enemies in an area for a small amount of time
+
+Class: The Cursed One
+Goal: Acquire the other peices of the cursed item / remove the cursed item
+Reason: The item is forcing the wearer to complete the set to increase thier power. 
+
+Attacks:
+1: Dark Touch
+	Deals damage to enemies. short range
+
+2: Leech Life
+	Buff, Causes damage dealt to heal a small portion	
+
+3: Void Shadow
+	Enter the void world after an amount of time exit and take increased damage for a time
+
+4: Sacrifice
+	Take damage for a boost in attack
+
+Additional Information:
+
+
+Class: Catmancer/Dogmancer
+Goal:
+Reason:
+
+Attacks:
+1:Throw treat/yarn ball
+	Enemys that are hit take extra damage from summoned animal
+
+2:???
+
+
+3:???
+
+4:Summon Animal
+	Summon an animal companion to fight by the user's side for a while
+
+Attacks:
+
+Additional Information:
+
+Class: Paladin
+Goal: 
+Reason:
+
+Attacks:
+1:Weapon swing
+	2h Sword/Mace swing?
+
+2:Smite
+	Damages an enemy over a small amount of time. Damage heals the caster
+
+3:Shield
+	Creates a shield around the userand the user takes less damage for a while	
+
+4:Consecrate
+	Deals damage in an area around the user for a small amount of time.
+
+
+Additional Information:
+
+
+Class: Mage
+Goal: 
+Reason:
+
+Attacks:
+1: Arcane Blast
+	Short to midrange blast in one direction
+
+2: Fireball 
+	Hurl a ball of fire damaging multiple enemies at once
+
+3: Frost Nova
+	Freeze enemies around the caster	
+
+4: Mirror Image
+	Create a duplicate that also casts spells. Dissapears after taking damage or a small amount of time
+
+Additional Information:
+
+
+Class: Hunter
+Goal: 
+Reason:
+
+Attacks:
+1:Shoot Bow
+	
+2:Place Trap
+	Place a trap that keeps an enemy in place for a short time 
+3:Stealth 
+4:MultiShot
+
+Additional Information:
+
+
+
+Class: 
+Goal: 
+Reason:
+
+Attacks:
+1:
+2:
+3:
+4:
+
+Additional Information:

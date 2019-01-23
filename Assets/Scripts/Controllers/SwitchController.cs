@@ -12,6 +12,7 @@ public class SwitchController : MonoBehaviour {
 
     private Animator animator;              //Reference to the Animator component
     private InputManager inputManager;      //Reference to the InputManager Script
+    
     private float timer = 0;                //Timer for resetting the switch
     private bool switchActive = false;      //Check for the switch being active
     private bool noTimer;                   //Check if the switch has a timer
@@ -21,86 +22,60 @@ public class SwitchController : MonoBehaviour {
     {
         animator = GetComponent<Animator>();
         inputManager = FindObjectOfType<InputManager>();
-        noTimer = switchTimer == 0 ? true : false;        
+
+        StartCoroutine(SwitchAnimation());
+        switchActive = false;
+        noTimer = switchTimer == 0 ? true : false;
 	}
 
     // Update is called once per frame
     void Update()
     {
-        //Check if there switch has a timer and has been activated
-        if(switchActive && !noTimer)
+        //Check if the switch has been activated
+        if (switchActive)
+        {
+            //Check for a timer and if the timer is set
+            if (!noTimer && timer > 0)
+            {
+                timer -= Time.deltaTime;                
+            }
+            //Resets the timer and the switch state
+            else if (timer <= 0 && switchActive)
+            {
+                timer = 0;
+                switchState = false;
+                switchActive = false;
+                StartCoroutine(SwitchAnimation());
+            }
+        }
+    }
+       
+    //Handles the animation of the switch
+    private IEnumerator SwitchAnimation()
+    {
+        animator.SetBool("LeverState", switchState);
+        yield return new WaitForSeconds(1f);
+        
+        if(!noTimer && !switchActive)
         {
             timer = switchTimer;
-            switchActive = false;
-        }
-
-        if (!noTimer)
-        {
-            //Reduce the timer
-            if (timer > 0)
-            {
-                timer -= Time.deltaTime;
-            }
-            //Reset the switch
-            else if (timer <= 0)
-            {
-                StartCoroutine(SetSwitchToOff());
-            }
-        }
+        }        
     }
 
-    //Sets the switch to an off state
-    private IEnumerator SetSwitchToOff()
-    {
-        switchState = false;
-        timer = 0;
-        animator.SetBool("Lever", switchState);
-        yield return new WaitForSeconds(animator.playbackTime);
-    }
-
-    //Handles the state and animation of the switches
-    private IEnumerator HandleSwitchStates()
-    {
-        //Check for a timer
-        if (noTimer)
-        {
-            //Set the switch's state to the opposite
-            if (switchState)
-            {
-                switchState = false;
-                animator.SetBool("Lever", switchState);
-                yield return new WaitForSeconds(animator.playbackTime);
-            }
-            else
-            {
-                switchState = true;
-                animator.SetBool("Lever", switchState);
-                yield return new WaitForSeconds(animator.playbackTime);
-            }
-        }
-        else
-        {
-            //Check if the switch is off
-            if(!switchState)
-            {
-                switchState = true;
-                animator.SetBool("Lever", switchState);
-                switchActive = true;
-                yield return new WaitForSeconds(animator.playbackTime);
-            }
-        }
-    }
-
-    //
+    //Detects the player and checks for player input
     private void OnTriggerStay2D(Collider2D collision)
     {
         //Check for the player
         if(collision.tag == "Player")
         {
+            Debug.Log("Player Detected");
             //Check for player input
-            if (inputManager.GetKeyDown("Interact") || inputManager.GetButtonDown("Interact"))
-            {
-                StartCoroutine(HandleSwitchStates());
+            if ((inputManager.GetKeyDown("Interact") || inputManager.GetButtonDown("Interact")) && !switchActive)
+            {                
+                switchState = !switchState;
+                switchActive = true;
+                Debug.Log("Input detected " + switchState);
+                StartCoroutine(SwitchAnimation());
             }
         }
     }
