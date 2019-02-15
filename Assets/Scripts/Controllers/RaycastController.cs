@@ -55,7 +55,7 @@ public class RaycastController : MonoBehaviour
     {
         //The area where the rays are being drawn
         Bounds bounds = boxCollider.bounds;
-        bounds.Expand(skinWidth * -2);
+        bounds.Expand(skinWidth * -2);        
 
         //The height and width of the object
         float boundsWidth = bounds.size.x;

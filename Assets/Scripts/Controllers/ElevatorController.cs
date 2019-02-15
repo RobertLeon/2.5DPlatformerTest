@@ -5,7 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ElevatorController :RaycastController
+public class ElevatorController : RaycastController
 {
     public LayerMask passengerMask;                     //Layer mask for passengers
     public float platformSpeed;                         //Speed the platform moves
@@ -116,7 +116,22 @@ public class ElevatorController :RaycastController
             rend.material.color = Color.white;
         }
     }
-        
+    
+    //Set the Waypoint for the elevator
+    public void SetWaypoint(int waypoint)
+    {
+        //Error if the waypoint given is out of bounds
+        if(waypoint >= localWaypoints.Length || waypoint < 0)
+        {
+            Debug.LogError("Waypoint:" + waypoint + " not found on elevator: " + transform.name);
+        }
+        //Move the elevator to the specified waypoint when it is not in use
+        else if(!isMoving)
+        {
+            nextWaypoint = waypoint;
+            isMoving = true;
+        }
+    }
 
     //Move the passengers based on the passed in boolean
     private void MovePassengers(bool beforeMovePlatform)
@@ -143,7 +158,6 @@ public class ElevatorController :RaycastController
     //Calculates the passenger's movement on the platform
     private void CalculatePassengerMovement(Vector3 velocity)
     {
-
         HashSet<Transform> movedPassengers = new HashSet<Transform>();
         passengerMovement = new List<PassengerMovement>();
 
@@ -243,7 +257,6 @@ public class ElevatorController :RaycastController
         }
     }
 
-
     //Calculate the platform's movement
     private Vector3 CalculatePlatformMovement(int current, int next)
     {
@@ -278,7 +291,6 @@ public class ElevatorController :RaycastController
         
         return newPos - transform.position;
     }
-
 
     //Calculate the easement of the platform
     private float CalculateEase(float x)

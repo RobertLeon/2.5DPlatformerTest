@@ -92,8 +92,8 @@ public class CollisionController : RaycastController
             collisions.faceDir = (int)Mathf.Sign(movementAmount.x);
         }
         
-        //
-        if(playerInput.x != 0)
+        //Check player input for animation queues
+        if(playerInput.x != 0 && !collisions.climbingObject)
         {
             animator.SetFloat("FaceDir", playerInput.x);
         }
@@ -189,8 +189,8 @@ public class CollisionController : RaycastController
                 collisions.below = (directionY == -1);
                 //If directionY is 1 the player has collided with an object above them
                 collisions.above = (directionY == 1);
-
             }
+
         }
 
         //Smoothing out different slope climbs
@@ -222,7 +222,6 @@ public class CollisionController : RaycastController
                 }
             }
         }
-
     }
 
     //Checks for horizontal collisions

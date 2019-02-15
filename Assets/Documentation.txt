@@ -74,7 +74,7 @@ Things to Implement:
 			Running enemys
 
 	Traps:
-		Falling Traps, Standing Traps, Spikes, etc
+		Falling Traps, Standing Traps, etc.
 
 	Water:
 		Buyoancy/Swimming
@@ -88,7 +88,7 @@ Things to Implement:
 Things to Research:
 	Lighting
 	Key Rebinding
-		Need to look into non XInput input methods
+		Unity released some new input manager thingy
 	Audio System
 	Game Manager System
 		User Preferences

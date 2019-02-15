@@ -87,7 +87,7 @@ public class CameraController : MonoBehaviour
             top += shiftY;
             bottom += shiftY;
 
-            center = new Vector2((left + right) / 2, (top + bottom) / 2);
+            center = new Vector2((left + right) / 2, (bottom));
             velocity = new Vector2(shiftX, shiftY);
         }
     }
@@ -157,7 +157,7 @@ public class CameraController : MonoBehaviour
             
             //Keep the camera inside the current room
             focusPosition.x = Mathf.Clamp(cameraTarget.transform.position.x, minBounds.x + halfWidth, maxBounds.x - halfWidth);
-            focusPosition.y = Mathf.Clamp(cameraTarget.transform.position.y + verticalOffset, minBounds.y + halfHeight, maxBounds.y - halfHeight);
+            focusPosition.y = Mathf.Clamp(cameraTarget.transform.position.y + verticalOffset, minBounds.y + halfHeight, (maxBounds.y + (verticalOffset*2)) - halfHeight);
            
             //Move the camera
             transform.position = (Vector3)focusPosition + Vector3.forward * zOffset;            

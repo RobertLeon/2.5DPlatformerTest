@@ -7,32 +7,39 @@ using UnityEngine;
 
 public class SwitchController : MonoBehaviour {
 
-    public float switchTimer;               //Time for the switch to reset
-    public bool switchState;                //State of the switch
+    public bool switchState;                    //State of the switch
 
-    private Animator animator;              //Reference to the Animator component
-    private InputManager inputManager;      //Reference to the InputManager Script
+    private Animator animator;                  //Reference to the Animator component
+    private InputManager inputManager;          //Reference to the InputManager Script    
+    private float timer = 0f;                   //Timer for resetting the switch
+    private float switchTimer;                  //Time the switch is active
+    private bool switchActivated = false;       //Check for the switch being active
+    private bool noTimer = false;               //Check if there is a timer on this switch
     
-    private float timer = 0;                //Timer for resetting the switch
-    private bool switchActive = false;      //Check for the switch being active
-    private bool noTimer;                   //Check if the switch has a timer
 
 	// Use this for initialization
-	void Start ()
+	public virtual void Start ()
     {
         animator = GetComponent<Animator>();
         inputManager = FindObjectOfType<InputManager>();
 
         StartCoroutine(SwitchAnimation());
-        switchActive = false;
-        noTimer = switchTimer == 0 ? true : false;
+        switchActivated = false;        
 	}
 
-    // Update is called once per frame
-    void Update()
+    //Set the timer the switch is active
+    public void SetTimer(float time)
+    {
+        switchTimer = time;
+
+        noTimer = switchTimer == 0 ? true : false;
+    }
+
+    //Handles the switch timer and reseting the switch states
+    public void SwitchCountDown()
     {
         //Check if the switch has been activated
-        if (switchActive)
+        if (switchActivated)
         {
             //Check for a timer and if the timer is set
             if (!noTimer && timer > 0)
@@ -40,11 +47,11 @@ public class SwitchController : MonoBehaviour {
                 timer -= Time.deltaTime;                
             }
             //Resets the timer and the switch state
-            else if (timer <= 0 && switchActive)
+            else if (timer <= 0 && switchActivated)
             {
                 timer = 0;
                 switchState = false;
-                switchActive = false;
+                switchActivated = false;
                 StartCoroutine(SwitchAnimation());
             }
         }
@@ -55,11 +62,8 @@ public class SwitchController : MonoBehaviour {
     {
         animator.SetBool("LeverState", switchState);
         yield return new WaitForSeconds(1f);
-        
-        if(!noTimer && !switchActive)
-        {
-            timer = switchTimer;
-        }        
+
+        timer = switchTimer;                
     }
 
     //Detects the player and checks for player input
@@ -68,13 +72,11 @@ public class SwitchController : MonoBehaviour {
         //Check for the player
         if(collision.tag == "Player")
         {
-            Debug.Log("Player Detected");
             //Check for player input
-            if ((inputManager.GetKeyDown("Interact") || inputManager.GetButtonDown("Interact")) && !switchActive)
+            if ((inputManager.GetKeyDown("Interact") || inputManager.GetButtonDown("Interact")) && !switchActivated)
             {                
                 switchState = !switchState;
-                switchActive = true;
-                Debug.Log("Input detected " + switchState);
+                switchActivated = true;
                 StartCoroutine(SwitchAnimation());
             }
         }

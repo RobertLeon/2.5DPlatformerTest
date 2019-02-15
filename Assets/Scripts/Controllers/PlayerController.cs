@@ -261,34 +261,38 @@ public class PlayerController : MonoBehaviour
 
     //Handle the player's movement for climbing up and down objects
     private void HandleClimbing()
-    {
-        //If the player can climb up or down
-        if (collision.collisions.canClimb && directionalInput.y >= 0.65f || 
-            collision.collisions.canClimb && directionalInput.y <= -0.65f)
+    { 
+        //Stop the player from climbing down at the bottom of the ladder and allows to climb up
+        if (!collision.collisions.below || (collision.collisions.below && directionalInput.y >= 0.65f))
         {
-            //Check if the player has not activated a slide
-            if (!collision.collisions.sliding)
+            //If the player can climb up or down
+            if (collision.collisions.canClimb && directionalInput.y >= 0.65f ||
+                collision.collisions.canClimb && directionalInput.y <= -0.65f)
             {
-                velocity.y = Mathf.Sign(directionalInput.y) * (climbSpeed + playerStats.movement.speedModifier);
+                //Check if the player has not activated a slide
+                if (!collision.collisions.sliding)
+                {
+                    velocity.y = Mathf.Sign(directionalInput.y) * (climbSpeed + playerStats.movement.speedModifier);
 
-                velocity.x = collision.collisions.faceDir == 1 ? 0f : -0.001f;
+                    velocity.x = 0f;
 
-                collision.collisions.climbingObject = true;
+                    collision.collisions.climbingObject = true;
+                }
             }
-        }
 
-        //If the player is climbing an object and has stopped
-        if(collision.collisions.climbingObject && directionalInput.y == 0)
-        {
-            velocity.y = 0;
+            //Stop climbing when on the ground
+            if (collision.collisions.below)
+            {
+                collision.collisions.climbingObject = false;
+            }
 
-            velocity.x = collision.collisions.faceDir == 1 ? 0f : -0.001f;
-        }
+            //If the player is climbing an object and has stopped
+            if (collision.collisions.climbingObject && directionalInput.y == 0)
+            {
+                velocity.y = 0f;
 
-        //Stop climbing if the player collides with the ground
-        if(collision.collisions.climbingObject && collision.collisions.below)
-        {
-            collision.collisions.climbingObject = false;
+                velocity.x = 0f;
+            }
         }
     }
 
