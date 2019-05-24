@@ -33,9 +33,9 @@ public class GroundMovementController : EnemyMovement
 
     //Turns the pacing enemy around
     private IEnumerator TurnAround()
-    {        
+    {
         //Set the movement of the enemy to the oppsite direction
-        velocity.x *= -1;
+        velocity.x = 0;
         movementDir *= -1;
 
         //Wait half a second to reset the trigger to turn around
@@ -112,12 +112,14 @@ public class GroundMovementController : EnemyMovement
                     {
                         Vector2 rayOrigin = collision.raycastOrigins.bottomLeft + Vector2.right * (collision.verticalRaySpacing * i);
 
-                        RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.down, rayLength, collision.collisionMask);
+                        //Check if any rays are not touching the ground
+                        bool stand = Physics.Raycast(rayOrigin, Vector3.down, rayLength, collision.collisionMask);
 
                         //Add the result from the raycast to the list
-                        onPlatform.Add(hit);
+                        onPlatform.Add(stand);
                     }
 
+                    
                     //Check if any of the rays are not hitting a platform
                     if (onPlatform.Contains(false))
                     {

@@ -25,15 +25,15 @@ public class PlayerStats : Stats
     private float regenTimer;                   //Regeneration timer
     private float damageTimer;                  //Damage Timer
     private PlayerController playerController;  //Reference to the Player Controller script
-    private HealthBar healthBar;                //Reference to the Health Bar sctipt
+
+    public delegate void UpdateUI(PlayerStats stats);
+    public static event UpdateUI PlayerUI;
 
     //Use this for initialization
     public override void Start()
     {
         //Get the required components in the scene
-        playerController = GetComponent<PlayerController>();
-        healthBar = FindObjectOfType<HealthBar>();
-        
+        playerController = GetComponent<PlayerController>(); 
 
         //Set current level to 1
         if (exp.currentLevel <= 0)
@@ -142,11 +142,7 @@ public class PlayerStats : Stats
             //Update the player UI
             UpdatePlayerUI();
 
-            //Play the specified sound
-            if(audioCon != null)
-            {
-                //Play Sound
-            }
+            //Play the specified sound            
         }
     }
 
@@ -208,19 +204,9 @@ public class PlayerStats : Stats
     //Updates the health and experience bars
     private void UpdatePlayerUI()
     {
-        //Check for the health and experience bars in the scene and update them
-        if (healthBar != null)
+        if (PlayerUI != null)
         {
-            healthBar.UpdateHealthBar(this);
-            healthBar.UpdateExpBar(this);
-        }
-        //If not found display error message and attempt to find it again
-        else
-        {
-            Debug.LogWarning("Health Bar script not found in scene: "
-                + SceneManager.GetActiveScene() + 
-                ".\n Attemping to find the health bar script.");
-            healthBar = FindObjectOfType<HealthBar>();
+            PlayerUI.Invoke(this);
         }
     }
 }

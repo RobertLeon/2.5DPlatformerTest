@@ -26,6 +26,16 @@ public class ItemHolder : MonoBehaviour
         public int quantity;        
     }
 
+    private void OnEnable()
+    {
+        ItemPickup.NewItem += AddItem;
+    }
+
+    private void OnDisable()
+    {
+        ItemPickup.NewItem -= AddItem;
+    }
+
     //Used for initialization
     private void Start()
     {
@@ -56,7 +66,7 @@ public class ItemHolder : MonoBehaviour
     }
 
     //Add an item to the inventory
-    public void AddItem(Items item)
+    private void AddItem(Items item)
     {
         //Check if the item is not in the dictionary
         if (!itemInventory.ContainsKey(item))
@@ -132,7 +142,7 @@ public class ItemHolder : MonoBehaviour
     }
 
     //Removes an item from the inventoty
-    public void RemoveItem(Items item)
+    private void RemoveItem(Items item)
     {
         //Check if the item is in the inventory
         if(!itemInventory.ContainsKey(item))

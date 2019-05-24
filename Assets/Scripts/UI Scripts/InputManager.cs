@@ -15,7 +15,6 @@ public class InputManager : MonoBehaviour
     private Dictionary<string, KeyCode> kbInputs;           //Dictionary of key board input
     private Dictionary<string, object> gpInputs;            //Dictionary of gamepad inputs
 
-
     private void Awake()
     {
         if(gamepadButtons.Length == 0)
@@ -63,6 +62,7 @@ public class InputManager : MonoBehaviour
             Debug.LogWarning("PlayerInput.json was not found.");
             GameManager.Instance.SaveInputs();
         }
+
     }
 
     //Hard coded inputs for use as reset point.

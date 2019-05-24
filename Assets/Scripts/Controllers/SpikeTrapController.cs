@@ -43,10 +43,10 @@ public class SpikeTrapController : RaycastController
         {
             Vector2 rayOrigin = raycastOrigins.topLeft + Vector2.right * (verticalRaySpacing * i);
 
-            RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.up, rayLength, activationMask);
+            RaycastHit hit;
 
             //Did the raycast hit anything
-            if (hit && hit.distance != 0)
+            if (Physics.Raycast(rayOrigin, Vector2.up, out hit, rayLength, activationMask) && hit.distance != 0)
             {
                 //Activate the trap
                 if ((hit.transform.tag == "Player" || hit.transform.tag == "Enemy")&& !trapActive)

@@ -63,7 +63,7 @@ public class GameManager : MonoBehaviour
     //Used for initialization
     private void Start()
     {
-        inputManager =FindObjectOfType<InputManager>(); 
+        inputManager = FindObjectOfType<InputManager>();
     }
 
     //Saving the player's inputs

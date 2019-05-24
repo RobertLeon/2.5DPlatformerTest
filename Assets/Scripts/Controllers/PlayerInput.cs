@@ -11,18 +11,24 @@ using XboxCtrlrInput;
 [RequireComponent(typeof(PlayerController))]
 public class PlayerInput : MonoBehaviour
 {
-    private PlayerController playerController;      //Reference to the Player Controller script
     private PauseMenu pauseMenu;                    //Reference to the Pause Menu script     
     private InputManager inputManager;              //Reference to the Input Manager script
     private Vector2 directionalInput;               //The amount the player moves in a certain direction
     private float deadZone;                         //Deadzone for gamepad thumb sticks
 
+    public delegate void JumpInuptUp();
+    public delegate void JumpInputDown();
+    public delegate void DirectionalInput(Vector2 input);
+    public delegate void Interact();
+    public static event JumpInuptUp JumpButtonUp;
+    public static event JumpInputDown JumpButtonDown;
+    public static event DirectionalInput MovementInput;
+    public static event Interact ActivateObject;
 
     //Use this for initialization
     void Start()
     {
-        //Get references in the scene
-        playerController = GetComponent<PlayerController>();
+        //Get references in the scene       
         pauseMenu = FindObjectOfType<PauseMenu>();
         inputManager = FindObjectOfType<InputManager>();
 
@@ -53,24 +59,27 @@ public class PlayerInput : MonoBehaviour
 
         //Keyboard input movmenet
         KeyBoardMovement();
-             
-        //Set the input in the PlayerController input
-        playerController.SetDirectionalInput(directionalInput);
 
-        //Jump input being pressed
+        //Set the input in the PlayerController input
+        MovementInput.Invoke(directionalInput);
+
+        //Jump input being pressed               
         if (inputManager.GetKeyDown("Jump") || inputManager.GetButtonDown("Jump"))
         {
-            playerController.OnJumpInputDown();
+            JumpButtonDown.Invoke();
         }
 
         //Jump input being released
         if (inputManager.GetKeyUp("Jump") || inputManager.GetButtonUp("Jump"))
         {
-            playerController.OnJumpInputUp();
+            JumpButtonUp.Invoke();
+        }
+
+        if (inputManager.GetKeyDown("Interact"))
+        {
+            ActivateObject();
         }
     }
-
-
     //Check for keyboard movment inputs
     private void KeyBoardMovement()
     {

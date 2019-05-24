@@ -31,7 +31,6 @@ public class CameraController : MonoBehaviour
     private float halfHeight;                           //Half of the camera's height
     private float halfWidth;                            //Half of the camera's width
 
-
     //Structure for the Focus Area
     private struct FocusArea
     {
@@ -90,6 +89,16 @@ public class CameraController : MonoBehaviour
             center = new Vector2((left + right) / 2, (bottom));
             velocity = new Vector2(shiftX, shiftY);
         }
+    }
+
+    private void OnEnable()
+    {
+        RoomController.CameraBoundary += SetCameraBoundary;
+    }
+
+    private void OnDisable()
+    {
+        RoomController.CameraBoundary -= SetCameraBoundary;
     }
 
     private void Start()
@@ -153,12 +162,13 @@ public class CameraController : MonoBehaviour
             focusPosition.y = Mathf.SmoothDamp(transform.position.y, focusPosition.y,
                 ref smoothVelocityY, verticalSmoothTime);
             focusPosition += Vector2.right * currentLookAheadX;
-           
-            
+
+
             //Keep the camera inside the current room
             focusPosition.x = Mathf.Clamp(cameraTarget.transform.position.x, minBounds.x + halfWidth, maxBounds.x - halfWidth);
-            focusPosition.y = Mathf.Clamp(cameraTarget.transform.position.y + verticalOffset, minBounds.y + halfHeight, (maxBounds.y + (verticalOffset*2)) - halfHeight);
-           
+            focusPosition.y = Mathf.Clamp(cameraTarget.transform.position.y + verticalOffset, minBounds.y + halfHeight, (maxBounds.y + (verticalOffset * 2)) - halfHeight);
+            
+
             //Move the camera
             transform.position = (Vector3)focusPosition + Vector3.forward * zOffset;            
         }
@@ -166,7 +176,7 @@ public class CameraController : MonoBehaviour
 
 
     //Set the bounds of the camerea's movement
-    public void SetCameraBoundary(BoxCollider2D boundBox)
+    private void SetCameraBoundary(BoxCollider boundBox)
     {
         minBounds = boundBox.bounds.min;
         maxBounds = boundBox.bounds.max;

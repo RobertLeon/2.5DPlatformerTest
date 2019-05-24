@@ -6,7 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(BoxCollider2D))]
+[RequireComponent(typeof(BoxCollider))]
 public class RaycastController : MonoBehaviour
 {
     public LayerMask collisionMask;                 //Detect which object layer to collide with
@@ -20,10 +20,10 @@ public class RaycastController : MonoBehaviour
     [HideInInspector]
     public float verticalRaySpacing;                //Space inbetweeen the rays being drawn
     [HideInInspector]
-    public BoxCollider2D boxCollider;               //Box Collider Object
+    public BoxCollider boxCollider;                 //Box Collider component
     public RaycastOrigins raycastOrigins;           //Origin of the raycast
 
-    private const float dstBestweenRays = 0.25f;    //Distance between rays  
+    private const float dstBetweenRays = 0.25f;     //Distance between rays  
 
     //Location of the raycast origin
     public struct RaycastOrigins
@@ -31,11 +31,29 @@ public class RaycastController : MonoBehaviour
         public Vector2 topLeft, topRight;
         public Vector2 bottomLeft, bottomRight;
     }
+
+    public struct PassengerMovement
+    {
+        public Transform transform;         //Passenger object
+        public Vector3 velocity;            //Movement of the passenger
+        public bool standingOnPlatform;     //Check for standing on the platform
+        public bool moveBeforePlatform;     //Moves before the platform does
+
+        //Constructor
+        public PassengerMovement(Transform _passenger, Vector3 _velocity,
+            bool _standingOnPlatform, bool _moveBeforePlatform)
+        {
+            transform = _passenger;
+            velocity = _velocity;
+            standingOnPlatform = _standingOnPlatform;
+            moveBeforePlatform = _moveBeforePlatform;
+        }
+    }
     
     public virtual void Awake()
     {
         //Reference for the Box Collider component
-        boxCollider = GetComponent<BoxCollider2D>();
+        boxCollider = GetComponent<BoxCollider>();
     }
 
     //Use this for initialization
@@ -62,8 +80,8 @@ public class RaycastController : MonoBehaviour
         float boundsHeight = bounds.size.y;
 
         //Calculate the amount of rays being cast
-        horizontalRayCount = Mathf.RoundToInt(boundsHeight / dstBestweenRays);
-        verticalRayCount = Mathf.RoundToInt(boundsWidth / dstBestweenRays);
+        horizontalRayCount = Mathf.RoundToInt(boundsHeight / dstBetweenRays);
+        verticalRayCount = Mathf.RoundToInt(boundsWidth / dstBetweenRays);
 
         //Calculate the spacing between each ray
         horizontalRaySpacing = bounds.size.y / (horizontalRayCount - 1);
@@ -83,5 +101,35 @@ public class RaycastController : MonoBehaviour
         raycastOrigins.bottomRight = new Vector2(bounds.max.x, bounds.min.y);
         raycastOrigins.topLeft = new Vector2(bounds.min.x, bounds.max.y);
         raycastOrigins.topRight = new Vector2(bounds.max.x, bounds.max.y);
+    }
+
+    public bool DetectPassengers(LayerMask activationMask)
+    {
+        float rayLength = skinWidth * 2;
+
+        List<bool> standingOnPlatform = new List<bool>();
+
+        //Loop through each vertical ray
+        for (int i = 0; i < verticalRayCount; i++)
+        {
+            //Location of the starting ray
+            Vector2 rayOrigin = raycastOrigins.topLeft + Vector2.right * (verticalRaySpacing * i);
+
+            //Detect all passengers on this raycast
+            RaycastHit[] hits = Physics.RaycastAll(rayOrigin, Vector2.up, rayLength, activationMask);
+
+            //Loop through each raycast
+            for (int j = 0; j < hits.Length; j++)
+            {
+                if (hits[j].distance != 0)
+                {
+                    //Add the results of the raycast to the list
+                    standingOnPlatform.Add(hits[j].transform);
+                }
+            }
+        }
+        
+        //Something is on the platform if the list contains at least one true value
+        return standingOnPlatform.Contains(true);
     }
 }

@@ -98,9 +98,15 @@ Things to Research:
 
 
 Bugs/Unintended Behaviours:	
-	Damage numbers are sometimes hard to read
-	Lighting is being weird
-	Treadmills and moving platforms need to have no rotation.
+	Damage numbers are sometimes hard to read.
+
+	Treadmills and moving platforms need to have less than the sliding rotation.
+		(Constant updating of the boundaries and position and the checks are done in world space.)
+		
+	Setting the collision layer as the same as the object causes it to levitate.	
+
+	Timed platforms currently need to have an incremental order. No two groups of platforms can share
+	the same order.
 	
 
 Code that needs commenting/better comments:

@@ -28,6 +28,9 @@ public class AudioController : MonoBehaviour
     public Sound[] songs;                      //List of sounds to play
 
 
+    public delegate void PlaySound(Sound sound);
+    public static event PlaySound PlaySoundEffect;
+
 	//Use this for initialization
 	void Awake()
 	{

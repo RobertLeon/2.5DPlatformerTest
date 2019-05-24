@@ -83,17 +83,15 @@ public class Stats : MonoBehaviour
     [HideInInspector]
     public GameObject damageCanvas;         //UI canvas for the floating text
     [HideInInspector]
-    public AudioController audioCon;        //Reference to the Audio Controller script
-    [HideInInspector]
-    public Animator anim;                   //Reference to the Animator component
+    public Animator anim;                  //Reference to the Animator component
 
+   
     //Use this for initialization
     public virtual void Start()
     {
         //Find the damage canvas game object
         damageCanvas = GameObject.FindGameObjectWithTag("DamageCanvas");
-        anim = GetComponent<Animator>();
-        audioCon = FindObjectOfType<AudioController>();
+        anim = GetComponent<Animator>();        
     }
 
     //Increases the maximium health
@@ -149,7 +147,6 @@ public class Stats : MonoBehaviour
         }
 
     }
-
 
     //Change the crit chance
     public void ChangeCritChance(float amount)

@@ -10,6 +10,9 @@ public class ItemPickup : MonoBehaviour
     public Items item;                  //Reference to the item
     public float waitTime;              //Time to wait after spawning the item
 
+    public delegate void PickUp(Items item);
+    public static event PickUp NewItem;
+
     //Use this for initialization
     void Start()
 	{
@@ -24,11 +27,11 @@ public class ItemPickup : MonoBehaviour
         //rend.material.color = item.itemColor[(int)item.itemRarity];
 
         //Allows the item to spawn on screen
-        StartCoroutine(PickUp());
+        StartCoroutine(EnablePickUp());
 	}
 
     //Enables the item to be picked up by the player
-    private IEnumerator PickUp()
+    private IEnumerator EnablePickUp()
     {
         //Wait for a second
         yield return new WaitForSeconds(waitTime);
@@ -44,8 +47,9 @@ public class ItemPickup : MonoBehaviour
         if (other.tag == "Player")
         {
             //Initialize the item
-            other.GetComponent<ItemHolder>().AddItem(item);
-            FindObjectOfType<AudioController>().PlaySongs("ItemPickUp");
+            NewItem.Invoke(item);
+            
+            //Play a sound effect for the item
 
             //Destroy the gameObject
             Destroy(gameObject);

@@ -19,13 +19,12 @@ public class PlayerController : MonoBehaviour
     public Vector2 wallJumpClimb;                   //Force for a climbing wall jump
     public Vector2 wallJumpOff;                     //Force for jumping off a wall
     public Vector2 wallLeap;                        //Force for leaping between walls    
-    public Vector2 slide;                           //Force for sliding on the floor
+    public float slide;                             //Force for sliding on the floor
+    public float sinkSpeed;
     [HideInInspector]
     public bool wallSliding;                        //Is the player sliding on a wall?         
     [HideInInspector]
     public Vector2 directionalInput;                //Input for the players movement
-
-    public float sinkSpeed;
 
     private PlayerStats playerStats;
     private CollisionController collision;          //Reference to the CollisionController
@@ -43,6 +42,21 @@ public class PlayerController : MonoBehaviour
     private int jumps;                              //Jump counter
     private bool isJumping = false;                 //Is the player jumping?
     private bool updateMovement = false;            //Check to recalculate movement variables
+
+
+    private void OnEnable()
+    {
+        PlayerInput.JumpButtonDown += OnJumpInputDown;
+        PlayerInput.JumpButtonUp += OnJumpInputUp;
+        PlayerInput.MovementInput += SetDirectionalInput;
+    }
+
+    private void OnDisable()
+    {
+        PlayerInput.JumpButtonDown -= OnJumpInputDown;
+        PlayerInput.JumpButtonUp -= OnJumpInputUp;
+        PlayerInput.MovementInput -= SetDirectionalInput;
+    }
 
     //Use this for initialization
     void Start()
@@ -97,8 +111,6 @@ public class PlayerController : MonoBehaviour
             CalculateMovement();
             updateMovement = false;
         }
-        
-      
     }
 
     //Update the movement variables of the player
@@ -134,13 +146,13 @@ public class PlayerController : MonoBehaviour
     }
 
     //Set the player's input
-    public void SetDirectionalInput(Vector2 input)
+    private void SetDirectionalInput(Vector2 input)
     {
         directionalInput = input;        
     }
 
     //Handle the player jumping
-    public void OnJumpInputDown()
+    private void OnJumpInputDown()
     { 
         //If the player can jump
         if (isJumping && jumps > 0)
@@ -182,10 +194,10 @@ public class PlayerController : MonoBehaviour
         if (collision.collisions.below || collision.collisions.inWater)
         {
             //If sliding down a slope
-           if(collision.collisions.slidingDownSlope)
+            if (collision.collisions.slidingDownSlope)
             {
                 //Not jumping against the slope
-                if(directionalInput.x != -Mathf.Sign(collision.collisions.slopeNormal.x))
+                if (directionalInput.x != -Mathf.Sign(collision.collisions.slopeNormal.x))
                 {
                     velocity.y = maxJumpVelocity * collision.collisions.slopeNormal.y;
                     velocity.x = maxJumpVelocity * collision.collisions.slopeNormal.x;
@@ -193,14 +205,14 @@ public class PlayerController : MonoBehaviour
                     isJumping = true;
                 }
             }
-           //Not sliding down a slope
+            //Not sliding down a slope
             else
             {
                 //Sliding
                 if (directionalInput.y == -1 && !collision.collisions.sliding)
                 {
                     collision.collisions.sliding = true;
-                    velocity.x = slide.x * collision.collisions.faceDir;
+                    velocity.x = slide * collision.collisions.faceDir;
                     Invoke("ResetSliding", 0.1f);
                 }
                 //If the player has jump available
@@ -223,7 +235,7 @@ public class PlayerController : MonoBehaviour
     }
     
     //Variable jump height
-    public void OnJumpInputUp()
+    private void OnJumpInputUp()
     {
         //If the player is moving faster than the minimum jump velocity
         if (velocity.y > minJumpVelocity)
@@ -245,7 +257,7 @@ public class PlayerController : MonoBehaviour
         //Keeps the player from infinitly accelerating when falling
         if (collision.collisions.inWater)
         {
-            if(velocity.y <= gravity/ sinkSpeed)
+            if(velocity.y <= gravity / sinkSpeed)
             {
                 velocity.y = gravity / sinkSpeed;
             }

@@ -26,6 +26,18 @@ public class HealthBar : MonoBehaviour
     private float playerCurrentExp;         //Player's current experience value
     private float playerMaxExp;             //Player's maximum experience value
 
+    private void OnEnable()
+    {
+        PlayerStats.PlayerUI += UpdateHealthBar;
+        PlayerStats.PlayerUI += UpdateExpBar;
+    }
+
+    private void OnDisable()
+    {
+        PlayerStats.PlayerUI -= UpdateHealthBar;
+        PlayerStats.PlayerUI -= UpdateExpBar;
+    }
+
     //Used for initialization
     private void Start()
     {
@@ -35,7 +47,7 @@ public class HealthBar : MonoBehaviour
     }
 
     //Update the information the health bar shows
-    public void UpdateHealthBar(PlayerStats stats)
+    private void UpdateHealthBar(PlayerStats stats)
 	{
         //Set the player's health and shield values
         playerMaxHP = stats.health.maxHealth;
@@ -49,11 +61,12 @@ public class HealthBar : MonoBehaviour
         healthBar.color = healthGradient.Evaluate(playerCurrentHP / playerMaxHP);
         
         //Display the player's total health values
-        healthText.text = (playerCurrentShield + playerCurrentHP) + " / " + (playerMaxHP + playerMaxShield);
+        healthText.text = (playerCurrentShield + playerCurrentHP) + " / " +
+            (playerMaxHP + playerMaxShield);
     }
 
     //Update the information on the experience bar
-    public void UpdateExpBar(PlayerStats stats)
+    private void UpdateExpBar(PlayerStats stats)
     {
         //Set the players current experience values
         playerCurrentExp = stats.exp.currentExp;
@@ -64,7 +77,6 @@ public class HealthBar : MonoBehaviour
 
         //Set the experience text and fill amount
         expBar.fillAmount = (playerCurrentExp / playerMaxExp);
-        expText.text = playerCurrentExp + "/ " + playerMaxExp;
-        
+        expText.text = playerCurrentExp + "/ " + playerMaxExp;        
     }
 }

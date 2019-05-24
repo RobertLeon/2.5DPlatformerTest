@@ -11,6 +11,9 @@ public class ContactDamage : MonoBehaviour
 
     private SpikeTrapController trapController;     //Rederence to the Spike Trap Controller
 
+    public delegate void DealDamage(float dmg, float crit);
+    public static event DealDamage DamageDelt;
+
     // Start is called before the first frame update
     private void Start()
     {
@@ -23,34 +26,20 @@ public class ContactDamage : MonoBehaviour
         //Detecting a player
         if(collision.tag == "Player")
         {
-            //Reference to the player's stats
-            PlayerStats playerStats = collision.GetComponent<PlayerStats>();
-
             //Check if the trap is active
             if(trapController.trapActive)
             {
-                //Check if the player can take damage
-                if(playerStats != null && playerStats.canTakeDamage)
-                {
-                    playerStats.TakeDamage(damage, 0f);
-                }
+                DamageDelt.Invoke(damage, 0f);
             }
         }
 
         //Detecting an enemy
         if(collision.tag == "Enemy")
         {
-            //Reference to the enemy stats
-            EnemyStats enemyStats = collision.GetComponent<EnemyStats>();
-
             //Check if the trap is active
             if(trapController.trapActive)
             {
-                //Enemy takes damage
-                if(enemyStats != null)
-                {
-                    enemyStats.TakeDamage(damage, 0f);
-                }
+                DamageDelt.Invoke(damage, 0f);
             }
         }
     }
