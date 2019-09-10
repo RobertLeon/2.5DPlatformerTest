@@ -37,7 +37,7 @@ namespace XboxCtrlrInput
 	/// </summary>
 	public enum XboxButton
 	{
-		A = 0,
+		A,
 		B,
 		X,
 		Y,

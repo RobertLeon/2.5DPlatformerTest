@@ -20,13 +20,18 @@ public class PlayerController : MonoBehaviour
     public Vector2 wallJumpOff;                     //Force for jumping off a wall
     public Vector2 wallLeap;                        //Force for leaping between walls    
     public float slide;                             //Force for sliding on the floor
-    public float sinkSpeed;
+    public float slideTime = 0.4f;
     [HideInInspector]
-    public bool wallSliding;                        //Is the player sliding on a wall?         
+    public bool wallSliding;                        //Check if the player is sliding on a wall         
+    [HideInInspector]
+    public bool isCrouching;                        //Check if the player is crouching
+    [HideInInspector]
+    public bool isJumping = false;                  //Check for the player jumping
     [HideInInspector]
     public Vector2 directionalInput;                //Input for the players movement
+    
 
-    private PlayerStats playerStats;
+    private PlayerStats playerStats;                //Reference to the Player Stats script
     private CollisionController collision;          //Reference to the CollisionController
     private float gravity;                          //Downward force on the player
     private float minJumpVelocity;                  //Minimum jump velocity
@@ -40,10 +45,9 @@ public class PlayerController : MonoBehaviour
     private float jumpApex;                         //
     private int wallDirX;                           //Direction of the wall on the x-axis
     private int jumps;                              //Jump counter
-    private bool isJumping = false;                 //Is the player jumping?
     private bool updateMovement = false;            //Check to recalculate movement variables
 
-
+    
     private void OnEnable()
     {
         PlayerInput.JumpButtonDown += OnJumpInputDown;
@@ -57,7 +61,7 @@ public class PlayerController : MonoBehaviour
         PlayerInput.JumpButtonUp -= OnJumpInputUp;
         PlayerInput.MovementInput -= SetDirectionalInput;
     }
-
+    
     //Use this for initialization
     void Start()
     {
@@ -72,15 +76,26 @@ public class PlayerController : MonoBehaviour
     //Update is called once per frame
     void Update()
     {
-        HandleWater();
         CalculateVelocity();
         HandleWallSliding();
         HandleClimbing();
-        
+
+        if (collision.collisions.below && directionalInput.y == -1)
+        {
+            isCrouching = true;
+
+            if (!collision.collisions.sliding)
+            {
+                velocity.x = 0;
+            }
+        }
+        else
+        {
+            isCrouching = false;
+        }
 
         //Move the player
         collision.Move(velocity * Time.deltaTime, directionalInput);
-
 
         //If the player collides with something above or below them
         if (collision.collisions.above || collision.collisions.below)
@@ -96,10 +111,12 @@ public class PlayerController : MonoBehaviour
             }
         }
 
+        
+
         //Reset number of jumps
         if (collision.collisions.below || 
             collision.collisions.climbingObject ||
-            wallSliding || collision.collisions.inWater)
+            wallSliding)
         {
             jumps = playerStats.movement.numJumps;
             isJumping = false;
@@ -112,19 +129,14 @@ public class PlayerController : MonoBehaviour
             updateMovement = false;
         }
     }
-
+    
     //Update the movement variables of the player
     public void UpdateMovement()
     {
         updateMovement = true;
     }
 
-    //Reset the player's ability to slide
-    private void ResetSliding()
-    {
-        collision.collisions.ResetSliding();
-    }
-
+    
     //Increase the amount of jumps the player can perform
     public void IncreaseJumpCount()
     {
@@ -154,7 +166,7 @@ public class PlayerController : MonoBehaviour
     //Handle the player jumping
     private void OnJumpInputDown()
     { 
-        //If the player can jump
+        //If the player can jump in the air
         if (isJumping && jumps > 0)
         {
             velocity.y = maxJumpVelocity * 0.75f;
@@ -163,35 +175,31 @@ public class PlayerController : MonoBehaviour
 
         //Wall Jumps
         if (wallSliding)
-        {
+        {            
             //Climbing up the wall
             if (wallDirX == directionalInput.x)
             {
                 velocity.x = -wallDirX * wallJumpClimb.x;
-                velocity.y = wallJumpClimb.y;
-                jumps--;
-                isJumping = true;
+                velocity.y = wallJumpClimb.y;                
             }
             //Jumping off the wall
             else if (directionalInput.x == 0)
             {
                 velocity.x = -wallDirX * wallJumpOff.x;
-                velocity.y = wallJumpOff.y;
-                jumps--;
-                isJumping = true;
+                velocity.y = wallJumpOff.y;                
             }
             //Leaping from wall to wall
             else
             {
                 velocity.x = -wallDirX * wallLeap.x;
-                velocity.y = wallLeap.y;
-                jumps--;
-                isJumping = true;
+                velocity.y = wallLeap.y;                
             }
+            isJumping = true;
+            jumps--;
         }
 
         //The player is on the ground
-        if (collision.collisions.below || collision.collisions.inWater)
+        if (collision.collisions.below)
         {
             //If sliding down a slope
             if (collision.collisions.slidingDownSlope)
@@ -208,15 +216,15 @@ public class PlayerController : MonoBehaviour
             //Not sliding down a slope
             else
             {
-                //Sliding
+                //Perform a slide
                 if (directionalInput.y == -1 && !collision.collisions.sliding)
                 {
                     collision.collisions.sliding = true;
                     velocity.x = slide * collision.collisions.faceDir;
-                    Invoke("ResetSliding", 0.1f);
+                    Invoke("ResetSliding", slideTime);
                 }
                 //If the player has jump available
-                else if (jumps > 0)
+                else if (jumps > 0 && !collision.collisions.sliding)
                 {
                     velocity.y = maxJumpVelocity;
                     jumps--;
@@ -232,6 +240,12 @@ public class PlayerController : MonoBehaviour
             velocity.y = wallJumpOff.y;
             collision.collisions.climbingObject = false;
         }
+    }
+    
+    //Resets the ability to slide
+    private void ResetSliding()
+    {
+        collision.collisions.ResetSliding();
     }
     
     //Variable jump height
@@ -254,21 +268,11 @@ public class PlayerController : MonoBehaviour
 
         velocity.y += gravity * Time.deltaTime;
 
-        //Keeps the player from infinitly accelerating when falling
-        if (collision.collisions.inWater)
+        if (velocity.y <= gravity / 2.5f)
         {
-            if(velocity.y <= gravity / sinkSpeed)
-            {
-                velocity.y = gravity / sinkSpeed;
-            }
+            velocity.y = gravity / 2.5f;
         }
-        else
-        {
-            if (velocity.y <= gravity / 2.5f)
-            {
-                velocity.y = gravity / 2.5f;
-            }
-        }
+       
     }
 
     //Handle the player's movement for climbing up and down objects
@@ -318,13 +322,12 @@ public class PlayerController : MonoBehaviour
 
         //Wall Sliding
         if ((collision.collisions.left || collision.collisions.right)
-            && !collision.collisions.below && velocity.y < 0  
-            && collision.collisions.slopeAngle < collision.maxSlopeAngle)
+            && !collision.collisions.below && velocity.y < 0)
         {
             wallSliding = true;
 
             //Constant wall slide speed
-            if(velocity.y < wallSlideSpeedMax)
+            if(velocity.y < -wallSlideSpeedMax)
             {
                 velocity.y = -wallSlideSpeedMax;
             }
@@ -336,9 +339,9 @@ public class PlayerController : MonoBehaviour
                 velocity.x = 0;
                 
                 //Count down as long as the player is not moving into the wall
-                if (directionalInput.x != wallDirX && directionalInput.x == 0)
+                if (directionalInput.x != wallDirX)
                 {
-                    timeToWallUnstick -= Time.deltaTime;
+                    timeToWallUnstick -= Time.deltaTime;                    
                 }
                 //Reset the timer
                 else
@@ -354,19 +357,14 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    //Handle the player's movement while in water
-    private void HandleWater()
+    public float GetMovementSpeed()
     {
-        if(collision.collisions.inWater)
-        {
-            movementSpeed = (moveSpeed + playerStats.movement.speedModifier) * 0.5f;
-            jumpApex = timeToJumpApex * 1.15f;
-            
-        }
-        else
-        {
-            movementSpeed = moveSpeed + playerStats.movement.speedModifier;
-            jumpApex = timeToJumpApex;
-        }
+        return movementSpeed;
+    }
+
+    //
+    public Vector2 GetVelocity()
+    {
+        return velocity;
     }
 }

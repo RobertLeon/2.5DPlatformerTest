@@ -23,7 +23,7 @@ public class RaycastController : MonoBehaviour
     public BoxCollider boxCollider;                 //Box Collider component
     public RaycastOrigins raycastOrigins;           //Origin of the raycast
 
-    private const float dstBetweenRays = 0.25f;     //Distance between rays  
+    private const float dstBetweenRays = 0.05f;     //Distance between rays  
 
     //Location of the raycast origin
     public struct RaycastOrigins
@@ -103,6 +103,7 @@ public class RaycastController : MonoBehaviour
         raycastOrigins.topRight = new Vector2(bounds.max.x, bounds.max.y);
     }
 
+    //Detects passengers on the object
     public bool DetectPassengers(LayerMask activationMask)
     {
         float rayLength = skinWidth * 2;

@@ -4,18 +4,8 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Through
-  - Climbable
-  - Enemy
-  - MiniMapCamera
-  - PlayerSpawn
-  - EnemySpawn
-  - TreasureSpawn
-  - LevelGeneration
-  - PauseMenu
   - DamageCanvas
-  - Obstacle
-  - Water
+  - Through
   layers:
   - Default
   - TransparentFX
@@ -25,9 +15,9 @@ TagManager:
   - UI
   - 
   - 
+  - PostProcessing
+  - Collision
   - Player
-  - Obstacle
-  - Enemy
   - 
   - 
   - 
@@ -48,7 +38,7 @@ TagManager:
   - 
   - 
   - 
-  - MiniMap
+  - 
   m_SortingLayers:
   - name: Default
     uniqueID: 0

@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-[RequireComponent(typeof(PlatformController))]
 public class PlayerStats : Stats
 {
     [Header("Combat Stuff")]
@@ -97,7 +96,7 @@ public class PlayerStats : Stats
             //Reset the damage timer and change the animation state
             if (damageTimer <= 0.0f)
             {
-                anim.SetBool("OnHit", false);
+                //anim.SetBool("OnHit", false);
                 damageTimer = combat.invulnTime;
                 canTakeDamage = true;
             }
@@ -137,7 +136,7 @@ public class PlayerStats : Stats
             base.TakeDamage(amount, critChance);
 
             //Start the damaged animation
-            anim.SetBool("OnHit", true);
+            //anim.SetBool("OnHit", true);
 
             //Update the player UI
             UpdatePlayerUI();

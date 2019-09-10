@@ -14,6 +14,7 @@ Things to Implement:
 		
 
 	Rooms: (0%)
+		Need to make a room transition.
 		Need to create rooms for the different room types
 		Need to make a controller for the map screen
 		Basic Room Size:
@@ -62,7 +63,10 @@ Things to Implement:
 			At least 3 if multiple files
 
 	Key Rebinding:
-		Need a way to ignore gamepad input when rebinding keyboard inputs.
+		Need a way to allow gamepad D-Pad to allow movement in the menus if assigned for movement.
+		Need a way to assign Gameplad Left stick to rebinds
+		Need an option for use of the left stick only for movement, D-pad only for movement, and both for movement.
+
 
 	Enemy AI:(10%?)
 		Enemies need to awake when the player enters the room and sleep when out of the room
@@ -97,7 +101,8 @@ Things to Research:
 	Water Physics
 
 
-Bugs/Unintended Behaviours:	
+
+Bugs/Unintended Behaviours:
 	Damage numbers are sometimes hard to read.
 
 	Treadmills and moving platforms need to have less than the sliding rotation.

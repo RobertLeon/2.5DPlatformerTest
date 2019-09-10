@@ -11,7 +11,7 @@ using TMPro;
 public class PauseMenu : MonoBehaviour
 {
     public static bool gameIsPaused = false;        //Check for the game being paused
-    public GameObject pauseMenu;                    //Reference to the pause menu game object
+    public Canvas pauseMenu;                        //Reference to the pause menu canvas
     public GameObject confirmationMenu;             //Reference to the confirmation screen
     public TMP_Text confirmationText;               //Text to display in the confirmation menu
     public Button yesButton;                        //Reference to the confirmation button
@@ -54,7 +54,7 @@ public class PauseMenu : MonoBehaviour
     void Update()
 	{
         //Check if the pause menu has been initialized
-        if (initialized)
+        if (initialized && inputManager != null)
         {
             //Check for input
             if (inputManager.GetKeyDown("Pause") || inputManager.GetButtonDown("Pause"))
@@ -76,7 +76,7 @@ public class PauseMenu : MonoBehaviour
     public void Resume()
     {
         //Hides the pause menu
-        pauseMenu.SetActive(false);
+        pauseMenu.enabled = false;
 
         //Shows the minimap
         miniMap.SetActive(true);
@@ -100,7 +100,7 @@ public class PauseMenu : MonoBehaviour
     public void Pause()
     {
         //Show the pause menu
-        pauseMenu.SetActive(true);
+        pauseMenu.enabled = true;
         
         //Check if the current menu is not the pause menu
         if (currentMenu != pauseMenuOptions)
@@ -163,17 +163,7 @@ public class PauseMenu : MonoBehaviour
         //Unpause the game
         Resume();
 
-        //Check for the level loader and load the main menu
-        if (levelLoader != null)
-        {
-            levelLoader.LoadLevel(0);
-        }
-        //Find the level loader and load the main menu
-        else
-        {
-            levelLoader = FindObjectOfType<LevelLoader>();
-            levelLoader.LoadLevel(0);
-        }
+        LevelLoader.Instance.LoadLevel(0);        
     }
 
     //Exit the game application

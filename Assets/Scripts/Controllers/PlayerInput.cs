@@ -8,7 +8,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using XboxCtrlrInput;
 
-[RequireComponent(typeof(PlayerController))]
 public class PlayerInput : MonoBehaviour
 {
     private PauseMenu pauseMenu;                    //Reference to the Pause Menu script     
@@ -35,8 +34,15 @@ public class PlayerInput : MonoBehaviour
         //Activate the Camera Controller script
         Camera.main.GetComponent<CameraController>().enabled = true;
 
-        //Load deadzone from file
-        deadZone = GameManager.Instance.LoadInputs().deadZone;
+        if (inputManager != null)
+        {
+            //Load deadzone from file
+            deadZone = inputManager.GetDeadZone();
+        }
+        else
+        {
+            Debug.LogError("Error:Input Manager not found. \n Current Scene Number: " + UnityEngine.SceneManagement.SceneManager.sceneCountInBuildSettings);
+        }
 
         //Initialize the pause menu
         if (pauseMenu != null)
@@ -54,31 +60,34 @@ public class PlayerInput : MonoBehaviour
     //Update is called once per frame
     void Update()
     {
-        //Gamepad  input movement
-        GamepadAxisMovement(deadZone);
-
-        //Keyboard input movmenet
-        KeyBoardMovement();
-
-        //Set the input in the PlayerController input
-        MovementInput.Invoke(directionalInput);
-
-        //Jump input being pressed               
-        if (inputManager.GetKeyDown("Jump") || inputManager.GetButtonDown("Jump"))
+        if (inputManager != null)
         {
-            JumpButtonDown.Invoke();
-        }
+            //Gamepad  input movement
+            GamepadAxisMovement(deadZone);
 
-        //Jump input being released
-        if (inputManager.GetKeyUp("Jump") || inputManager.GetButtonUp("Jump"))
-        {
-            JumpButtonUp.Invoke();
-        }
+            //Keyboard input movmenet
+            KeyBoardMovement();
 
-        if (inputManager.GetKeyDown("Interact"))
-        {
-            ActivateObject();
-        }
+            //Set the input in the PlayerController input
+            MovementInput.Invoke(directionalInput);
+
+            //Jump input being pressed               
+            if (inputManager.GetKeyDown("Jump") || inputManager.GetButtonDown("Jump"))
+            {
+                JumpButtonDown.Invoke();
+            }
+
+            //Jump input being released
+            if (inputManager.GetKeyUp("Jump") || inputManager.GetButtonUp("Jump"))
+            {
+                JumpButtonUp.Invoke();
+            }
+
+            if (inputManager.GetKeyDown("Interact"))
+            {
+                ActivateObject();
+            }
+        }       
     }
     //Check for keyboard movment inputs
     private void KeyBoardMovement()

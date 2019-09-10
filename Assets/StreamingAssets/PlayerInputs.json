@@ -1,0 +1,80 @@
+{
+    "KeyBoardInputNames": [
+        "Move Left",
+        "Move Right",
+        "Move Up",
+        "Move Down",
+        "Jump",
+        "Interact",
+        "Swap Item",
+        "Ability 1",
+        "Ability 2",
+        "Ability 3",
+        "Ability 4",
+        "Use Item",
+        "Open Map",
+        "Pause",
+        "Zoom In",
+        "Zoom Out"
+    ],
+    "KeyBoardInputs": [
+        97,
+        100,
+        119,
+        115,
+        32,
+        101,
+        113,
+        257,
+        258,
+        259,
+        256,
+        271,
+        109,
+        8,
+        61,
+        45
+    ],
+    "GamePadButtonNames": [
+        "Move Left",
+        "Move Right",
+        "Move Up",
+        "Move Down",
+        "Jump",
+        "Interact",
+        "Use Item",
+        "Swap Item",
+        "Ability 1",
+        "Ability 2",
+        "Open Map",
+        "Pause",
+        "Zoom In",
+        "Zoom Out"
+    ],
+    "GamePadButtons": [
+        12,
+        13,
+        10,
+        11,
+        0,
+        1,
+        2,
+        3,
+        9,
+        8,
+        5,
+        4,
+        6,
+        7
+    ],
+    "GamePadAxisNames": [
+        "Ability 3",
+        "Ability 4"
+    ],
+    "GamePadAxes": [
+        5,
+        4
+    ],
+    "GamePadDeadZone": 0.695335328578949,
+    "GamePadVibration": 0.581947386264801
+}

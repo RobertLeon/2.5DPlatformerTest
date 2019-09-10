@@ -11,8 +11,7 @@ public class RoomData
     public RoomType roomType;                       //Designates the type of room this is
     public Direction[] exits = new Direction[4];    //How many exits and which direction they are in
     public Vector2Int gridPosition;                 //Position of the room on the grid
-
-    private  Color roomColor;                       //Color of the room based on room type
+    public Vector2Int roomSize;                     //Size of the room    
 
     //Returns the directions a room has
     public string GetExitDirections(Direction[] exits)
@@ -57,19 +56,19 @@ public class RoomData
         {
             //Entrance is green
             case RoomType.Entrance:
-                return roomColor = new Color(0f, 1f, 0f, .25f);
+                return new Color(0f, 1f, 0f, .25f);
             
             //Exit is red
             case RoomType.Exit:
-                return roomColor = new Color(1f, 0f, 0f, .25f);
+                return new Color(1f, 0f, 0f, .25f);
             
             //Basic rooms are white
             case RoomType.None:
-                return roomColor = new Color(1f, 1f, 1f, .25f);
+                return new Color(1f, 1f, 1f, .25f);
             
             //Treasure rooms are yellow
             case RoomType.Treasure:
-                return roomColor = new Color(0f, .5f, .5f, 0.25f);
+                return new Color(0f, .5f, .5f, 0.25f);
             
             //Error
             default:

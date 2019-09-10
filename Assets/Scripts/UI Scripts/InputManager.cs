@@ -2,68 +2,93 @@
 //Based off of a tutorial by: quill18Creates
 //https://www.youtube.com/watch?v=HkmP7raUYi0&t=1358s
 //Manages the players input and allows it to be rebindable
-using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 using XboxCtrlrInput;
 
 public class InputManager : MonoBehaviour
 {
-    public Sprite[] gamepadButtons;                         //Sprites for the gamepad rebinding
-
     private Dictionary<string, KeyCode> kbInputs;           //Dictionary of key board input
     private Dictionary<string, object> gpInputs;            //Dictionary of gamepad inputs
+    private List<Sprite> gamepadButtons;                    //Sprites for the gamepad rebinding
+    private float deadZone;                                 //
+    private float vibration;                                //
+    private string jsonPath;                                //File path for the player's inputs
 
     private void Awake()
     {
-        if(gamepadButtons.Length == 0)
+        kbInputs = new Dictionary<string, KeyCode>();
+        gpInputs = new Dictionary<string, object>();
+
+        //Load in the sprites for the xbox gamepad from resources
+        gamepadButtons = new List<Sprite>()
         {
-            
-        }
-    }
+            Resources.Load<Sprite>("XboxInput/DpadDown"),
+            Resources.Load<Sprite>("XboxInput/DpadLeft"),
+            Resources.Load<Sprite>("XboxInput/DpadRight"),
+            Resources.Load<Sprite>("XboxInput/DpadUp"),
+            Resources.Load<Sprite>("XboxInput/ButtonA"),
+            Resources.Load<Sprite>("XboxInput/ButtonB"),
+            Resources.Load<Sprite>("XboxInput/ButtonX"),
+            Resources.Load<Sprite>("XboxInput/ButtonY"),
+            Resources.Load<Sprite>("XboxInput/BumperLeft"),
+            Resources.Load<Sprite>("XboxInput/BumperRight"),
+            Resources.Load<Sprite>("XboxInput/Start"),
+            Resources.Load<Sprite>("XboxInput/Back"),
+            Resources.Load<Sprite>("XboxInput/StickLeft"),
+            Resources.Load<Sprite>("XboxInput/StickRight"),
+            Resources.Load<Sprite>("XboxInput/TriggerLeft"),
+            Resources.Load<Sprite>("XboxInput/TriggerRight")
+        };
 
-    // Use this for initialization
-    private void OnEnable ()
-    {
-        //Default the inputs for rebinding
-        ResetInput(InputType.Gamepad);
-        ResetInput(InputType.Keyboard);
+        jsonPath = Application.streamingAssetsPath + "/PlayerInputs.json";
 
-        //Get the player's input data from JSON file
-        PlayerInputData inputData = GameManager.Instance.LoadInputs();
+        PlayerInputData inputData = LoadInputs();
 
-        //Check for input data
         if (inputData != null)
         {
-            //Set all the keyboard inputs from 
-            for(int i = 0;i < inputData.inputNames.Count;i++)
+            if (inputData.KeyBoardInputNames.Count != 0)
             {
-                SetKeyBoardButton(inputData.inputNames[i], inputData.kbInputs[i]);
+                for (int i = 0; i < inputData.KeyBoardInputNames.Count; i++)
+                {
+                    SetKeyBoardButton(inputData.KeyBoardInputNames[i], inputData.KeyBoardInputs[i]);
+                }
+            }
+            else
+            {
+                Debug.LogWarning("No Keyboard Inputs found in file. Reseting inputs.");
+                ResetInput(InputType.Keyboard);
             }
 
-            //Set all gamepad button inputs
-            for(int i = 0; i < inputData.gpButtonNames.Count; i++)
+            if (inputData.GamePadButtonNames.Count != 0 && inputData.GamePadAxisNames.Count != 0)
             {
-                SetGamePadButton(inputData.gpButtonNames[i], inputData.gpButtons[i]);
-            }
 
-            //Set all gamepad axis inputs
-            for(int i = 0; i < inputData.gpAxisNames.Count; i++)
+                for (int i = 0; i < inputData.GamePadButtonNames.Count; i++)
+                {
+                    SetGamePadButton(inputData.GamePadButtonNames[i], inputData.GamePadButtons[i]);
+                }
+
+                for (int i = 0; i < inputData.GamePadAxisNames.Count; i++)
+                {
+                    SetGamePadButton(inputData.GamePadAxisNames[i], inputData.GamePadAxes[i]);
+                }
+            }
+            else
             {
-                SetGamePadButton(inputData.gpAxisNames[i], inputData.gpAxisInputs[i]);
+                Debug.LogWarning("No XBox Inputs found in file. Reseting inputs.");
+                ResetInput(InputType.Gamepad);
             }
-
-        }
-        //Error
+        }       
         else
         {
-            //Save the current input data as a JSON file.
-            Debug.LogWarning("PlayerInput.json was not found.");
-            GameManager.Instance.SaveInputs();
-        }
-
-    }
+            //Default the inputs for rebinding
+            ResetInput(InputType.Gamepad);
+            ResetInput(InputType.Keyboard);
+        }               
+    }   
 
     //Hard coded inputs for use as reset point.
     public void ResetInput(InputType type)
@@ -89,7 +114,7 @@ public class InputManager : MonoBehaviour
             kbInputs.Add("Open Map", KeyCode.M);
             kbInputs.Add("Pause", KeyCode.Backspace);
             kbInputs.Add("Zoom In", KeyCode.Equals);
-            kbInputs.Add("Zoom Out", KeyCode.Minus);
+            kbInputs.Add("Zoom Out", KeyCode.Minus);            
         }
 
         //Reset gamepad inputs
@@ -106,27 +131,54 @@ public class InputManager : MonoBehaviour
             gpInputs.Add("Interact", XboxButton.B);
             gpInputs.Add("Use Item", XboxButton.X);
             gpInputs.Add("Swap Item", XboxButton.Y);
-            gpInputs.Add("Ability 1", XboxButton.LeftBumper);
-            gpInputs.Add("Ability 2", XboxAxis.LeftTrigger);
-            gpInputs.Add("Ability 3", XboxButton.RightBumper);
-            gpInputs.Add("Ability 4", XboxAxis.RightTrigger);
+            gpInputs.Add("Ability 1", XboxButton.RightBumper);
+            gpInputs.Add("Ability 2", XboxButton.LeftBumper);
+            gpInputs.Add("Ability 3", XboxAxis.RightTrigger);
+            gpInputs.Add("Ability 4", XboxAxis.LeftTrigger);
             gpInputs.Add("Open Map", XboxButton.Back);
             gpInputs.Add("Pause", XboxButton.Start);
             gpInputs.Add("Zoom In", XboxButton.LeftStick);
             gpInputs.Add("Zoom Out", XboxButton.RightStick);
+            vibration = 1;
+            deadZone = 0;            
         }
+
+        SaveInputs(true);
+        
     }
 
     //Returns the gamepad inputs as an array of strings
     public string[] GetGamePadInputNames()
     {
+        if(File.Exists(jsonPath))
+        {
+            PlayerInputData gamepadData = LoadInputs();
+
+            for(int i = 0; i < gamepadData.GamePadButtonNames.Count; i++)
+            {
+                gpInputs[gamepadData.GamePadButtonNames[i]] = gamepadData.GamePadButtons[i]; 
+            }
+
+            for(int i = 0;i <gamepadData.GamePadAxisNames.Count;i++)
+            {
+                gpInputs[gamepadData.GamePadAxisNames[i]] = gamepadData.GamePadAxes[i];
+            }
+        }
+
         return gpInputs.Keys.ToArray();
     }
 
     //Returns the key board inputs as an array of strings
     public string[] GetKeyBoardInputNames()
     {
-        return kbInputs.Keys.ToArray();
+        if (kbInputs.Keys.Count() != 0)
+        {
+            return kbInputs.Keys.ToArray();
+        }
+        else
+        {
+            return null;
+        }
     }
 
     //Sets the key board input based on the given parameters
@@ -202,7 +254,7 @@ public class InputManager : MonoBehaviour
     }
 
     //Returns a list of XboxAxis used for input
-    public List<XboxAxis> SaveGamePadAxis()
+    public List<XboxAxis> SaveGamePadAxes()
     {
         List<XboxAxis> btns = new List<XboxAxis>();
 
@@ -242,18 +294,25 @@ public class InputManager : MonoBehaviour
     //Gets the gamepad sprite for triggers
     public Sprite GetGamePadButton(XboxAxis xBoxAxis)
     {
-        switch(xBoxAxis)
+        if (gamepadButtons.Count != 0)
         {
-            case XboxAxis.LeftTrigger:
-                return gamepadButtons[14];
+            switch (xBoxAxis)
+            {
+                case XboxAxis.LeftTrigger:
+                    return gamepadButtons[14];
 
-            case XboxAxis.RightTrigger:
-                return gamepadButtons[15];
+                case XboxAxis.RightTrigger:
+                    return gamepadButtons[15];
 
-            //Error
-            default:
-                Debug.LogError("Key code given does not have a image associated with it.");
-                return null;
+                //Error
+                default:
+                    Debug.LogError("Key code given does not have a image associated with it.");
+                    return null;
+            }
+        }
+        else
+        {
+            return null;
         }
     }
 
@@ -261,55 +320,63 @@ public class InputManager : MonoBehaviour
     //Gets the gamepad button based on button
     public Sprite GetGamePadButton(XboxButton xButton)
     {
-        //Returns a sprite based on key code
-        switch (xButton)
+
+        if (gamepadButtons.Count != 0)
         {
-            case XboxButton.DPadDown:
-                return gamepadButtons[0];
+            //Returns a sprite based on key code
+            switch (xButton)
+            {
+                case XboxButton.DPadDown:
+                    return gamepadButtons[0];
 
-            case XboxButton.DPadLeft:
-                return gamepadButtons[1];
+                case XboxButton.DPadLeft:
+                    return gamepadButtons[1];
 
-            case XboxButton.DPadRight:
-                return gamepadButtons[2];
+                case XboxButton.DPadRight:
+                    return gamepadButtons[2];
 
-            case XboxButton.DPadUp:
-                return gamepadButtons[3];
+                case XboxButton.DPadUp:
+                    return gamepadButtons[3];
 
-            case XboxButton.A:
-                return gamepadButtons[4];
+                case XboxButton.A:
+                    return gamepadButtons[4];
 
-            case XboxButton.B:
-                return gamepadButtons[5];
+                case XboxButton.B:
+                    return gamepadButtons[5];
 
-            case XboxButton.X:
-                return gamepadButtons[6];
+                case XboxButton.X:
+                    return gamepadButtons[6];
 
-            case XboxButton.Y:
-                return gamepadButtons[7];
+                case XboxButton.Y:
+                    return gamepadButtons[7];
 
-            case XboxButton.LeftBumper:
-                return gamepadButtons[8];
+                case XboxButton.LeftBumper:
+                    return gamepadButtons[8];
 
-            case XboxButton.RightBumper:
-                return gamepadButtons[9];
+                case XboxButton.RightBumper:
+                    return gamepadButtons[9];
 
-            case XboxButton.Start:
-                return gamepadButtons[10];
+                case XboxButton.Start:
+                    return gamepadButtons[10];
 
-            case XboxButton.Back:
-                return gamepadButtons[11];
+                case XboxButton.Back:
+                    return gamepadButtons[11];
 
-            case XboxButton.LeftStick:
-                return gamepadButtons[12];
+                case XboxButton.LeftStick:
+                    return gamepadButtons[12];
 
-            case XboxButton.RightStick:
-                return gamepadButtons[13];            
+                case XboxButton.RightStick:
+                    return gamepadButtons[13];
 
-            //Error
-            default:
-                Debug.LogError("Key code given does not have a image associated with it.");
-                return null;
+                //Error
+                default:
+                    Debug.LogError("Key code given does not have a image associated with it.");
+                    return null;
+            }
+        }
+        else
+        {
+            return null;
         }
     }
 
@@ -484,4 +551,93 @@ public class InputManager : MonoBehaviour
             return false;
         }
     }
+
+    //Loading inputs from JSON file
+    public PlayerInputData LoadInputs()
+    {
+        if (File.Exists(jsonPath))
+        {
+            string loadedInputs = File.ReadAllText(jsonPath);
+
+            PlayerInputData loaded = JsonUtility.FromJson<PlayerInputData>(loadedInputs);
+
+            if (loaded == null)
+            {
+               
+                SaveInputs();
+                return null;
+            }
+            else
+            {
+                return loaded;
+            }
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+
+    //Saving inputs to JSON
+    public void SaveInputs(bool resetInput = false)
+    {
+        KeyRebinding rebinds = FindObjectOfType<KeyRebinding>();
+
+        if (rebinds != null && !resetInput)
+        {
+            deadZone = rebinds.GetGamepadDeadzone();
+            vibration = rebinds.GetGamepadVibration();
+        }
+
+        PlayerInputData inputData = new PlayerInputData
+        {
+            KeyBoardInputNames = GetKeyBoardInputNames().ToList(),
+            KeyBoardInputs = SaveKeyboardInputs(),
+            GamePadButtonNames = SaveGamePadButtonNames(),
+            GamePadButtons = SaveGamePadButtons(),
+            GamePadAxisNames = SaveGamePadAxisNames(),
+            GamePadAxes = SaveGamePadAxes(),
+            GamePadDeadZone = deadZone,
+            GamePadVibration = vibration
+        };
+
+        string jsonData = JsonUtility.ToJson(inputData, true);
+
+        if (!File.Exists(jsonPath))
+        {
+            Debug.LogError("No file found at: " + jsonPath);
+            File.WriteAllText(jsonPath, jsonData);
+        }
+        else
+        {
+            File.WriteAllText(jsonPath, jsonData);
+        }
+
+    }
+
+    public float GetVibration()
+    {
+        return LoadInputs().GamePadVibration;
+    }
+
+    public float GetDeadZone()
+    {
+        return LoadInputs().GamePadDeadZone;
+    }
 }
+
+[System.Serializable]
+//Player input data
+public class PlayerInputData
+{
+    public List<string> KeyBoardInputNames;
+    public List<KeyCode> KeyBoardInputs;
+    public List<string> GamePadButtonNames;
+    public List<XboxButton> GamePadButtons;
+    public List<string> GamePadAxisNames;
+    public List<XboxAxis> GamePadAxes;
+    public float GamePadDeadZone;
+    public float GamePadVibration;
+}
+

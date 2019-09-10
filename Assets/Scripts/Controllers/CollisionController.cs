@@ -14,9 +14,7 @@ public class CollisionController : RaycastController
     public float maxSlopeAngle = 60f;       //Maximum angle for moving on slopes
 
     [HideInInspector]
-    public Vector2 playerInput;             //The player's input
-
-    private Animator animator;              //Reference to the Animator component
+    public Vector2 playerInput;             //The player's input    
     
     //Collision information for the player
     public struct CollisionInfo
@@ -26,7 +24,7 @@ public class CollisionController : RaycastController
         public bool fallingThroughPlatform;             //Flag for falling through platforms        
         public bool climbingSlope, descendingSlope;     //Flags for climbing/descending slopes
         public bool slidingDownSlope;                   //Flag for slidining down a slope
-        public bool canSlide;
+        public bool canSlide;                           //Flag for the player can perform a slide
         public bool sliding;                            //Flag for player activated slide
         public bool canClimb;                           //Flag for being able to climb an object
         public bool climbingObject;                     //Flag for currently climbing an object
@@ -57,13 +55,12 @@ public class CollisionController : RaycastController
             sliding = false;
         }
     }
-    
+   
     //Activates when the Game Object is enabled
     private void OnEnable()
     {
         ClimbableController.ClimbState += EnableClimbing;
         WaterController.WaterState += InWater;
-
     }
 
     //Activates when the Game Object is disabled
@@ -72,23 +69,16 @@ public class CollisionController : RaycastController
         ClimbableController.ClimbState -= EnableClimbing;
         WaterController.WaterState -= InWater;
     }
-
+    
     //Use this for initialization
     public override void Start()
     {
         base.Start();
-        animator = GetComponent<Animator>();
-
-        //Set the Game Object to facing right by default
-        if (animator.runtimeAnimatorController != null)
-        {
-            collisions.faceDir = 1;
-            animator.SetFloat("FaceDir", collisions.faceDir);
-        }
+        collisions.faceDir = 1;
     }
 
     //Player movement
-    public void Move(Vector2 movementAmount, Vector2 input, bool standingOnPlatform = false )
+    public void Move(Vector2 movementAmount, Vector2 input, bool standingOnPlatform = false)
     {
         UpdateRaycastOrigins();
         collisions.Reset();
@@ -102,20 +92,11 @@ public class CollisionController : RaycastController
         }
 
         //Set the direction the player is facing
-        if (movementAmount.x != 0 && playerInput != Vector2.zero)
+        if (movementAmount.x != 0)
         {
             collisions.faceDir = (int)Mathf.Sign(movementAmount.x);
         }
         
-        //Check player input for animation queues
-        if(playerInput.x != 0 && !collisions.climbingObject)
-        {
-            if (animator.runtimeAnimatorController != null)
-            {
-                animator.SetFloat("FaceDir", playerInput.x);
-            }
-        }
-
         //Calculate horizontal collisions
         HorizontalCollision(ref movementAmount);
 
@@ -158,12 +139,9 @@ public class CollisionController : RaycastController
 
             //Drawing the vertical rays in scene view
             Debug.DrawRay(rayOrigin, Vector2.up * directionY, Color.white);
-
-            //
-            RaycastHit hit;
-
+           
             //Check if the rays have hit an obstacle
-            if (Physics.Raycast(rayOrigin, Vector2.up * directionY, out hit, rayLength, collisionMask))
+            if (Physics.Raycast(rayOrigin, Vector2.up * directionY, out RaycastHit hit, rayLength, collisionMask))
             {
                 //Jump through the bottom of certain platforms
                 if (hit.collider.tag == "Through")
@@ -265,11 +243,8 @@ public class CollisionController : RaycastController
             //Draw the horizontal rays
             Debug.DrawRay(rayOrigin, directionX * Vector2.right, Color.white);
 
-            //
-            RaycastHit hit;            
-
             //Check for collision
-            if (Physics.Raycast(rayOrigin, Vector2.right * directionX, out hit,
+            if (Physics.Raycast(rayOrigin, Vector2.right * directionX, out RaycastHit hit,
                 rayLength, collisionMask))
             {
                 //Size of the object being collided with
@@ -354,14 +329,12 @@ public class CollisionController : RaycastController
     //Descending Slopes
     private void DescendSlope(ref Vector2 movementAmount)
     {
-        RaycastHit leftHit, rightHit;
-
         //Maximum slope for sliding left
-        bool maxSlopeLeft = Physics.Raycast(raycastOrigins.bottomLeft, Vector2.down, out leftHit,
+        bool maxSlopeLeft = Physics.Raycast(raycastOrigins.bottomLeft, Vector2.down, out RaycastHit leftHit,
             Mathf.Abs(movementAmount.y) + skinWidth, collisionMask);        
                 
         //Maximum slope for sliding right
-        bool maxSlopeRight = Physics.Raycast(raycastOrigins.bottomRight, Vector2.down, out rightHit,
+        bool maxSlopeRight = Physics.Raycast(raycastOrigins.bottomRight, Vector2.down, out RaycastHit rightHit,
             Mathf.Abs(movementAmount.y) + skinWidth, collisionMask);
 
         //Check for sliding down slopes
@@ -376,12 +349,10 @@ public class CollisionController : RaycastController
         {
             float directionX = Mathf.Sign(movementAmount.x);
 
-            RaycastHit hit;
-
             Vector2 rayOrigin = (directionX == -1) ? raycastOrigins.bottomRight : raycastOrigins.bottomLeft;
             
             //Did the raycasr hit anything
-            if (Physics.Raycast(rayOrigin, -Vector2.up, out hit, Mathf.Infinity, collisionMask))
+            if (Physics.Raycast(rayOrigin, -Vector2.up, out RaycastHit hit, Mathf.Infinity, collisionMask))
             {
                 float slopeAngle = Vector2.Angle(hit.normal, Vector2.up);
 
@@ -438,13 +409,14 @@ public class CollisionController : RaycastController
             }
         }
     }
-
-    //Enables the 
+    
+    //Enables the ability to climb certain objects
     private void EnableClimbing(bool canClimb)
     {
         collisions.canClimb = canClimb;
     }
   
+    //
     private void InWater(bool inWater)
     {
         collisions.inWater = inWater;

@@ -9,9 +9,63 @@ using TMPro;
 
 public class LevelLoader : MonoBehaviour
 {
-    public GameObject loadingScreen;            //Reference to the loading screen
-    public Slider progressBar;                  //Reference to the loading bar
-    public TMP_Text progressText;               //Reference to the progress text
+    private static LevelLoader _instance;
+
+    public static LevelLoader Instance
+    {
+
+        get
+        {
+            if (_instance == null)
+            {
+                GameObject loadingScreen = new GameObject("Level Loader");
+                loadingScreen.AddComponent<LevelLoader>();
+            }
+            return _instance;
+        }
+    }
+
+
+
+    public GameObject loadingScreenPrefab;      //Loading screen prefab
+    private Canvas loadingScreenCanvas;         //Reference to the canvas of the loading screen
+    private Slider progressBar;                 //Reference to the loading bar
+    private TMP_Text progressText;              //Reference to the progress text
+    private GameObject loadingScreen;           //
+
+
+    public void Awake()
+    {
+        //Singleton
+        if (_instance == null)
+        {
+            _instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+
+
+        if (loadingScreenPrefab == null)
+        {
+            loadingScreen = Instantiate(Resources.Load("LoadingScreen")) as GameObject;
+            loadingScreenCanvas = loadingScreen.GetComponent<Canvas>();
+            loadingScreenCanvas.enabled = false;
+            progressBar = loadingScreen.GetComponentInChildren<Slider>();
+            progressText = loadingScreen.GetComponentInChildren<TMP_Text>();
+        }
+        else
+        {
+            loadingScreen = transform.gameObject;
+            loadingScreenCanvas = loadingScreen.GetComponent<Canvas>();
+            loadingScreenCanvas.enabled = false;
+            progressBar = loadingScreen.GetComponentInChildren<Slider>();
+            progressText = loadingScreen.GetComponentInChildren<TMP_Text>();
+        }
+        
+    }
 
     //Loads the specified scene
     public void LoadLevel(int sceneIndex)
@@ -22,11 +76,11 @@ public class LevelLoader : MonoBehaviour
     //Loads a scene asynchronously
     private IEnumerator LoadAsynchronously(int sceneIndex)
     {
-        //
+        //Load the specified scene
         AsyncOperation operation = SceneManager.LoadSceneAsync(sceneIndex);
 
         //Activate the loading screen
-        loadingScreen.SetActive(true);
+        loadingScreenCanvas.enabled = true;
 
         //While the operation is active show the progress
         while(!operation.isDone)
@@ -36,12 +90,15 @@ public class LevelLoader : MonoBehaviour
 
             //Display the loading progress as a percentage value
             progressBar.value = progress;
-            progressText.text = progress * 100 + "%";
+            progressText.text = "Loading: " +  progress * 100 + "%";
 
             yield return null;
         }
 
-        //Hide the loading screen
-        loadingScreen.SetActive(false);
+        //Deactivate the loading screen
+        if (loadingScreen != null)
+        {
+            loadingScreenCanvas.enabled = false;
+        }
     }
 }

@@ -8,7 +8,6 @@ using UnityEngine.UI;
 
 public class StartGameButton : MonoBehaviour
 {
-    public LevelLoader levelLoader;     //Reference to the level loader script
     public Character player;            //Chosen character for the game
     public int sceneIndex;              //Scene index to load
 
@@ -19,7 +18,7 @@ public class StartGameButton : MonoBehaviour
     {
         //Set the player and load the specified scene
         GameManager.Instance.Player = player;
-        levelLoader.LoadLevel(sceneIndex);        
+        LevelLoader.Instance.LoadLevel(sceneIndex);        
     }
     
     //When the object is active

@@ -45,7 +45,7 @@ public class UIScroll : MonoBehaviour
         if (selectedItem.transform.parent != scrollRect.content)
         {
             selectedPos = 1f - ((float)selectedItem.transform.parent.GetSiblingIndex()
-                / scrollRect.content.childCount);
+                    / scrollRect.content.childCount); 
         }
         else
         {

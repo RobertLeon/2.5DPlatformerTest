@@ -33,7 +33,15 @@ public class MapCameraController : MonoBehaviour
         pause = pauseMenu.GetComponentInParent<PauseMenu>();
         cam = GetComponent<Camera>();
         inputManager = FindObjectOfType<InputManager>();
-        deadZone = GameManager.Instance.LoadInputs().deadZone;
+
+        if (inputManager != null)
+        {
+            deadZone = inputManager.GetDeadZone();
+        }
+        else
+        {
+            deadZone = 0;
+        }
     }
 
     //Update is called once per frame

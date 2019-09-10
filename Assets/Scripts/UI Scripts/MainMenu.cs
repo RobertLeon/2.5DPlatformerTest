@@ -24,7 +24,7 @@ public class MainMenu : MonoBehaviour
     public TMP_Text confirmationText;           //Text to display in the confirmation screen
     public Button yesButton;                    //Reference to the confirmation button
 
-
+    private string[] qualityLevels;
     private Resolution[] resolutions;           //Holds all available screen resolutions
     private int masterVolumeAmount;             //Shows the master volume amount in the menu
     private int musicVolumeAmount;              //Shows the music volume amount in the menu
@@ -44,15 +44,19 @@ public class MainMenu : MonoBehaviour
         seVolumeAmount = (int)(seVolumeSlider.normalizedValue * 100);
         seVolumeAmountText.text = seVolumeAmount.ToString();
 
-        //Get the available set of screen resolutions
-        resolutions = Screen.resolutions;
+        
 
-        //Cleat the options in the drop down
+        //Get the available set of screen resolutions and quality settings
+        resolutions = Screen.resolutions;
+        qualityLevels = QualitySettings.names;
+
+        //Cleat the options in the drop down menus
         resolutionDropdown.ClearOptions();
+        graphicsDropdown.ClearOptions();
 
         List<string> options = new List<string>();
 
-        int currentResolutionIndex = 0;
+        int currentMenuIndex = 0;
 
         //Loop through each resolution
         for (int i = 0; i < resolutions.Length; i++)
@@ -66,14 +70,32 @@ public class MainMenu : MonoBehaviour
             if(resolutions[i].width == Screen.currentResolution.width &&
                 resolutions[i].height == Screen.currentResolution.height)
             {
-                currentResolutionIndex = i;
+                currentMenuIndex = i;
             }
         }
 
         //Show the information in the resolution drop down
         resolutionDropdown.AddOptions(options);
-        resolutionDropdown.value = currentResolutionIndex;
+        resolutionDropdown.value = currentMenuIndex;
         resolutionDropdown.RefreshShownValue();
+
+        options.Clear();
+
+        currentMenuIndex = 0;
+
+        for(int i = 0; i < qualityLevels.Length; i++)
+        {
+            options.Add(qualityLevels[i]);
+
+            if(i == QualitySettings.GetQualityLevel())
+            {
+                currentMenuIndex = i;
+            }
+        }
+
+        graphicsDropdown.AddOptions(options);
+        graphicsDropdown.value = currentMenuIndex;
+        graphicsDropdown.RefreshShownValue();
     }
 
 
@@ -95,7 +117,7 @@ public class MainMenu : MonoBehaviour
     //Set the game's master volume
     public void SetMasterVolume(float volume)
     {
-        audioMixer.SetFloat("MasterVolume", volume);
+        audioMixer.SetFloat("MasterVolume", Mathf.Log10(volume) * 20f);
         masterVolumeAmount = (int)(masterVolumeSlider.normalizedValue * 100);
         masterVolumeAmountText.text = masterVolumeAmount.ToString();
     }
@@ -103,7 +125,7 @@ public class MainMenu : MonoBehaviour
     //Set the game's music volume
     public void SetMusicVolume(float volume)
     {
-        audioMixer.SetFloat("MusicVolume", volume);
+        audioMixer.SetFloat("MusicVolume", Mathf.Log10(volume) * 20f);
         musicVolumeAmount = (int)(musicVolumeSlider.normalizedValue * 100);
         musicVolumeAmountText.text = musicVolumeAmount.ToString();
     }
@@ -111,7 +133,7 @@ public class MainMenu : MonoBehaviour
     //Set the games sound effect volume
     public void SetSoundEffectVolume(float volume)
     {
-        audioMixer.SetFloat("SoundEffectVolume", volume);
+        audioMixer.SetFloat("SoundEffectVolume", Mathf.Log10(volume) * 20f);
         seVolumeAmount = (int)(seVolumeSlider.normalizedValue * 100);
         seVolumeAmountText.text = seVolumeAmount.ToString();
     }

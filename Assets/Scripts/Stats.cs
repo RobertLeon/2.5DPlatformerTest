@@ -82,16 +82,12 @@ public class Stats : MonoBehaviour
     public Color healColor;                 //Color of the text when being healed
     [HideInInspector]
     public GameObject damageCanvas;         //UI canvas for the floating text
-    [HideInInspector]
-    public Animator anim;                  //Reference to the Animator component
-
    
     //Use this for initialization
     public virtual void Start()
     {
         //Find the damage canvas game object
-        damageCanvas = GameObject.FindGameObjectWithTag("DamageCanvas");
-        anim = GetComponent<Animator>();        
+        damageCanvas = GameObject.FindGameObjectWithTag("DamageCanvas");     
     }
 
     //Increases the maximium health
